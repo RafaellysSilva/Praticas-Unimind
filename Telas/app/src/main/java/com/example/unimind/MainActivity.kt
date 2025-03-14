@@ -30,4 +30,8 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-fun
+fun main(){
+
+}
+
+//aqui vai ter q chamar uma instância de cada tela???

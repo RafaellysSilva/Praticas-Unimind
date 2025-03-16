@@ -30,8 +30,20 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-fun main(){
+@Composable
+fun Greeting(name: String, modifier: Modifier = Modifier) {
+    Text(
+        text = "Rélou $name!",
+        modifier = modifier
+    )
+}
 
+@Preview(showBackground = true)
+@Composable
+fun GreetingPreview() {
+    PrimeiroProjetoASTheme {
+        Greeting("Android")
+    }
 }
 
 //aqui vai ter q chamar uma instância de cada tela???

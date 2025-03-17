@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -16,11 +17,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -73,7 +76,7 @@ fun TelaBloqueio(){
                 Box(
                     Modifier
                         .height(400.dp)
-                        .clip(RoundedCornerShape(15.dp))
+                        .clip(RoundedCornerShape(topStart = 50.dp, topEnd = 50.dp))
                         .background(Nude)
                         .fillMaxWidth(),
                         contentAlignment = Alignment.Center
@@ -89,23 +92,50 @@ fun TelaBloqueio(){
                         text = "UNIMIND",
                         color = Vinho,
                         fontSize = 20.sp,
-                        //modifier = Modifier
-                            //.padding(top = 400.dp),
                         modifier = Modifier
                             .padding(bottom = 100.dp)
                     )
 
-                    Button(
-                        onClick = { Cadastro() },
+                    Text(
+                        text = "Mentalizou, realizou.",
+                        color = Vinho,
+                        fontSize = 17.sp,
                         modifier = Modifier
-                            .offset(y = 50.dp)
-                            .background(Color.Transparent)
-                            .border(2.dp, Vinho, shape = RoundedCornerShape(12.dp)),
+                            .padding(bottom = 40.dp)
+                    )
 
-                    ) {
-                        Text(
-                            text = "Cadastrar",
-                        )
+                    Column (
+                        Modifier
+                            .fillMaxSize()
+                            .verticalScroll(rememberScrollState())
+                            .padding(bottom = 60.dp),
+                        verticalArrangement = Arrangement.Bottom,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    )
+                    {
+                        OutlinedButton (
+                            onClick = { Cadastro() },
+                            border = BorderStroke(2.dp, Vinho),
+                            modifier = Modifier
+                                .width(200.dp)
+                        ) {
+                            Text(
+                                text = "Cadastrar",
+                                color = Vinho
+                            )
+                        }
+
+                        OutlinedButton (
+                            onClick = { Cadastro() },
+                            border = BorderStroke(2.dp, Vinho),
+                            modifier = Modifier
+                                .width(200.dp)
+                        ) {
+                            Text(
+                                text = "Entrar",
+                                color = Vinho
+                            )
+                        }
                     }
                 }
             }

@@ -4,21 +4,43 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.example.unimind.ui.theme.Bege
+import com.example.unimind.ui.theme.Nude
+import com.example.unimind.ui.theme.Purple40
+import com.example.unimind.ui.theme.PurpleGrey80
 import com.example.unimind.ui.theme.UnimindTheme
+import com.example.unimind.ui.theme.Vinho
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,7 +48,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             UnimindTheme {
-                App()
+                TelaBloqueio()
             }
 
         }
@@ -35,25 +57,69 @@ class MainActivity : ComponentActivity() {
 
 
 @Composable
-fun App(){
+fun TelaBloqueio(){
     UnimindTheme{
-        Surface {
+        Surface (
+            modifier = Modifier.fillMaxSize(),
+                color = Vinho
+        ){
             Column(
                 Modifier
                     .fillMaxSize()
                     .verticalScroll(rememberScrollState()),
-                verticalArrangement = Arrangement.spacedBy(16.dp),
+                verticalArrangement = Arrangement.Bottom,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(text = "UNIMIND",
-                    modifier = Modifier.padding(top = 400.dp))
+                Box(
+                    Modifier
+                        .height(400.dp)
+                        .clip(RoundedCornerShape(15.dp))
+                        .background(Nude)
+                        .fillMaxWidth(),
+                        contentAlignment = Alignment.Center
+                ) {
+                    Image(
+                        painterResource(id = R.drawable.bichinho),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .padding(bottom = 250.dp)
+                    )
+
+                    Text(
+                        text = "UNIMIND",
+                        color = Vinho,
+                        fontSize = 20.sp,
+                        //modifier = Modifier
+                            //.padding(top = 400.dp),
+                        modifier = Modifier
+                            .padding(bottom = 100.dp)
+                    )
+
+                    Button(
+                        onClick = { Cadastro() },
+                        modifier = Modifier
+                            .offset(y = 50.dp)
+                            .background(Color.Transparent)
+                            .border(2.dp, Vinho, shape = RoundedCornerShape(12.dp)),
+
+                    ) {
+                        Text(
+                            text = "Cadastrar",
+                        )
+                    }
+                }
             }
         }
     }
 }
 
+fun Cadastro() {
+    println("Cadastro foi acionado!")
+}
+
+
 @Preview(showSystemUi = true)
 @Composable
 fun AppPreview(){
-    App()
+    TelaBloqueio()
 }

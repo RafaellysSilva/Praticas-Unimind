@@ -38,6 +38,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.unimind.ui.theme.Bege
 import com.example.unimind.ui.theme.Nude
 import com.example.unimind.ui.theme.Purple40
@@ -45,13 +47,18 @@ import com.example.unimind.ui.theme.PurpleGrey80
 import com.example.unimind.ui.theme.UnimindTheme
 import com.example.unimind.ui.theme.Vinho
 
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+
+
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             UnimindTheme {
-                TelaBloqueio()
+                TelaBloqueio(rememberNavController())
             }
 
         }
@@ -60,7 +67,19 @@ class MainActivity : ComponentActivity() {
 
 
 @Composable
-fun TelaBloqueio(){
+fun AppNavigation() {
+    val navController = rememberNavController()
+
+    NavHost(navController, startDestination = "telaBloqueio") {
+        composable("telaBloqueio") { TelaBloqueio(navController) }
+        composable("telaCadastro") { Cadastro(navController) }
+        composable("telaEntrar") { Cadastro(navController) }
+    }
+}
+
+
+@Composable
+fun TelaBloqueio(navController: NavController){
     UnimindTheme{
         Surface (
             modifier = Modifier.fillMaxSize(),
@@ -114,7 +133,7 @@ fun TelaBloqueio(){
                     )
                     {
                         OutlinedButton (
-                            onClick = { Cadastro() },
+                            onClick = { navController.navigate("telaCadastro") },
                             border = BorderStroke(2.dp, Vinho),
                             modifier = Modifier
                                 .width(200.dp)
@@ -126,7 +145,7 @@ fun TelaBloqueio(){
                         }
 
                         OutlinedButton (
-                            onClick = { Cadastro() },
+                            onClick = { navController.navigate("telaEntrar") },
                             border = BorderStroke(2.dp, Vinho),
                             modifier = Modifier
                                 .width(200.dp)
@@ -143,13 +162,94 @@ fun TelaBloqueio(){
     }
 }
 
-fun Cadastro() {
-    println("Cadastro foi acionado!")
+
+@Composable
+fun Cadastro(navController: NavController) {
+    UnimindTheme{
+        Surface (
+            modifier = Modifier.fillMaxSize(),
+            color = Vinho
+        ){
+            Column(
+                Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState()),
+                verticalArrangement = Arrangement.Bottom,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Box(
+                    Modifier
+                        .height(400.dp)
+                        .clip(RoundedCornerShape(topStart = 50.dp, topEnd = 50.dp))
+                        .background(Nude)
+                        .fillMaxWidth(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Image(
+                        painterResource(id = R.drawable.bichinho),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .padding(bottom = 250.dp)
+                    )
+
+                    Text(
+                        text = "UNIMIND",
+                        color = Vinho,
+                        fontSize = 20.sp,
+                        modifier = Modifier
+                            .padding(bottom = 100.dp)
+                    )
+
+                    Text(
+                        text = "Mentalizou, realizou.",
+                        color = Vinho,
+                        fontSize = 17.sp,
+                        modifier = Modifier
+                            .padding(bottom = 40.dp)
+                    )
+
+                    Column (
+                        Modifier
+                            .fillMaxSize()
+                            .verticalScroll(rememberScrollState())
+                            .padding(bottom = 60.dp),
+                        verticalArrangement = Arrangement.Bottom,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    )
+                    {
+                        OutlinedButton (
+                            onClick = { navController.navigate("telaCadastro") },
+                            border = BorderStroke(2.dp, Vinho),
+                            modifier = Modifier
+                                .width(200.dp)
+                        ) {
+                            Text(
+                                text = "Cadastrar",
+                                color = Vinho
+                            )
+                        }
+
+                        OutlinedButton (
+                            onClick = { navController.navigate("telaEntrar") },
+                            border = BorderStroke(2.dp, Vinho),
+                            modifier = Modifier
+                                .width(200.dp)
+                        ) {
+                            Text(
+                                text = "Entrar",
+                                color = Vinho
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 
 @Preview(showSystemUi = true)
 @Composable
 fun AppPreview(){
-    TelaBloqueio()
+    TelaBloqueio(rememberNavController())
 }

@@ -168,8 +168,39 @@ fun Cadastro(navController: NavController) {
     UnimindTheme{
         Surface (
             modifier = Modifier.fillMaxSize(),
-            color = Vinho
+            color = Nude
         ){
+            Column(
+                Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState()),
+                verticalArrangement = Arrangement.Top,
+//                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Box(
+                    Modifier
+                        .height(100.dp)
+                        .background(Vinho)
+                        .fillMaxWidth(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Image(
+                        painterResource(id = R.drawable.bichinho),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .padding(start = 10.dp)
+                    )
+
+                    Text(
+                        text = "UNIMIND",
+                        color = Nude,
+                        fontSize = 10.sp,
+                        modifier = Modifier
+                            .padding(start = 50.dp)
+                    )
+                }
+            }
+
             Column(
                 Modifier
                     .fillMaxSize()
@@ -179,68 +210,12 @@ fun Cadastro(navController: NavController) {
             ) {
                 Box(
                     Modifier
-                        .height(400.dp)
+                        .height(785.dp)
                         .clip(RoundedCornerShape(topStart = 50.dp, topEnd = 50.dp))
                         .background(Nude)
                         .fillMaxWidth(),
                     contentAlignment = Alignment.Center
                 ) {
-                    Image(
-                        painterResource(id = R.drawable.bichinho),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .padding(bottom = 250.dp)
-                    )
-
-                    Text(
-                        text = "UNIMIND",
-                        color = Vinho,
-                        fontSize = 20.sp,
-                        modifier = Modifier
-                            .padding(bottom = 100.dp)
-                    )
-
-                    Text(
-                        text = "Mentalizou, realizou.",
-                        color = Vinho,
-                        fontSize = 17.sp,
-                        modifier = Modifier
-                            .padding(bottom = 40.dp)
-                    )
-
-                    Column (
-                        Modifier
-                            .fillMaxSize()
-                            .verticalScroll(rememberScrollState())
-                            .padding(bottom = 60.dp),
-                        verticalArrangement = Arrangement.Bottom,
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    )
-                    {
-                        OutlinedButton (
-                            onClick = { navController.navigate("telaCadastro") },
-                            border = BorderStroke(2.dp, Vinho),
-                            modifier = Modifier
-                                .width(200.dp)
-                        ) {
-                            Text(
-                                text = "Cadastrar",
-                                color = Vinho
-                            )
-                        }
-
-                        OutlinedButton (
-                            onClick = { navController.navigate("telaEntrar") },
-                            border = BorderStroke(2.dp, Vinho),
-                            modifier = Modifier
-                                .width(200.dp)
-                        ) {
-                            Text(
-                                text = "Entrar",
-                                color = Vinho
-                            )
-                        }
-                    }
                 }
             }
         }

@@ -186,7 +186,7 @@ fun Cadastro(navController: NavController) {
                        horizontalArrangement = Arrangement.Center, // Centraliza na horizontal
                        modifier = Modifier
                            .fillMaxWidth()
-                           .padding(0.dp, 10.dp, 0.dp, 0.dp)
+                           .padding(0.dp, 15.dp, 0.dp, 0.dp)
                    ) {
                        Text(
                            text = "UNIMIND",
@@ -262,7 +262,7 @@ fun Entrar(navController: NavController){
                         horizontalArrangement = Arrangement.Center, // Centraliza na horizontal
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(0.dp, 10.dp, 0.dp, 0.dp)
+                            .padding(0.dp, 15.dp, 0.dp, 0.dp)
                     ) {
                         Text(
                             text = "UNIMIND",

@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -26,6 +27,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -42,6 +44,7 @@ import com.example.unimind.ui.theme.Vinho
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.unimind.ui.theme.Rosinha
 
 
 class MainActivity : ComponentActivity() {
@@ -65,6 +68,76 @@ fun AppNavigation() {
         composable("telaBloqueio") { TelaBloqueio(navController) }
         composable("telaCadastro") { Cadastro(navController) }
         composable("telaEntrar") { Entrar(navController) }
+        composable("telaFlashCardsArea") { FlashcardsArea(navController) }
+    }
+}
+
+
+//função para chamar (tem várias telas que tem a mesma parte como o footer, fica mais facil assim)
+@Composable
+fun Footer() {
+    Column(
+        Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState()),
+        verticalArrangement = Arrangement.Bottom,
+    ) {
+        Box(
+            contentAlignment = Alignment.Center
+        ) {
+            Row(
+                Modifier
+                    .height(55.dp)
+                    .fillMaxSize()
+                    .clip(RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp))
+                    .background(Vinho),
+            ) {
+                Image(
+                    painterResource(id = R.drawable.flashcards),
+                    contentDescription = null,
+                )
+
+                Spacer(
+                    Modifier
+                        .padding(start = 10.dp)
+                )
+
+                Image(
+                    painterResource(id = R.drawable.listasprovas),
+                    contentDescription = null,
+                )
+
+                Spacer(
+                    Modifier
+                        .padding(start = 10.dp)
+                )
+
+                Image(
+                    painterResource(id = R.drawable.competicao),
+                    contentDescription = null,
+                )
+
+                Spacer(
+                    Modifier
+                        .padding(start = 10.dp)
+                )
+
+                Image(
+                    painterResource(id = R.drawable.estatisticas),
+                    contentDescription = null,
+                )
+
+                Spacer(
+                    Modifier
+                        .padding(start = 10.dp)
+                )
+
+                Image(
+                    painterResource(id = R.drawable.bichinho),
+                    contentDescription = null,
+                )
+            }
+        }
     }
 }
 
@@ -74,7 +147,7 @@ fun TelaBloqueio(navController: NavController){
     UnimindTheme{
         Surface (
             modifier = Modifier.fillMaxSize(),
-                color = Vinho
+            color = Vinho
         ){
             Column(
                 Modifier
@@ -230,6 +303,7 @@ fun Cadastro(navController: NavController) {
     }
 }
 
+
 @Composable
 fun Entrar(navController: NavController){
     val customFontFamily = FontFamily(
@@ -303,6 +377,149 @@ fun Entrar(navController: NavController){
                     Text(text = "tela entrar")
                 }
             }
+        }
+    }
+}
+
+
+@Composable
+fun FlashcardsArea(navController: NavController) {
+    //colocar os buttons certo
+    UnimindTheme {
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            color = Nude
+        ) {
+            Column(
+                Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState()),
+                verticalArrangement = Arrangement.Top
+            ) {
+                Box(
+                    Modifier
+                        .height(220.dp)
+                        .clip(RoundedCornerShape(bottomStart = 1500.dp, bottomEnd = 1500.dp))
+                        .background(Bege)
+                        .fillMaxWidth()
+                ) {
+                    Box(
+                        Modifier
+                            .height(190.dp)
+                            .clip(RoundedCornerShape(bottomStart = 1500.dp, bottomEnd = 1500.dp))
+                            .background(Rosinha)
+                            .fillMaxWidth()
+                    ) {
+                        Box(
+                            Modifier
+                                .height(160.dp)
+                                .clip(RoundedCornerShape(bottomStart = 1500.dp, bottomEnd = 1500.dp))
+                                .background(Vinho)
+                                .fillMaxWidth(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                text = "Flashcards",
+                                color = Nude,
+                                fontSize = 20.sp,
+                            )
+                        }
+                    }
+                }
+            }
+
+            Column(
+                Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState()),
+                verticalArrangement = Arrangement.Center
+            ) {
+                Row(
+                    Modifier
+                        .padding(start = 50.dp),
+                ) {
+                    Box(
+                        Modifier
+                            .height(40.dp)
+                            .width(200.dp)
+                            .clip(RoundedCornerShape(60.dp))
+                            .background(Vinho)
+                            .fillMaxWidth(),
+                    ) {
+                        Text(
+                            text = "Pesquisar...",
+                            color = Nude,
+                            fontSize = 15.sp,
+                        )
+                    }
+
+                    Box(
+                        Modifier
+                            .padding(start = 20.dp)
+                            .height(40.dp)
+                            .width(50.dp)
+                            .clip(RoundedCornerShape(60.dp))
+                            .background(Vinho)
+                            .fillMaxWidth(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = "+",
+                            color = White,
+                            fontSize = 20.sp,
+                        )
+                    }
+                }
+
+                Spacer(
+                    Modifier
+                        .padding(20.dp)
+                )
+
+                Row (
+                    Modifier
+                        .padding(start = 50.dp)
+                ) {
+                    Box(
+                        Modifier
+                            .height(80.dp)
+                            .width(140.dp)
+                            .clip(RoundedCornerShape(30.dp))
+                            .background(Rosinha)
+                            .fillMaxWidth(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = "Titulo\nCategoria",
+                            color = White,
+                            fontSize = 17.sp,
+                        )
+                    }
+
+                    Spacer(
+                        Modifier
+                            .padding(10.dp)
+                    )
+
+                    Box(
+                        Modifier
+                            .height(80.dp)
+                            .width(140.dp)
+                            .clip(RoundedCornerShape(30.dp))
+                            .background(Rosinha)
+                            .fillMaxWidth(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = "Titulo\nCategoria",
+                            color = White,
+                            fontSize = 17.sp,
+                        )
+                    }
+                }
+            }
+
+            Footer()
         }
     }
 }

@@ -7,19 +7,12 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -43,7 +36,6 @@ import com.example.unimind.ui.theme.Vinho
 
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
 import com.example.unimind.ui.theme.Rosinha
 
 
@@ -69,6 +61,8 @@ fun AppNavigation() {
         composable("telaCadastro") { Cadastro(navController) }
         composable("telaEntrar") { Entrar(navController) }
         composable("telaFlashCardsArea") { FlashcardsArea(navController) }
+        composable("telaFlashCardsPergunta") { FlashcardsPergunta(navController) }
+        composable("telaFlashcardsResposta") { FlashcardsResposta(navController) }
     }
 }
 
@@ -520,6 +514,216 @@ fun FlashcardsArea(navController: NavController) {
             }
 
             Footer()
+        }
+    }
+}
+
+
+@Composable
+fun FlashcardsPergunta(navController: NavController) {
+    UnimindTheme {
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            color = Vinho
+        ) {
+            Column(
+                Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState()),
+                verticalArrangement = Arrangement.Center
+            ){
+                Row(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(start = 40.dp),
+                    horizontalArrangement = Arrangement.Start
+                ) {
+                    Text(
+                        text = "Pergunta:",
+                        color = Nude,
+                        fontSize = 35.sp
+                    )
+                }
+
+                Spacer(
+                    Modifier
+                        .padding(20.dp)
+                )
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    Box(
+                        Modifier
+                            .height(300.dp)
+                            .width(300.dp)
+                            .clip(RoundedCornerShape(20.dp))
+                            .background(Nude)
+                            .fillMaxWidth(),
+                        contentAlignment = Alignment.Center
+                    ) {}
+                }
+
+                Spacer(
+                    Modifier
+                        .padding(20.dp)
+                )
+
+                Row(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(end = 40.dp),
+                    horizontalArrangement = Arrangement.End
+                ) {
+                    Button(
+                        colors = ButtonDefaults.buttonColors(containerColor = Nude),
+                        onClick = { navController.navigate("telaFlashcardsResposta") },
+                        modifier = Modifier
+                            .width(200.dp)
+                            .height(60.dp)
+                    ) {
+                        Text(
+                            text = "Resposta",
+                            color = Vinho,
+                            fontSize = 20.sp
+                        )
+                        Image(
+                            painterResource(id = R.drawable.baseline_arrow_forward_ios_vinho),
+                            contentDescription = null,
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+@Composable
+fun FlashcardsResposta(navController: NavController) {
+    UnimindTheme {
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            color = Nude
+        ) {
+            Column(
+                Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState()),
+                verticalArrangement = Arrangement.Center
+            ){
+                Row(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(start = 40.dp),
+                    horizontalArrangement = Arrangement.Start
+                ) {
+                    Text(
+                        text = "Resposta:",
+                        color = Vinho,
+                        fontSize = 35.sp
+                    )
+                }
+
+                Spacer(
+                    Modifier
+                        .padding(20.dp)
+                )
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    Box(
+                        Modifier
+                            .height(300.dp)
+                            .width(300.dp)
+                            .clip(RoundedCornerShape(20.dp))
+                            .background(Vinho)
+                            .fillMaxWidth(),
+                        contentAlignment = Alignment.Center
+                    ) {}
+                }
+
+                Spacer(
+                    Modifier
+                        .padding(20.dp)
+                )
+
+                Row(
+                    Modifier
+                        .padding(start = 40.dp, end = 40.dp)
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    Button(
+                        colors = ButtonDefaults.buttonColors(containerColor = Vinho),
+                        onClick = { navController.navigate("telaFlashcardsResposta") },
+                        modifier = Modifier
+                            .width(150.dp)
+                            .height(60.dp)
+                    ) {
+                        Image(
+                            painterResource(id = R.drawable.baseline_arrow_back_ios_new_24),
+                            contentDescription = null,
+                        )
+                        Text(
+                            text = "Voltar",
+                            color = Nude,
+                            fontSize = 20.sp
+                        )
+                    }
+
+                    Spacer(
+                        Modifier
+                            .padding(10.dp)
+                    )
+
+                    Button(
+                        colors = ButtonDefaults.buttonColors(containerColor = Vinho),
+                        onClick = { navController.navigate("telaFlashcardsResposta") },
+                        modifier = Modifier
+                            .width(150.dp)
+                            .height(60.dp)
+                    ) {
+                        Text(
+                            text = "Próximo",
+                            color = Nude,
+                            fontSize = 20.sp
+                        )
+                        Image(
+                            painterResource(id = R.drawable.baseline_navigate_next_24),
+                            contentDescription = null,
+                        )
+                    }
+                }
+
+                Spacer(
+                    Modifier
+                        .padding(20.dp)
+                )
+
+                Row(
+                    Modifier
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    Button(
+                        colors = ButtonDefaults.buttonColors(containerColor = Vinho),
+                        onClick = { navController.navigate("telaFlashcardsResposta") },
+                        modifier = Modifier
+                            .width(150.dp)
+                            .height(60.dp)
+                    ) {
+                        Text(
+                            text = "Terminar",
+                            color = Nude,
+                            fontSize = 20.sp
+                        )
+                    }
+                }
+            }
         }
     }
 }

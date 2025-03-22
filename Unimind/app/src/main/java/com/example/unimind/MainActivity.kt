@@ -10,6 +10,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -26,6 +27,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -61,7 +64,7 @@ fun AppNavigation() {
     NavHost(navController, startDestination = "telaBloqueio") {
         composable("telaBloqueio") { TelaBloqueio(navController) }
         composable("telaCadastro") { Cadastro(navController) }
-        composable("telaEntrar") { Cadastro(navController) }
+        composable("telaEntrar") { Entrar(navController) }
     }
 }
 
@@ -153,7 +156,11 @@ fun TelaBloqueio(navController: NavController){
 
 @Composable
 fun Cadastro(navController: NavController) {
+    val customFontFamily = FontFamily(
+        Font(R.font.cute_letters) // Nome do arquivo sem a extensão .ttf ou .otf
+    )
     UnimindTheme{
+        //É o cabeçário da página
         Surface (
             modifier = Modifier.fillMaxSize(),
             color = Nude
@@ -165,29 +172,43 @@ fun Cadastro(navController: NavController) {
                 verticalArrangement = Arrangement.Top
             ) {
                 Box(
+                    //mexer no alinhamento do texto e da imagem
                     Modifier
-                        .height(100.dp)
+                        .height(95.dp)
                         .background(Vinho)
                         .fillMaxWidth(),
                     contentAlignment = Alignment.Center
+
+
                 ) {
-                    Image(
-                        painterResource(id = R.drawable.bichinho),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .padding(start = 10.dp)
-                    )
+                   Row(
+                       verticalAlignment = Alignment.CenterVertically, // Alinha os itens no centro verticalmente
+                       horizontalArrangement = Arrangement.Center, // Centraliza na horizontal
+                       modifier = Modifier
+                           .fillMaxWidth()
+                           .padding(0.dp, 10.dp, 0.dp, 0.dp)
+                   ) {
+                       Text(
+                           text = "UNIMIND",
+                           fontFamily = customFontFamily,
+                           color = Nude,
+                           fontSize = 50.sp,
+                           /*modifier = Modifier
+                               .padding(start = 10.dp)*/
+                       )
+                       Image(
+                           painterResource(id = R.drawable.bichinho),
+                           contentDescription = null,
+                           modifier = Modifier
+                               .padding(start = 5.dp)
+                               .width(80.dp)
+                               .height(80.dp)
+                       )
+                   }
+                   }
 
-                    Text(
-                        text = "UNIMIND",
-                        color = Nude,
-                        fontSize = 10.sp,
-                        modifier = Modifier
-                            .padding(start = 50.dp)
-                    )
-                }
             }
-
+            //é o corpo da página
             Column(
                 Modifier
                     .fillMaxSize()
@@ -198,11 +219,88 @@ fun Cadastro(navController: NavController) {
                 Box(
                     Modifier
                         .height(785.dp)
-                        .clip(RoundedCornerShape(topStart = 50.dp, topEnd = 50.dp))
+                        .clip(RoundedCornerShape(topStart = 45.dp, topEnd = 50.dp))
                         .background(Nude)
                         .fillMaxWidth(),
                     contentAlignment = Alignment.Center
                 ) {
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun Entrar(navController: NavController){
+    val customFontFamily = FontFamily(
+        Font(R.font.cute_letters) // Nome do arquivo sem a extensão .ttf ou .otf
+    )
+    UnimindTheme{
+        //É o cabeçário da página
+        Surface (
+            modifier = Modifier.fillMaxSize(),
+            color = Nude
+        ){
+            Column(
+                Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState()),
+                verticalArrangement = Arrangement.Top
+            ) {
+                Box(
+                    //mexer no alinhamento do texto e da imagem
+                    Modifier
+                        .height(95.dp)
+                        .background(Vinho)
+                        .fillMaxWidth(),
+                    contentAlignment = Alignment.Center
+
+
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically, // Alinha os itens no centro verticalmente
+                        horizontalArrangement = Arrangement.Center, // Centraliza na horizontal
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(0.dp, 10.dp, 0.dp, 0.dp)
+                    ) {
+                        Text(
+                            text = "UNIMIND",
+                            fontFamily = customFontFamily,
+                            color = Nude,
+                            fontSize = 50.sp,
+                            /*modifier = Modifier
+                                .padding(start = 10.dp)*/
+                        )
+                        Image(
+                            painterResource(id = R.drawable.bichinho),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .padding(start = 5.dp)
+                                .width(80.dp)
+                                .height(80.dp)
+                        )
+                    }
+                }
+
+            }
+            //é o corpo da página
+            Column(
+                Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState()),
+                verticalArrangement = Arrangement.Bottom,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Box(
+                    Modifier
+                        .height(785.dp)
+                        .clip(RoundedCornerShape(topStart = 45.dp, topEnd = 50.dp))
+                        .background(Nude)
+                        .fillMaxWidth(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(text = "tela entrar")
                 }
             }
         }

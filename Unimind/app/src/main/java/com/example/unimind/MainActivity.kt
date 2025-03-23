@@ -135,6 +135,47 @@ fun Footer() {
     }
 }
 
+@Composable
+fun Header(nomePagina: String){
+    Column(
+        Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState()),
+        verticalArrangement = Arrangement.Top
+    ) {
+        Box(
+            Modifier
+                .height(220.dp)
+                .clip(RoundedCornerShape(bottomStart = 1500.dp, bottomEnd = 1500.dp))
+                .background(Bege)
+                .fillMaxWidth()
+        ) {
+            Box(
+                Modifier
+                    .height(190.dp)
+                    .clip(RoundedCornerShape(bottomStart = 1500.dp, bottomEnd = 1500.dp))
+                    .background(Rosinha)
+                    .fillMaxWidth()
+            ) {
+                Box(
+                    Modifier
+                        .height(160.dp)
+                        .clip(RoundedCornerShape(bottomStart = 1500.dp, bottomEnd = 1500.dp))
+                        .background(Vinho)
+                        .fillMaxWidth(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = nomePagina,
+                        color = Nude,
+                        fontSize = 20.sp,
+                    )
+                }
+            }
+        }
+    }
+}
+
 
 @Composable
 fun TelaBloqueio(navController: NavController){
@@ -378,49 +419,12 @@ fun Entrar(navController: NavController){
 
 @Composable
 fun FlashcardsArea(navController: NavController) {
-    //colocar os buttons certo
     UnimindTheme {
         Surface(
             modifier = Modifier.fillMaxSize(),
             color = Nude
         ) {
-            Column(
-                Modifier
-                    .fillMaxSize()
-                    .verticalScroll(rememberScrollState()),
-                verticalArrangement = Arrangement.Top
-            ) {
-                Box(
-                    Modifier
-                        .height(220.dp)
-                        .clip(RoundedCornerShape(bottomStart = 1500.dp, bottomEnd = 1500.dp))
-                        .background(Bege)
-                        .fillMaxWidth()
-                ) {
-                    Box(
-                        Modifier
-                            .height(190.dp)
-                            .clip(RoundedCornerShape(bottomStart = 1500.dp, bottomEnd = 1500.dp))
-                            .background(Rosinha)
-                            .fillMaxWidth()
-                    ) {
-                        Box(
-                            Modifier
-                                .height(160.dp)
-                                .clip(RoundedCornerShape(bottomStart = 1500.dp, bottomEnd = 1500.dp))
-                                .background(Vinho)
-                                .fillMaxWidth(),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Text(
-                                text = "Flashcards",
-                                color = Nude,
-                                fontSize = 20.sp,
-                            )
-                        }
-                    }
-                }
-            }
+            Header("Flashcards")
 
             Column(
                 Modifier
@@ -447,15 +451,15 @@ fun FlashcardsArea(navController: NavController) {
                         )
                     }
 
-                    Box(
-                        Modifier
+                    Button(
+                        colors = ButtonDefaults.buttonColors(containerColor = Vinho),
+                        onClick = { navController.navigate("telaFlashcardsPergunta") },
+                        modifier = Modifier
                             .padding(start = 20.dp)
                             .height(40.dp)
                             .width(50.dp)
                             .clip(RoundedCornerShape(60.dp))
-                            .background(Vinho)
                             .fillMaxWidth(),
-                        contentAlignment = Alignment.Center
                     ) {
                         Text(
                             text = "+",
@@ -474,14 +478,14 @@ fun FlashcardsArea(navController: NavController) {
                     Modifier
                         .padding(start = 50.dp)
                 ) {
-                    Box(
-                        Modifier
+                    Button(
+                        colors = ButtonDefaults.buttonColors(containerColor = Rosinha),
+                        onClick = { navController.navigate("telaFlashcardsPergunta") },
+                        modifier = Modifier
                             .height(80.dp)
                             .width(140.dp)
-                            .clip(RoundedCornerShape(30.dp))
-                            .background(Rosinha)
+                            .clip(RoundedCornerShape(10.dp))
                             .fillMaxWidth(),
-                        contentAlignment = Alignment.Center
                     ) {
                         Text(
                             text = "Titulo\nCategoria",
@@ -495,14 +499,14 @@ fun FlashcardsArea(navController: NavController) {
                             .padding(10.dp)
                     )
 
-                    Box(
-                        Modifier
+                    Button(
+                        colors = ButtonDefaults.buttonColors(containerColor = Rosinha),
+                        onClick = { navController.navigate("telaFlashcardsPergunta") },
+                        modifier = Modifier
                             .height(80.dp)
                             .width(140.dp)
-                            .clip(RoundedCornerShape(30.dp))
-                            .background(Rosinha)
+                            .clip(RoundedCornerShape(10.dp))
                             .fillMaxWidth(),
-                        contentAlignment = Alignment.Center
                     ) {
                         Text(
                             text = "Titulo\nCategoria",
@@ -659,7 +663,7 @@ fun FlashcardsResposta(navController: NavController) {
                 ) {
                     Button(
                         colors = ButtonDefaults.buttonColors(containerColor = Vinho),
-                        onClick = { navController.navigate("telaFlashcardsResposta") },
+                        onClick = { navController.navigate("telaFlashcardsPergunta") },
                         modifier = Modifier
                             .width(150.dp)
                             .height(60.dp)
@@ -711,7 +715,7 @@ fun FlashcardsResposta(navController: NavController) {
                 ) {
                     Button(
                         colors = ButtonDefaults.buttonColors(containerColor = Vinho),
-                        onClick = { navController.navigate("telaFlashcardsResposta") },
+                        onClick = { navController.navigate("telaFlashcards") },
                         modifier = Modifier
                             .width(150.dp)
                             .height(60.dp)

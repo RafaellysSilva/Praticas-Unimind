@@ -14,16 +14,24 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.focusModifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -264,6 +272,9 @@ fun TelaBloqueio(navController: NavController){
 
 @Composable
 fun Cadastro(navController: NavController) {
+    val inter = FontFamily(
+        Font(R.font.inter)
+    )
     val customFontFamily = FontFamily(
         Font(R.font.cute_letters) // Nome do arquivo sem a extensão .ttf ou .otf
     )
@@ -326,24 +337,105 @@ fun Cadastro(navController: NavController) {
             ) {
                 Box(
                     Modifier
-                        .height(785.dp)
+                        .height(650.dp)
                         .clip(RoundedCornerShape(topStart = 45.dp, topEnd = 50.dp))
                         .background(Nude)
                         .fillMaxWidth(),
-                    contentAlignment = Alignment.Center
+                    contentAlignment = Alignment.TopCenter
                 ) {
+                    Column {
+                        Text(
+                            text = "Cadastro",
+                            fontFamily = inter,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 50.sp,
+                            color = Color(0xFF741C28),
+                            modifier = Modifier.padding(0.dp, 40.dp, 0.dp, 0.dp)
+                        )
+
+                        var nome by remember { mutableStateOf("") }
+                        var email by remember { mutableStateOf("") }
+                        var senha by remember { mutableStateOf("") }
+                        var senhaDnv by remember { mutableStateOf("") }
+
+                        Spacer(modifier = Modifier.height(50.dp))
+                        Text(text = "Digite seu nome:", fontSize = 20.sp,
+                                /*modifier = Modifier. padding(0.dp, 40.dp, 0.dp, 0.dp)*/)
+                        OutlinedTextField(
+                            value = nome,
+                            onValueChange = { nome = it }
+                        )
+                        Spacer(modifier = Modifier.height(10.dp))
+                        Text(text = "Digite seu email:", fontSize = 20.sp)
+                        OutlinedTextField(
+                            value = email,
+                            onValueChange = { email = it }
+                        )
+                        Spacer(modifier = Modifier.height(10.dp))
+                        Text(text = "Digite sua senha:", fontSize = 20.sp)
+                        OutlinedTextField(
+                            value = senha,
+                            onValueChange = { senha = it }
+                        )
+                        Spacer(modifier = Modifier.height(10.dp))
+                        Text(text = "Digite sua senha:", fontSize = 20.sp)
+                        OutlinedTextField(
+                            value = senhaDnv,
+                            onValueChange = { senhaDnv = it }
+                            //fazer um if p se senha!=senhaDnv n deixar cadastrar
+                        )
+                        Spacer(modifier = Modifier.height(20.dp))
+                        OutlinedButton(
+                            onClick = {null}, //fazer a verificação aq
+                            border = BorderStroke(2.dp, Vinho),
+                            modifier = Modifier.width(280.dp)
+                        ) {
+                            Text(text = "Cadastrar", color = Vinho, fontSize = 20.sp)
+                        }
+                    }
+
+                }
+                Box(contentAlignment = Alignment.TopCenter,
+                    modifier = Modifier.height(140.dp)) {
+                    Column {
+                        Row{
+                            Text(
+                                text = "Já tem uma conta?",
+                                fontSize = 20.sp
+                            )
+                        }
+                        Row{
+                            OutlinedButton(
+                                onClick = {navController.navigate("telaEntrar")},
+                                border = null
+                            ) {
+                                Text(text = "   Faça login", color = Vinho, fontSize = 20.sp)
+                                //esse text nao ta ficando no meio, por isso os espaços
+                            }
+                        }
+
+                    }
                 }
             }
         }
+
     }
 }
 
 
 @Composable
 fun Entrar(navController: NavController){
-    val customFontFamily = FontFamily(
+    var user by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
+
+    val cuteFont = FontFamily(
         Font(R.font.cute_letters) // Nome do arquivo sem a extensão .ttf ou .otf
     )
+
+    val inter = FontFamily(
+        Font(R.font.inter)
+    )
+
     UnimindTheme{
         //É o cabeçário da página
         Surface (
@@ -375,7 +467,7 @@ fun Entrar(navController: NavController){
                     ) {
                         Text(
                             text = "UNIMIND",
-                            fontFamily = customFontFamily,
+                            fontFamily = cuteFont,
                             color = Nude,
                             fontSize = 50.sp,
                             /*modifier = Modifier
@@ -401,16 +493,90 @@ fun Entrar(navController: NavController){
                 verticalArrangement = Arrangement.Bottom,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
+
                 Box(
                     Modifier
-                        .height(785.dp)
+                        .height(650.dp)
                         .clip(RoundedCornerShape(topStart = 45.dp, topEnd = 50.dp))
                         .background(Nude)
                         .fillMaxWidth(),
-                    contentAlignment = Alignment.Center
+                    contentAlignment = Alignment.TopCenter
+                    
                 ) {
-                    Text(text = "tela entrar")
+                    Column {
+                        Text(
+                        text = "Login",
+                        fontFamily = inter,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 50.sp,
+                        color = Color(0xFF741C28),
+                        modifier = Modifier.padding(0.dp, 40.dp, 0.dp, 0.dp)
+                        //color = R.color.ic_launcher_background
+                        )
+                        Spacer(
+                            modifier = Modifier.height(50.dp)
+                        )
+
+                         //permite que a caixa de texto mantenha e atualize o valor
+                        //digitado pelo usuário dinamicamente.
+
+                        Text(text = "Digite seu usuário:", fontSize = 20.sp)
+                        Spacer(modifier = Modifier.height(3.dp))
+                        OutlinedTextField(
+                            value = user,      //o valor q o usuário digitar será armazenado na var texto
+                            onValueChange = { user = it },  //atualiza o valor da variável texto sempre que o usuário digitar algo.
+
+                        )
+                        
+                        Spacer(modifier = Modifier.height(16.dp))
+                        
+                        Text(text = "Digite sua senha:", fontSize = 20.sp)
+                        Spacer(modifier = Modifier.height(3.dp))
+                        OutlinedTextField(
+                            value = password,
+                            onValueChange = {password = it}
+                        )
+
+                        Spacer(modifier = Modifier.height(50.dp))
+
+                        OutlinedButton (
+                            onClick = { navController.navigate("telaBloqueio") },
+                            border = BorderStroke(2.dp, Vinho),
+
+                            modifier = Modifier
+                                .width(280.dp)
+                            )
+                            {
+                                Text(text = "Entrar",
+                                color = Vinho,
+                                fontSize = 20.sp)
+                            }
+                    }
+
                 }
+                Box(contentAlignment = Alignment.TopCenter,
+                    modifier = Modifier.height(140.dp)) {
+                    Column {
+                        Row{
+                            Text(
+                                text = "Não tem uma conta?",
+                                fontSize = 20.sp
+                            )
+                        }
+                        Row{
+                            OutlinedButton(
+                                onClick = {navController.navigate("telaCadastro")},
+                                border = null
+                            ) {
+                                Text(text = "   Cadastre-se", color = Vinho, fontSize = 20.sp)
+                                //esse text nao ta ficando no meio, por isso os espaços
+                            }
+                        }
+
+                    }
+                }
+
+
             }
         }
     }

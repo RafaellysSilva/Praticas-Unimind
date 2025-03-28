@@ -1264,9 +1264,62 @@ fun telaConfiguracoes(navController: NavController) {
     }
 }
 
+@Composable
+fun telaInicial(navController: NavController){
+    Surface(
+        modifier = Modifier.fillMaxSize(),
+        color = Nude
+    ) {
+        Column(
+            Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState()),
+            verticalArrangement = Arrangement.Top,
+            //horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Box(
+                //mexer no alinhamento do texto e da imagem
+                Modifier
+                    .height(95.dp)
+                    .background(Vinho)
+                    .fillMaxWidth(),
+                contentAlignment = Alignment.Center
+
+
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically, // Alinha os itens no centro verticalmente
+                    //horizontalArrangement = Arrangement.Center, // Centraliza na horizontal
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(0.dp, 15.dp, 0.dp, 0.dp)
+                ) {
+                    Image(
+                        painterResource(id = R.drawable.bichinho),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .padding(start = 5.dp, end = 150.dp)
+                            .width(70.dp)
+                            .height(70.dp)
+                    )
+                    Text(
+                        text = "Olá, usuário",
+                        color = White,
+                        fontSize = 20.sp,
+                        /*modifier = Modifier
+                            .padding(start = 10.dp)*/
+                    )
+                    Image(
+                        painterResource(id = R.drawable.user), contentDescription = null
+                        
+                    )
+                }
+        }}    }
+}
+
 
 @Preview(showSystemUi = true)
 @Composable
 fun AppPreview(){
-    TelaBloqueio(rememberNavController())
+    telaInicial(rememberNavController())
 }

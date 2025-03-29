@@ -1324,8 +1324,8 @@ fun TelaInicial(navController: NavController){
                     horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier.fillMaxSize()
                 ){
-                    Row(modifier = Modifier.padding(top = 30.dp)){
-                        Box(modifier = Modifier.background(Color(0xFFBB8C94)).padding(top = 18.dp, bottom = 18.dp, start = 10.dp , end = 10.dp)){
+                    Row(modifier = Modifier.padding(top = 55.dp)){
+                        Box(modifier = Modifier.background(Color(0xFFBB8C94)).padding(top = 24.dp, bottom = 24.dp, start = 10.dp , end = 10.dp)){
                             Image(painterResource(id = R.drawable.config), contentDescription = null,
                                 modifier = Modifier
                                     .width(20.dp)
@@ -1334,7 +1334,7 @@ fun TelaInicial(navController: NavController){
                             Text("Configurações", color = White, modifier = Modifier.padding(start = 25.dp))
                         }
                         Spacer(Modifier.width(15.dp))
-                        Box(modifier = Modifier.background(Color(0xFFBB8C94)).padding(top = 18.dp, bottom = 18.dp, start = 22.dp, end = 22.dp)) {
+                        Box(modifier = Modifier.background(Color(0xFFBB8C94)).padding(top = 24.dp, bottom = 24.dp, start = 22.dp, end = 22.dp)) {
                             Image(
                                 painterResource(id = R.drawable.calendario), contentDescription = null,
                                 modifier = Modifier
@@ -1350,13 +1350,61 @@ fun TelaInicial(navController: NavController){
                         }
 
                     }
-                    Row(modifier = Modifier.padding(top = 50.dp)){
-                        Image(painterResource(id = R.drawable.config), contentDescription = null,
-                            modifier = Modifier
-                                .width(20.dp)
-                                .height(20.dp)
-                        )
-                        Text("Configurações", color = White, modifier = Modifier.padding(start = 25.dp))
+                    Row(modifier = Modifier.padding(top = 60.dp)){
+                        Box(modifier = Modifier.background(Color(0xFFBB8C94)).padding(top = 20.dp, bottom = 20.dp, start = 24.dp, end = 50.dp)){
+                            Image(painterResource(id = R.drawable.cards), contentDescription = null,
+                                modifier = Modifier
+                                    .width(40.dp)
+                                    .height(40.dp)
+                            )}
+
+                            Box(modifier = Modifier.background(Color(0xFFBB8C94)).padding(top = 30.dp, bottom = 33.5.dp, end = 75.dp)){
+                            Text("FlashCards", color = White, modifier = Modifier.padding(start = 25.dp))
+
+                        }
+
+                    }
+                    Row(modifier = Modifier.padding(top = 40.dp)){
+                        Box(modifier = Modifier.background(Color(0xFFBB8C94)).padding(top = 20.dp, bottom = 20.dp, start = 23.dp, end = 50.dp)){
+                            Image(painterResource(id = R.drawable.tempo), contentDescription = null,
+                                modifier = Modifier
+                                    .width(40.dp)
+                                    .height(40.dp)
+                            )}
+
+                        Box(modifier = Modifier.background(Color(0xFFBB8C94)).padding(top = 30.dp, bottom = 33.5.dp, end = 53.dp)){
+                            Text("Listas e provas", color = White, modifier = Modifier.padding(start = 28.dp))
+
+                        }
+
+                    }
+                    Row(modifier = Modifier.padding(top = 40.dp)){
+                        Box(modifier = Modifier.background(Color(0xFFBB8C94)).padding(top = 20.dp, bottom = 20.dp, start = 22.dp, end = 50.dp)){
+                            Image(painterResource(id = R.drawable.competdois), contentDescription = null,
+                                modifier = Modifier
+                                    .width(40.dp)
+                                    .height(40.dp)
+                            )}
+
+                        Box(modifier = Modifier.background(Color(0xFFBB8C94)).padding(top = 30.dp, bottom = 33.5.dp, end = 72.dp, start = 2.dp)){
+                            Text("Competição", color = White, modifier = Modifier.padding(start = 25.dp))
+
+                        }
+
+                    }
+                    Row(modifier = Modifier.padding(top = 40.dp)){
+                        Box(modifier = Modifier.background(Color(0xFFBB8C94)).padding(top = 20.dp, bottom = 20.dp, start = 24.dp, end = 55.dp)){
+                            Image(painterResource(id = R.drawable.estadois), contentDescription = null,
+                                modifier = Modifier
+                                    .width(40.dp)
+                                    .height(40.dp)
+                            )}
+
+                        Box(modifier = Modifier.background(Color(0xFFBB8C94)).padding(top = 30.dp, bottom = 33.5.dp, end = 67.dp, start = 2.dp)){
+                            Text("Estatísticas", color = White, modifier = Modifier.padding(start = 27.dp))
+
+                        }
+
                     }
                 
                 }

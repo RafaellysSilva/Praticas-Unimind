@@ -1418,6 +1418,5 @@ fun TelaInicial(navController: NavController){
 @Preview(showSystemUi = true)
 @Composable
 fun AppPreview(){
-    //TelaBloqueio(rememberNavController())
-    TelaInicial(rememberNavController())
+    TelaBloqueio(rememberNavController())
 }

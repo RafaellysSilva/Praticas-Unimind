@@ -9,6 +9,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
 /*import androidx.compose.foundation.layout.BoxScopeInstance.align
 import androidx.compose.foundation.layout.ColumnScopeInstance.align
 import androidx.compose.foundation.layout.FlowRowScopeInstance.align*/
@@ -83,7 +84,7 @@ fun AppNavigation() {
         composable("telaFlashCardsArea") { FlashcardsArea(navController) }
         composable("telaFlashCardsPergunta") { FlashcardsPergunta(navController) }
         composable("telaFlashcardsResposta") { FlashcardsResposta(navController) }
-        composable("telaConfiguracoes") { telaConfiguracoes(navController) }
+        composable("telaConfiguracoes") { TelaConfiguracoes(navController) }
     }
 }
 
@@ -914,7 +915,7 @@ fun FlashcardsResposta(navController: NavController) {
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class)
 @Composable
-fun telaConfiguracoes(navController: NavController) {
+fun TelaConfiguracoes(navController: NavController) {
     val inter = FontFamily(
         Font(R.font.inter)
     )
@@ -1265,7 +1266,7 @@ fun telaConfiguracoes(navController: NavController) {
 }
 
 @Composable
-fun telaInicial(navController: NavController){
+fun TelaInicial(navController: NavController){
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = Nude
@@ -1314,12 +1315,61 @@ fun telaInicial(navController: NavController){
                         
                     )
                 }
-        }}    }
+            }
+            //corpo
+            Box(contentAlignment = Alignment.Center
+                ){
+                Column(
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier.fillMaxSize()
+                ){
+                    Row(modifier = Modifier.padding(top = 30.dp)){
+                        Box(modifier = Modifier.background(Color(0xFFBB8C94)).padding(top = 18.dp, bottom = 18.dp, start = 10.dp , end = 10.dp)){
+                            Image(painterResource(id = R.drawable.config), contentDescription = null,
+                                modifier = Modifier
+                                    .width(20.dp)
+                                    .height(20.dp)
+                            )
+                            Text("Configurações", color = White, modifier = Modifier.padding(start = 25.dp))
+                        }
+                        Spacer(Modifier.width(15.dp))
+                        Box(modifier = Modifier.background(Color(0xFFBB8C94)).padding(top = 18.dp, bottom = 18.dp, start = 22.dp, end = 22.dp)) {
+                            Image(
+                                painterResource(id = R.drawable.calendario), contentDescription = null,
+                                modifier = Modifier
+                                    .width(20.dp)
+                                    .height(20.dp)
+                                    .padding(bottom = 4.dp)
+                            )
+                            Text(
+                                "Calendário",
+                                color = White,
+                                modifier = Modifier.padding(start = 25.dp)
+                            )
+                        }
+
+                    }
+                    Row(modifier = Modifier.padding(top = 50.dp)){
+                        Image(painterResource(id = R.drawable.config), contentDescription = null,
+                            modifier = Modifier
+                                .width(20.dp)
+                                .height(20.dp)
+                        )
+                        Text("Configurações", color = White, modifier = Modifier.padding(start = 25.dp))
+                    }
+                
+                }
+            }
+
+        }
+    }
 }
 
 
 @Preview(showSystemUi = true)
 @Composable
 fun AppPreview(){
-    telaInicial(rememberNavController())
+    //TelaBloqueio(rememberNavController())
+    TelaInicial(rememberNavController())
 }

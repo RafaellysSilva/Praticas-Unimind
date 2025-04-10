@@ -17,17 +17,12 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
@@ -426,7 +421,7 @@ fun Cadastro(navController: NavController) {
                         }
                         Row{
                             OutlinedButton(
-                                onClick = {navController.navigate("telaInicial")},
+                                onClick = {navController.navigate("telaEntrar")},
                                 border = null
                             ) {
                                 Text(text = "   Faça login", color = Vinho, fontSize = 20.sp)
@@ -560,7 +555,7 @@ fun Entrar(navController: NavController){
                         Spacer(modifier = Modifier.height(50.dp))
 
                         OutlinedButton (
-                            onClick = { navController.navigate("TelaConfiguracoes") },
+                            onClick = { navController.navigate("telaBloqueio") },
                             border = BorderStroke(2.dp, Vinho),
 
                             modifier = Modifier
@@ -918,12 +913,14 @@ fun FlashcardsResposta(navController: NavController) {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class)
 @Composable
 fun TelaConfiguracoes(navController: NavController) {
     val inter = FontFamily(
         Font(R.font.inter)
     )
     UnimindTheme {
+        //É o cabeçário da página
         Surface(
             modifier = Modifier.fillMaxSize(),
             color = Nude
@@ -933,19 +930,24 @@ fun TelaConfiguracoes(navController: NavController) {
                     .fillMaxSize()
                     .verticalScroll(rememberScrollState()),
                 verticalArrangement = Arrangement.Top,
+                //horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Box(
+                    //mexer no alinhamento do texto e da imagem
                     Modifier
                         .height(95.dp)
                         .background(Vinho)
                         .fillMaxWidth(),
                     contentAlignment = Alignment.Center
+
+
                 ) {
                     Row(
-                        verticalAlignment = Alignment.CenterVertically,
+                        verticalAlignment = Alignment.CenterVertically, // Alinha os itens no centro verticalmente
+                        //horizontalArrangement = Arrangement.Center, // Centraliza na horizontal
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(top = 15.dp)
+                            .padding(0.dp, 15.dp, 0.dp, 0.dp)
                     ) {
                         Image(
                             painterResource(id = R.drawable.bichinho),
@@ -960,6 +962,8 @@ fun TelaConfiguracoes(navController: NavController) {
                             fontFamily = inter,
                             color = White,
                             fontSize = 20.sp,
+                            /*modifier = Modifier
+                                .padding(start = 10.dp)*/
                         )
                         Image(
                             painterResource(id = R.drawable.engranagem),
@@ -979,33 +983,34 @@ fun TelaConfiguracoes(navController: NavController) {
                             painterResource(id = R.drawable.ic_launcher_foreground),
                             contentDescription = null,
                             modifier = Modifier
-                                .clip(CircleShape)
+                                .clip(shape = CircleShape)
                                 .align(BottomCenter)
                                 .background(Blue)
                         )
                     }
                 }
-
+            //corpo da tela
                 Spacer(Modifier.height(70.dp))
-
-                Column {
-                    Text(
-                        text = "Perfil",
-                        fontSize = 23.sp,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .background(Color(0xFFf3d1c2))
-                            .padding(top = 5.dp, bottom = 5.dp, start = 10.dp)
+            Box{
+                Column{
+                    Text(text = "Perfil",
+                    fontSize = 23.sp,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(Color(0xFFf3d1c2))
+                        .padding(top = 5.dp, bottom = 5.dp, start = 10.dp)
                     )
                     Spacer(Modifier.height(15.dp))
 
-                    var user by remember { mutableStateOf("") }
-                    Row {
+                    Row{
+                        var user by remember { mutableStateOf("") }
                         Text("Usuário:", fontSize = 20.sp, fontWeight = FontWeight.Bold,
-                            modifier = Modifier.padding(start = 10.dp))
+                            modifier = Modifier
+                                .padding(start = 10.dp)
+                        )
                         OutlinedTextField(
                             value = user,
-                            onValueChange = { user = it },
+                            onValueChange = {user = it},
                             modifier = Modifier
                                 .width(280.dp)
                                 .height(10.dp)
@@ -1013,15 +1018,18 @@ fun TelaConfiguracoes(navController: NavController) {
                         )
                     }
 
+
                     Spacer(Modifier.height(15.dp))
 
-                    var nome by remember { mutableStateOf("") }
-                    Row {
+                    Row{
+                        var nome by remember { mutableStateOf("") }
                         Text("Nome:", fontSize = 20.sp, fontWeight = FontWeight.Bold,
-                            modifier = Modifier.padding(start = 10.dp, end = 17.dp))
+                            modifier = Modifier
+                                .padding(start = 10.dp, end = 17.dp)
+                        )
                         OutlinedTextField(
                             value = nome,
-                            onValueChange = { nome = it },
+                            onValueChange = {nome = it},
                             modifier = Modifier
                                 .width(280.dp)
                                 .height(10.dp)
@@ -1031,13 +1039,15 @@ fun TelaConfiguracoes(navController: NavController) {
 
                     Spacer(Modifier.height(15.dp))
 
-                    var email by remember { mutableStateOf("") }
-                    Row {
+                    Row{
+                        var email by remember { mutableStateOf("") }
                         Text("E-mail:", fontSize = 20.sp, fontWeight = FontWeight.Bold,
-                            modifier = Modifier.padding(start = 10.dp, end = 12.dp))
+                            modifier = Modifier
+                                .padding(start = 10.dp, end = 12.dp)
+                        )
                         OutlinedTextField(
                             value = email,
-                            onValueChange = { email = it },
+                            onValueChange = {email = it},
                             modifier = Modifier
                                 .width(280.dp)
                                 .height(10.dp)
@@ -1047,13 +1057,15 @@ fun TelaConfiguracoes(navController: NavController) {
 
                     Spacer(Modifier.height(15.dp))
 
-                    var senha by remember { mutableStateOf("") }
-                    Row {
+                    Row{
+                        var senha by remember { mutableStateOf("") }
                         Text("Senha:", fontSize = 20.sp, fontWeight = FontWeight.Bold,
-                            modifier = Modifier.padding(start = 10.dp, end = 14.dp))
+                            modifier = Modifier
+                                .padding(start = 10.dp, end = 14.dp)
+                        )
                         OutlinedTextField(
                             value = senha,
-                            onValueChange = { senha = it },
+                            onValueChange = {senha = it},
                             modifier = Modifier
                                 .width(280.dp)
                                 .height(10.dp)
@@ -1063,24 +1075,24 @@ fun TelaConfiguracoes(navController: NavController) {
 
                     Spacer(Modifier.height(15.dp))
 
-                    var nivel by remember { mutableStateOf("") }
-                    Row {
+                    Row{
+                        var nivel by remember { mutableStateOf("") }
                         Text("Nível:", fontSize = 20.sp, fontWeight = FontWeight.Bold,
-                            modifier = Modifier.padding(start = 10.dp, end = 24.dp))
+                            modifier = Modifier
+                                .padding(start = 10.dp, end = 24.dp)
+                        )
                         OutlinedTextField(
                             value = nivel,
                             readOnly = true,
-                            onValueChange = { nivel = it },
+                            onValueChange = {nivel = it},
                             modifier = Modifier
                                 .width(280.dp)
                                 .height(10.dp)
                                 .padding(start = 20.dp, top = 10.dp)
                         )
                     }
-
                     Spacer(Modifier.height(20.dp))
-                    Text(
-                        text = "Preferências",
+                    Text(text = "Preferências",
                         fontSize = 23.sp,
                         modifier = Modifier
                             .fillMaxWidth()
@@ -1089,32 +1101,74 @@ fun TelaConfiguracoes(navController: NavController) {
                     )
                     Spacer(Modifier.height(15.dp))
 
-                    // Dropdown de Dificuldade
-                    Row {
+                    Row{
                         Text("Dificuldade:", fontSize = 20.sp, fontWeight = FontWeight.Bold,
-                            modifier = Modifier.padding(start = 10.dp, top = 12.dp))
+                            modifier = Modifier
+                                .padding(start = 10.dp, end = 14.dp, top = 3.dp)
+                        )
                         var expanded by remember { mutableStateOf(false) }
                         var selecionada by remember { mutableStateOf("") }
                         val opcoes = listOf("Opção 1", "Opção 2", "Opção 3")
-
-                        Box {
+                        ExposedDropdownMenuBox(
+                            expanded = expanded,
+                            onExpandedChange = { expanded = !expanded }
+                        ) {
                             OutlinedTextField(
                                 value = selecionada,
                                 onValueChange = {},
                                 readOnly = true,
-                                label = { Text("Escolha") },
-                                trailingIcon = {
-                                    IconButton(onClick = { expanded = !expanded }) {
-                                        Icon(Icons.Default.ArrowDropDown, contentDescription = null)
-                                    }
-                                },
+                                trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
                                 modifier = Modifier
-                                    .height(60.dp)
+                                    .menuAnchor() // Necessário para alinhar o menu corretamente
+                                    .height(30.dp)
                                     .width(250.dp)
                             )
-                            DropdownMenu(
+
+                            ExposedDropdownMenu(
                                 expanded = expanded,
                                 onDismissRequest = { expanded = false }
+                                //Modifier.height(50.dp)
+                            ) {
+                                opcoes.forEach { opcao ->
+                                    DropdownMenuItem(
+                                        text = { Text(opcao) },
+                                        onClick = {
+                                            selecionada = opcao
+                                            expanded = false
+                                        }
+                                    )
+                                }
+                            }
+                        }
+                    }
+                    Spacer(Modifier.height(15.dp))
+                    Row{
+                        Text("Facilidade:", fontSize = 20.sp, fontWeight = FontWeight.Bold,
+                            modifier = Modifier
+                                .padding(start = 10.dp, end = 23.dp, top = 3.dp)
+                        )
+                        var expanded by remember { mutableStateOf(false) }
+                        var selecionada by remember { mutableStateOf("") }
+                        val opcoes = listOf("Opção 1", "Opção 2", "Opção 3")
+                        ExposedDropdownMenuBox(
+                            expanded = expanded,
+                            onExpandedChange = { expanded = !expanded }
+                        ) {
+                            OutlinedTextField(
+                                value = selecionada,
+                                onValueChange = {},
+                                readOnly = true,
+                                trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
+                                modifier = Modifier
+                                    .menuAnchor() // Necessário para alinhar o menu corretamente
+                                    .height(30.dp)
+                                    .width(250.dp)
+                            )
+
+                            ExposedDropdownMenu(
+                                expanded = expanded,
+                                onDismissRequest = { expanded = false }
+                                //Modifier.height(50.dp)
                             ) {
                                 opcoes.forEach { opcao ->
                                     DropdownMenuItem(
@@ -1129,66 +1183,25 @@ fun TelaConfiguracoes(navController: NavController) {
                         }
                     }
 
-                    Spacer(Modifier.height(15.dp))
-
-                    // Dropdown de Facilidade
-                    Row {
-                        Text("Facilidade:", fontSize = 20.sp, fontWeight = FontWeight.Bold,
-                            modifier = Modifier.padding(start = 10.dp, top = 12.dp))
-                        var expanded2 by remember { mutableStateOf(false) }
-                        var selecionada2 by remember { mutableStateOf("") }
-                        val opcoes2 = listOf("Opção 1", "Opção 2", "Opção 3")
-
-                        Box {
-                            OutlinedTextField(
-                                value = selecionada2,
-                                onValueChange = {},
-                                readOnly = true,
-                                label = { Text("Escolha") },
-                                trailingIcon = {
-                                    IconButton(onClick = { expanded2 = !expanded2 }) {
-                                        Icon(Icons.Default.ArrowDropDown, contentDescription = null)
-                                    }
-                                },
-                                modifier = Modifier
-                                    .height(60.dp)
-                                    .width(250.dp)
-                            )
-                            DropdownMenu(
-                                expanded = expanded2,
-                                onDismissRequest = { expanded2 = false }
-                            ) {
-                                opcoes2.forEach { opcao ->
-                                    DropdownMenuItem(
-                                        text = { Text(opcao) },
-                                        onClick = {
-                                            selecionada2 = opcao
-                                            expanded2 = false
-                                        }
-                                    )
-                                }
-                            }
-                        }
-                    }
-
                     Spacer(Modifier.height(8.dp))
-                    var minutos by remember { mutableStateOf("") }
-                    Row {
+                    Row{
+                        var minutos by remember { mutableStateOf("") }
                         Text("Tempo em \nresolução\nde listas:", fontSize = 15.sp, fontWeight = FontWeight.Bold,
-                            modifier = Modifier.padding(start = 10.dp, top = 10.dp))
+                            modifier = Modifier
+                                .padding(start = 10.dp, end = 14.dp, top = 3.dp)
+                        )
                         OutlinedTextField(
                             value = minutos,
-                            onValueChange = { minutos = it },
+                            onValueChange = {minutos = it},
                             modifier = Modifier
-                                .height(60.dp)
+                                .height(30.dp)
                                 .width(281.dp)
                                 .padding(top = 40.dp, start = 32.dp)
                         )
                     }
 
                     Spacer(Modifier.height(20.dp))
-                    Text(
-                        text = "Outros",
+                    Text(text = "Outros",
                         fontSize = 23.sp,
                         modifier = Modifier
                             .fillMaxWidth()
@@ -1198,14 +1211,18 @@ fun TelaConfiguracoes(navController: NavController) {
 
                     Spacer(Modifier.height(20.dp))
 
-                    Row {
+                    Row{
                         Text("Excluir conta:", fontSize = 20.sp, fontWeight = FontWeight.Bold,
-                            modifier = Modifier.padding(start = 10.dp, top = 8.dp))
-                        OutlinedButton(
+                            modifier = Modifier
+                                .padding(start = 10.dp, end = 23.dp, top = 8.dp)
+                        )
+                        OutlinedButton (
                             onClick = { print("Clicou no excluir") },
+                            //border = BorderStroke(2.dp, Vinho),
                             modifier = Modifier
                                 .width(200.dp)
                                 .height(40.dp)
+
                         ) {
                             Image(
                                 painterResource(id = R.drawable.lixeira),
@@ -1215,22 +1232,35 @@ fun TelaConfiguracoes(navController: NavController) {
                     }
 
                     Spacer(Modifier.height(10.dp))
-                    Row {
+
+                    Row{
                         Text("Nosso contato:", fontSize = 20.sp, fontWeight = FontWeight.Bold,
-                            modifier = Modifier.padding(start = 10.dp, top = 8.dp))
-                        Text("email@example.com", fontSize = 20.sp, modifier = Modifier.padding(top = 7.dp))
+                            modifier = Modifier
+                                .padding(start = 10.dp, end = 23.dp, top = 8.dp)
+                        )
+                        Text(text = "email@example.com", fontSize = 20.sp, modifier = Modifier
+                            .padding(top = 7.dp))
+
                     }
 
                     Spacer(Modifier.height(15.dp))
-                    Row(Modifier.padding(start = 120.dp)) {
-                        OutlinedButton(onClick = {}) {
+
+                    Row(
+                        Modifier.padding(start = 120.dp)
+                    ){
+                        OutlinedButton(
+                            onClick = {}
+
+                        ) {
                             Text(text = "Salvar alterações", color = Black)
                         }
                     }
 
-                    Spacer(Modifier.height(30.dp))
+
                 }
             }
+            }
+
         }
     }
 }

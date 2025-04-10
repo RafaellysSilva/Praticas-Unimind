@@ -78,13 +78,14 @@ fun AppNavigation() {
     val navController = rememberNavController()
 
     NavHost(navController, startDestination = "telaBloqueio") {
-        composable("telaBloqueio") { TelaBloqueio(navController) }
+        composable("telaBloqueio") { Bloqueio(navController) }
         composable("telaCadastro") { Cadastro(navController) }
         composable("telaEntrar") { Entrar(navController) }
+        composable("telaInicial") { Inicial(navController) }
+        composable("telaConfiguracoes") { Configuracoes(navController) }
         composable("telaFlashCardsArea") { FlashcardsArea(navController) }
         composable("telaFlashCardsPergunta") { FlashcardsPergunta(navController) }
         composable("telaFlashcardsResposta") { FlashcardsResposta(navController) }
-        composable("telaConfiguracoes") { TelaConfiguracoes(navController) }
     }
 }
 
@@ -200,7 +201,7 @@ fun Header(nomePagina: String){
 
 
 @Composable
-fun TelaBloqueio(navController: NavController){
+fun Bloqueio(navController: NavController){
     UnimindTheme{
         Surface (
             modifier = Modifier.fillMaxSize(),
@@ -599,6 +600,508 @@ fun Entrar(navController: NavController){
 
 
 @Composable
+fun Configuracoes(navController: NavController) {
+    val inter = FontFamily(
+        Font(R.font.inter)
+    )
+    UnimindTheme {
+        //É o cabeçário da página
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            color = Nude
+        ) {
+            Column(
+                Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState()),
+                verticalArrangement = Arrangement.Top,
+                //horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Box(
+                    //mexer no alinhamento do texto e da imagem
+                    Modifier
+                        .height(95.dp)
+                        .background(Vinho)
+                        .fillMaxWidth(),
+                    contentAlignment = Alignment.Center
+
+
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically, // Alinha os itens no centro verticalmente
+                        //horizontalArrangement = Arrangement.Center, // Centraliza na horizontal
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(0.dp, 15.dp, 0.dp, 0.dp)
+                    ) {
+                        Image(
+                            painterResource(id = R.drawable.bichinho),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .padding(start = 5.dp, end = 170.dp)
+                                .width(50.dp)
+                                .height(50.dp)
+                        )
+                        Text(
+                            text = "Configurações",
+                            fontFamily = inter,
+                            color = White,
+                            fontSize = 20.sp,
+                            /*modifier = Modifier
+                                .padding(start = 10.dp)*/
+                        )
+                        Image(
+                            painterResource(id = R.drawable.engranagem),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .height(30.dp)
+                                .width(30.dp)
+                                .padding(start = 10.dp)
+                        )
+                    }
+                    Box(
+                        Modifier
+                            .padding(top = 40.dp)
+                            .fillMaxWidth()
+                    ) {
+                        Image(
+                            painterResource(id = R.drawable.ic_launcher_foreground),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .clip(shape = CircleShape)
+                                .align(BottomCenter)
+                                .background(Blue)
+                        )
+                    }
+                }
+                //corpo da tela
+                Spacer(Modifier.height(70.dp))
+                Box{
+                    Column{
+                        Text(text = "Perfil",
+                            fontSize = 23.sp,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .background(Color(0xFFf3d1c2))
+                                .padding(top = 5.dp, bottom = 5.dp, start = 10.dp)
+                        )
+                        Spacer(Modifier.height(15.dp))
+
+                        Row{
+                            var user by remember { mutableStateOf("") }
+                            Text("Usuário:", fontSize = 20.sp, fontWeight = FontWeight.Bold,
+                                modifier = Modifier
+                                    .padding(start = 10.dp)
+                            )
+                            OutlinedTextField(
+                                value = user,
+                                onValueChange = {user = it},
+                                modifier = Modifier
+                                    .width(280.dp)
+                                    .height(10.dp)
+                                    .padding(start = 20.dp, top = 10.dp)
+                            )
+                        }
+
+
+                        Spacer(Modifier.height(15.dp))
+
+                        Row{
+                            var nome by remember { mutableStateOf("") }
+                            Text("Nome:", fontSize = 20.sp, fontWeight = FontWeight.Bold,
+                                modifier = Modifier
+                                    .padding(start = 10.dp, end = 17.dp)
+                            )
+                            OutlinedTextField(
+                                value = nome,
+                                onValueChange = {nome = it},
+                                modifier = Modifier
+                                    .width(280.dp)
+                                    .height(10.dp)
+                                    .padding(start = 20.dp, top = 10.dp)
+                            )
+                        }
+
+                        Spacer(Modifier.height(15.dp))
+
+                        Row{
+                            var email by remember { mutableStateOf("") }
+                            Text("E-mail:", fontSize = 20.sp, fontWeight = FontWeight.Bold,
+                                modifier = Modifier
+                                    .padding(start = 10.dp, end = 12.dp)
+                            )
+                            OutlinedTextField(
+                                value = email,
+                                onValueChange = {email = it},
+                                modifier = Modifier
+                                    .width(280.dp)
+                                    .height(10.dp)
+                                    .padding(start = 20.dp, top = 10.dp)
+                            )
+                        }
+
+                        Spacer(Modifier.height(15.dp))
+
+                        Row{
+                            var senha by remember { mutableStateOf("") }
+                            Text("Senha:", fontSize = 20.sp, fontWeight = FontWeight.Bold,
+                                modifier = Modifier
+                                    .padding(start = 10.dp, end = 14.dp)
+                            )
+                            OutlinedTextField(
+                                value = senha,
+                                onValueChange = {senha = it},
+                                modifier = Modifier
+                                    .width(280.dp)
+                                    .height(10.dp)
+                                    .padding(start = 20.dp, top = 10.dp)
+                            )
+                        }
+
+                        Spacer(Modifier.height(15.dp))
+
+                        Row{
+                            var nivel by remember { mutableStateOf("") }
+                            Text("Nível:", fontSize = 20.sp, fontWeight = FontWeight.Bold,
+                                modifier = Modifier
+                                    .padding(start = 10.dp, end = 24.dp)
+                            )
+                            OutlinedTextField(
+                                value = nivel,
+                                readOnly = true,
+                                onValueChange = {nivel = it},
+                                modifier = Modifier
+                                    .width(280.dp)
+                                    .height(10.dp)
+                                    .padding(start = 20.dp, top = 10.dp)
+                            )
+                        }
+                        Spacer(Modifier.height(20.dp))
+                        Text(text = "Preferências",
+                            fontSize = 23.sp,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .background(Color(0xFFf3d1c2))
+                                .padding(start = 10.dp, top = 5.dp, bottom = 5.dp)
+                        )
+                        Spacer(Modifier.height(15.dp))
+
+                        Row{
+                            Text("Dificuldade:", fontSize = 20.sp, fontWeight = FontWeight.Bold,
+                                modifier = Modifier
+                                    .padding(start = 10.dp, end = 14.dp, top = 3.dp)
+                            )
+                            var expanded by remember { mutableStateOf(false) }
+                            var selecionada by remember { mutableStateOf("") }
+                            val opcoes = listOf("Opção 1", "Opção 2", "Opção 3")
+                            ExposedDropdownMenuBox(
+                                expanded = expanded,
+                                onExpandedChange = { expanded = !expanded }
+                            ) {
+                                OutlinedTextField(
+                                    value = selecionada,
+                                    onValueChange = {},
+                                    readOnly = true,
+                                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
+                                    modifier = Modifier
+                                        .menuAnchor() // Necessário para alinhar o menu corretamente
+                                        .height(30.dp)
+                                        .width(250.dp)
+                                )
+
+                                ExposedDropdownMenu(
+                                    expanded = expanded,
+                                    onDismissRequest = { expanded = false }
+                                    //Modifier.height(50.dp)
+                                ) {
+                                    opcoes.forEach { opcao ->
+                                        DropdownMenuItem(
+                                            text = { Text(opcao) },
+                                            onClick = {
+                                                selecionada = opcao
+                                                expanded = false
+                                            }
+                                        )
+                                    }
+                                }
+                            }
+                        }
+                        Spacer(Modifier.height(15.dp))
+                        Row{
+                            Text("Facilidade:", fontSize = 20.sp, fontWeight = FontWeight.Bold,
+                                modifier = Modifier
+                                    .padding(start = 10.dp, end = 23.dp, top = 3.dp)
+                            )
+                            var expanded by remember { mutableStateOf(false) }
+                            var selecionada by remember { mutableStateOf("") }
+                            val opcoes = listOf("Opção 1", "Opção 2", "Opção 3")
+                            ExposedDropdownMenuBox(
+                                expanded = expanded,
+                                onExpandedChange = { expanded = !expanded }
+                            ) {
+                                OutlinedTextField(
+                                    value = selecionada,
+                                    onValueChange = {},
+                                    readOnly = true,
+                                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
+                                    modifier = Modifier
+                                        .menuAnchor() // Necessário para alinhar o menu corretamente
+                                        .height(30.dp)
+                                        .width(250.dp)
+                                )
+
+                                ExposedDropdownMenu(
+                                    expanded = expanded,
+                                    onDismissRequest = { expanded = false }
+                                    //Modifier.height(50.dp)
+                                ) {
+                                    opcoes.forEach { opcao ->
+                                        DropdownMenuItem(
+                                            text = { Text(opcao) },
+                                            onClick = {
+                                                selecionada = opcao
+                                                expanded = false
+                                            }
+                                        )
+                                    }
+                                }
+                            }
+                        }
+
+                        Spacer(Modifier.height(8.dp))
+                        Row{
+                            var minutos by remember { mutableStateOf("") }
+                            Text("Tempo em \nresolução\nde listas:", fontSize = 15.sp, fontWeight = FontWeight.Bold,
+                                modifier = Modifier
+                                    .padding(start = 10.dp, end = 14.dp, top = 3.dp)
+                            )
+                            OutlinedTextField(
+                                value = minutos,
+                                onValueChange = {minutos = it},
+                                modifier = Modifier
+                                    .height(30.dp)
+                                    .width(281.dp)
+                                    .padding(top = 40.dp, start = 32.dp)
+                            )
+                        }
+
+                        Spacer(Modifier.height(20.dp))
+                        Text(text = "Outros",
+                            fontSize = 23.sp,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .background(Color(0xFFf3d1c2))
+                                .padding(start = 10.dp, top = 5.dp, bottom = 5.dp)
+                        )
+
+                        Spacer(Modifier.height(20.dp))
+
+                        Row{
+                            Text("Excluir conta:", fontSize = 20.sp, fontWeight = FontWeight.Bold,
+                                modifier = Modifier
+                                    .padding(start = 10.dp, end = 23.dp, top = 8.dp)
+                            )
+                            OutlinedButton (
+                                onClick = { print("Clicou no excluir") },
+                                //border = BorderStroke(2.dp, Vinho),
+                                modifier = Modifier
+                                    .width(200.dp)
+                                    .height(40.dp)
+
+                            ) {
+                                Image(
+                                    painterResource(id = R.drawable.lixeira),
+                                    contentDescription = null
+                                )
+                            }
+                        }
+
+                        Spacer(Modifier.height(10.dp))
+
+                        Row{
+                            Text("Nosso contato:", fontSize = 20.sp, fontWeight = FontWeight.Bold,
+                                modifier = Modifier
+                                    .padding(start = 10.dp, end = 23.dp, top = 8.dp)
+                            )
+                            Text(text = "email@example.com", fontSize = 20.sp, modifier = Modifier
+                                .padding(top = 7.dp))
+
+                        }
+
+                        Spacer(Modifier.height(15.dp))
+
+                        Row(
+                            Modifier.padding(start = 120.dp)
+                        ){
+                            OutlinedButton(
+                                onClick = {}
+
+                            ) {
+                                Text(text = "Salvar alterações", color = Black)
+                            }
+                        }
+
+
+                    }
+                }
+            }
+
+        }
+    }
+}
+
+
+@Composable
+fun Inicial(navController: NavController){
+    Surface(
+        modifier = Modifier.fillMaxSize(),
+        color = Nude
+    ) {
+        Column(
+            Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState()),
+            verticalArrangement = Arrangement.Top,
+            //horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Box(
+                //mexer no alinhamento do texto e da imagem
+                Modifier
+                    .height(95.dp)
+                    .background(Vinho)
+                    .fillMaxWidth(),
+                contentAlignment = Alignment.Center
+
+
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically, // Alinha os itens no centro verticalmente
+                    //horizontalArrangement = Arrangement.Center, // Centraliza na horizontal
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(0.dp, 15.dp, 0.dp, 0.dp)
+                ) {
+                    Image(
+                        painterResource(id = R.drawable.bichinho),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .padding(start = 5.dp, end = 150.dp)
+                            .width(70.dp)
+                            .height(70.dp)
+                    )
+                    Text(
+                        text = "Olá, usuário",
+                        color = White,
+                        fontSize = 20.sp,
+                        /*modifier = Modifier
+                            .padding(start = 10.dp)*/
+                    )
+                    Image(
+                        painterResource(id = R.drawable.user), contentDescription = null
+
+                    )
+                }
+            }
+            //corpo
+            Box(contentAlignment = Alignment.Center
+            ){
+                Column(
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier.fillMaxSize()
+                ){
+                    Row(modifier = Modifier.padding(top = 55.dp)){
+                        Box(modifier = Modifier.background(Color(0xFFBB8C94)).padding(top = 24.dp, bottom = 24.dp, start = 10.dp , end = 10.dp)){
+                            Image(painterResource(id = R.drawable.config), contentDescription = null,
+                                modifier = Modifier
+                                    .width(20.dp)
+                                    .height(20.dp)
+                            )
+                            Text("Configurações", color = White, modifier = Modifier.padding(start = 25.dp))
+                        }
+                        Spacer(Modifier.width(15.dp))
+                        Box(modifier = Modifier.background(Color(0xFFBB8C94)).padding(top = 24.dp, bottom = 24.dp, start = 22.dp, end = 22.dp)) {
+                            Image(
+                                painterResource(id = R.drawable.calendario), contentDescription = null,
+                                modifier = Modifier
+                                    .width(20.dp)
+                                    .height(20.dp)
+                                    .padding(bottom = 4.dp)
+                            )
+                            Text(
+                                "Calendário",
+                                color = White,
+                                modifier = Modifier.padding(start = 25.dp)
+                            )
+                        }
+
+                    }
+                    Row(modifier = Modifier.padding(top = 60.dp)){
+                        Box(modifier = Modifier.background(Color(0xFFBB8C94)).padding(top = 20.dp, bottom = 20.dp, start = 24.dp, end = 50.dp)){
+                            Image(painterResource(id = R.drawable.cards), contentDescription = null,
+                                modifier = Modifier
+                                    .width(40.dp)
+                                    .height(40.dp)
+                            )}
+
+                        Box(modifier = Modifier.background(Color(0xFFBB8C94)).padding(top = 30.dp, bottom = 33.5.dp, end = 75.dp)){
+                            Text("FlashCards", color = White, modifier = Modifier.padding(start = 25.dp))
+
+                        }
+
+                    }
+                    Row(modifier = Modifier.padding(top = 40.dp)){
+                        Box(modifier = Modifier.background(Color(0xFFBB8C94)).padding(top = 20.dp, bottom = 20.dp, start = 23.dp, end = 50.dp)){
+                            Image(painterResource(id = R.drawable.tempo), contentDescription = null,
+                                modifier = Modifier
+                                    .width(40.dp)
+                                    .height(40.dp)
+                            )}
+
+                        Box(modifier = Modifier.background(Color(0xFFBB8C94)).padding(top = 30.dp, bottom = 33.5.dp, end = 53.dp)){
+                            Text("Listas e provas", color = White, modifier = Modifier.padding(start = 28.dp))
+
+                        }
+
+                    }
+                    Row(modifier = Modifier.padding(top = 40.dp)){
+                        Box(modifier = Modifier.background(Color(0xFFBB8C94)).padding(top = 20.dp, bottom = 20.dp, start = 22.dp, end = 50.dp)){
+                            Image(painterResource(id = R.drawable.competdois), contentDescription = null,
+                                modifier = Modifier
+                                    .width(40.dp)
+                                    .height(40.dp)
+                            )}
+
+                        Box(modifier = Modifier.background(Color(0xFFBB8C94)).padding(top = 30.dp, bottom = 33.5.dp, end = 72.dp, start = 2.dp)){
+                            Text("Competição", color = White, modifier = Modifier.padding(start = 25.dp))
+
+                        }
+
+                    }
+                    Row(modifier = Modifier.padding(top = 40.dp)){
+                        Box(modifier = Modifier.background(Color(0xFFBB8C94)).padding(top = 20.dp, bottom = 20.dp, start = 24.dp, end = 55.dp)){
+                            Image(painterResource(id = R.drawable.estadois), contentDescription = null,
+                                modifier = Modifier
+                                    .width(40.dp)
+                                    .height(40.dp)
+                            )}
+
+                        Box(modifier = Modifier.background(Color(0xFFBB8C94)).padding(top = 30.dp, bottom = 33.5.dp, end = 67.dp, start = 2.dp)){
+                            Text("Estatísticas", color = White, modifier = Modifier.padding(start = 27.dp))
+
+                        }
+
+                    }
+
+                }
+            }
+
+        }
+    }
+}
+
+
+@Composable
 fun FlashcardsArea(navController: NavController) {
     UnimindTheme {
         Surface(
@@ -913,510 +1416,10 @@ fun FlashcardsResposta(navController: NavController) {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class)
-@Composable
-fun TelaConfiguracoes(navController: NavController) {
-    val inter = FontFamily(
-        Font(R.font.inter)
-    )
-    UnimindTheme {
-        //É o cabeçário da página
-        Surface(
-            modifier = Modifier.fillMaxSize(),
-            color = Nude
-        ) {
-            Column(
-                Modifier
-                    .fillMaxSize()
-                    .verticalScroll(rememberScrollState()),
-                verticalArrangement = Arrangement.Top,
-                //horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Box(
-                    //mexer no alinhamento do texto e da imagem
-                    Modifier
-                        .height(95.dp)
-                        .background(Vinho)
-                        .fillMaxWidth(),
-                    contentAlignment = Alignment.Center
-
-
-                ) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically, // Alinha os itens no centro verticalmente
-                        //horizontalArrangement = Arrangement.Center, // Centraliza na horizontal
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(0.dp, 15.dp, 0.dp, 0.dp)
-                    ) {
-                        Image(
-                            painterResource(id = R.drawable.bichinho),
-                            contentDescription = null,
-                            modifier = Modifier
-                                .padding(start = 5.dp, end = 170.dp)
-                                .width(50.dp)
-                                .height(50.dp)
-                        )
-                        Text(
-                            text = "Configurações",
-                            fontFamily = inter,
-                            color = White,
-                            fontSize = 20.sp,
-                            /*modifier = Modifier
-                                .padding(start = 10.dp)*/
-                        )
-                        Image(
-                            painterResource(id = R.drawable.engranagem),
-                            contentDescription = null,
-                            modifier = Modifier
-                                .height(30.dp)
-                                .width(30.dp)
-                                .padding(start = 10.dp)
-                        )
-                    }
-                    Box(
-                        Modifier
-                            .padding(top = 40.dp)
-                            .fillMaxWidth()
-                    ) {
-                        Image(
-                            painterResource(id = R.drawable.ic_launcher_foreground),
-                            contentDescription = null,
-                            modifier = Modifier
-                                .clip(shape = CircleShape)
-                                .align(BottomCenter)
-                                .background(Blue)
-                        )
-                    }
-                }
-            //corpo da tela
-                Spacer(Modifier.height(70.dp))
-            Box{
-                Column{
-                    Text(text = "Perfil",
-                    fontSize = 23.sp,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(Color(0xFFf3d1c2))
-                        .padding(top = 5.dp, bottom = 5.dp, start = 10.dp)
-                    )
-                    Spacer(Modifier.height(15.dp))
-
-                    Row{
-                        var user by remember { mutableStateOf("") }
-                        Text("Usuário:", fontSize = 20.sp, fontWeight = FontWeight.Bold,
-                            modifier = Modifier
-                                .padding(start = 10.dp)
-                        )
-                        OutlinedTextField(
-                            value = user,
-                            onValueChange = {user = it},
-                            modifier = Modifier
-                                .width(280.dp)
-                                .height(10.dp)
-                                .padding(start = 20.dp, top = 10.dp)
-                        )
-                    }
-
-
-                    Spacer(Modifier.height(15.dp))
-
-                    Row{
-                        var nome by remember { mutableStateOf("") }
-                        Text("Nome:", fontSize = 20.sp, fontWeight = FontWeight.Bold,
-                            modifier = Modifier
-                                .padding(start = 10.dp, end = 17.dp)
-                        )
-                        OutlinedTextField(
-                            value = nome,
-                            onValueChange = {nome = it},
-                            modifier = Modifier
-                                .width(280.dp)
-                                .height(10.dp)
-                                .padding(start = 20.dp, top = 10.dp)
-                        )
-                    }
-
-                    Spacer(Modifier.height(15.dp))
-
-                    Row{
-                        var email by remember { mutableStateOf("") }
-                        Text("E-mail:", fontSize = 20.sp, fontWeight = FontWeight.Bold,
-                            modifier = Modifier
-                                .padding(start = 10.dp, end = 12.dp)
-                        )
-                        OutlinedTextField(
-                            value = email,
-                            onValueChange = {email = it},
-                            modifier = Modifier
-                                .width(280.dp)
-                                .height(10.dp)
-                                .padding(start = 20.dp, top = 10.dp)
-                        )
-                    }
-
-                    Spacer(Modifier.height(15.dp))
-
-                    Row{
-                        var senha by remember { mutableStateOf("") }
-                        Text("Senha:", fontSize = 20.sp, fontWeight = FontWeight.Bold,
-                            modifier = Modifier
-                                .padding(start = 10.dp, end = 14.dp)
-                        )
-                        OutlinedTextField(
-                            value = senha,
-                            onValueChange = {senha = it},
-                            modifier = Modifier
-                                .width(280.dp)
-                                .height(10.dp)
-                                .padding(start = 20.dp, top = 10.dp)
-                        )
-                    }
-
-                    Spacer(Modifier.height(15.dp))
-
-                    Row{
-                        var nivel by remember { mutableStateOf("") }
-                        Text("Nível:", fontSize = 20.sp, fontWeight = FontWeight.Bold,
-                            modifier = Modifier
-                                .padding(start = 10.dp, end = 24.dp)
-                        )
-                        OutlinedTextField(
-                            value = nivel,
-                            readOnly = true,
-                            onValueChange = {nivel = it},
-                            modifier = Modifier
-                                .width(280.dp)
-                                .height(10.dp)
-                                .padding(start = 20.dp, top = 10.dp)
-                        )
-                    }
-                    Spacer(Modifier.height(20.dp))
-                    Text(text = "Preferências",
-                        fontSize = 23.sp,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .background(Color(0xFFf3d1c2))
-                            .padding(start = 10.dp, top = 5.dp, bottom = 5.dp)
-                    )
-                    Spacer(Modifier.height(15.dp))
-
-                    Row{
-                        Text("Dificuldade:", fontSize = 20.sp, fontWeight = FontWeight.Bold,
-                            modifier = Modifier
-                                .padding(start = 10.dp, end = 14.dp, top = 3.dp)
-                        )
-                        var expanded by remember { mutableStateOf(false) }
-                        var selecionada by remember { mutableStateOf("") }
-                        val opcoes = listOf("Opção 1", "Opção 2", "Opção 3")
-                        ExposedDropdownMenuBox(
-                            expanded = expanded,
-                            onExpandedChange = { expanded = !expanded }
-                        ) {
-                            OutlinedTextField(
-                                value = selecionada,
-                                onValueChange = {},
-                                readOnly = true,
-                                trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
-                                modifier = Modifier
-                                    .menuAnchor() // Necessário para alinhar o menu corretamente
-                                    .height(30.dp)
-                                    .width(250.dp)
-                            )
-
-                            ExposedDropdownMenu(
-                                expanded = expanded,
-                                onDismissRequest = { expanded = false }
-                                //Modifier.height(50.dp)
-                            ) {
-                                opcoes.forEach { opcao ->
-                                    DropdownMenuItem(
-                                        text = { Text(opcao) },
-                                        onClick = {
-                                            selecionada = opcao
-                                            expanded = false
-                                        }
-                                    )
-                                }
-                            }
-                        }
-                    }
-                    Spacer(Modifier.height(15.dp))
-                    Row{
-                        Text("Facilidade:", fontSize = 20.sp, fontWeight = FontWeight.Bold,
-                            modifier = Modifier
-                                .padding(start = 10.dp, end = 23.dp, top = 3.dp)
-                        )
-                        var expanded by remember { mutableStateOf(false) }
-                        var selecionada by remember { mutableStateOf("") }
-                        val opcoes = listOf("Opção 1", "Opção 2", "Opção 3")
-                        ExposedDropdownMenuBox(
-                            expanded = expanded,
-                            onExpandedChange = { expanded = !expanded }
-                        ) {
-                            OutlinedTextField(
-                                value = selecionada,
-                                onValueChange = {},
-                                readOnly = true,
-                                trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
-                                modifier = Modifier
-                                    .menuAnchor() // Necessário para alinhar o menu corretamente
-                                    .height(30.dp)
-                                    .width(250.dp)
-                            )
-
-                            ExposedDropdownMenu(
-                                expanded = expanded,
-                                onDismissRequest = { expanded = false }
-                                //Modifier.height(50.dp)
-                            ) {
-                                opcoes.forEach { opcao ->
-                                    DropdownMenuItem(
-                                        text = { Text(opcao) },
-                                        onClick = {
-                                            selecionada = opcao
-                                            expanded = false
-                                        }
-                                    )
-                                }
-                            }
-                        }
-                    }
-
-                    Spacer(Modifier.height(8.dp))
-                    Row{
-                        var minutos by remember { mutableStateOf("") }
-                        Text("Tempo em \nresolução\nde listas:", fontSize = 15.sp, fontWeight = FontWeight.Bold,
-                            modifier = Modifier
-                                .padding(start = 10.dp, end = 14.dp, top = 3.dp)
-                        )
-                        OutlinedTextField(
-                            value = minutos,
-                            onValueChange = {minutos = it},
-                            modifier = Modifier
-                                .height(30.dp)
-                                .width(281.dp)
-                                .padding(top = 40.dp, start = 32.dp)
-                        )
-                    }
-
-                    Spacer(Modifier.height(20.dp))
-                    Text(text = "Outros",
-                        fontSize = 23.sp,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .background(Color(0xFFf3d1c2))
-                            .padding(start = 10.dp, top = 5.dp, bottom = 5.dp)
-                    )
-
-                    Spacer(Modifier.height(20.dp))
-
-                    Row{
-                        Text("Excluir conta:", fontSize = 20.sp, fontWeight = FontWeight.Bold,
-                            modifier = Modifier
-                                .padding(start = 10.dp, end = 23.dp, top = 8.dp)
-                        )
-                        OutlinedButton (
-                            onClick = { print("Clicou no excluir") },
-                            //border = BorderStroke(2.dp, Vinho),
-                            modifier = Modifier
-                                .width(200.dp)
-                                .height(40.dp)
-
-                        ) {
-                            Image(
-                                painterResource(id = R.drawable.lixeira),
-                                contentDescription = null
-                            )
-                        }
-                    }
-
-                    Spacer(Modifier.height(10.dp))
-
-                    Row{
-                        Text("Nosso contato:", fontSize = 20.sp, fontWeight = FontWeight.Bold,
-                            modifier = Modifier
-                                .padding(start = 10.dp, end = 23.dp, top = 8.dp)
-                        )
-                        Text(text = "email@example.com", fontSize = 20.sp, modifier = Modifier
-                            .padding(top = 7.dp))
-
-                    }
-
-                    Spacer(Modifier.height(15.dp))
-
-                    Row(
-                        Modifier.padding(start = 120.dp)
-                    ){
-                        OutlinedButton(
-                            onClick = {}
-
-                        ) {
-                            Text(text = "Salvar alterações", color = Black)
-                        }
-                    }
-
-
-                }
-            }
-            }
-
-        }
-    }
-}
-
-@Composable
-fun TelaInicial(navController: NavController){
-    Surface(
-        modifier = Modifier.fillMaxSize(),
-        color = Nude
-    ) {
-        Column(
-            Modifier
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState()),
-            verticalArrangement = Arrangement.Top,
-            //horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Box(
-                //mexer no alinhamento do texto e da imagem
-                Modifier
-                    .height(95.dp)
-                    .background(Vinho)
-                    .fillMaxWidth(),
-                contentAlignment = Alignment.Center
-
-
-            ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically, // Alinha os itens no centro verticalmente
-                    //horizontalArrangement = Arrangement.Center, // Centraliza na horizontal
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(0.dp, 15.dp, 0.dp, 0.dp)
-                ) {
-                    Image(
-                        painterResource(id = R.drawable.bichinho),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .padding(start = 5.dp, end = 150.dp)
-                            .width(70.dp)
-                            .height(70.dp)
-                    )
-                    Text(
-                        text = "Olá, usuário",
-                        color = White,
-                        fontSize = 20.sp,
-                        /*modifier = Modifier
-                            .padding(start = 10.dp)*/
-                    )
-                    Image(
-                        painterResource(id = R.drawable.user), contentDescription = null
-                        
-                    )
-                }
-            }
-            //corpo
-            Box(contentAlignment = Alignment.Center
-                ){
-                Column(
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier.fillMaxSize()
-                ){
-                    Row(modifier = Modifier.padding(top = 55.dp)){
-                        Box(modifier = Modifier.background(Color(0xFFBB8C94)).padding(top = 24.dp, bottom = 24.dp, start = 10.dp , end = 10.dp)){
-                            Image(painterResource(id = R.drawable.config), contentDescription = null,
-                                modifier = Modifier
-                                    .width(20.dp)
-                                    .height(20.dp)
-                            )
-                            Text("Configurações", color = White, modifier = Modifier.padding(start = 25.dp))
-                        }
-                        Spacer(Modifier.width(15.dp))
-                        Box(modifier = Modifier.background(Color(0xFFBB8C94)).padding(top = 24.dp, bottom = 24.dp, start = 22.dp, end = 22.dp)) {
-                            Image(
-                                painterResource(id = R.drawable.calendario), contentDescription = null,
-                                modifier = Modifier
-                                    .width(20.dp)
-                                    .height(20.dp)
-                                    .padding(bottom = 4.dp)
-                            )
-                            Text(
-                                "Calendário",
-                                color = White,
-                                modifier = Modifier.padding(start = 25.dp)
-                            )
-                        }
-
-                    }
-                    Row(modifier = Modifier.padding(top = 60.dp)){
-                        Box(modifier = Modifier.background(Color(0xFFBB8C94)).padding(top = 20.dp, bottom = 20.dp, start = 24.dp, end = 50.dp)){
-                            Image(painterResource(id = R.drawable.cards), contentDescription = null,
-                                modifier = Modifier
-                                    .width(40.dp)
-                                    .height(40.dp)
-                            )}
-
-                            Box(modifier = Modifier.background(Color(0xFFBB8C94)).padding(top = 30.dp, bottom = 33.5.dp, end = 75.dp)){
-                            Text("FlashCards", color = White, modifier = Modifier.padding(start = 25.dp))
-
-                        }
-
-                    }
-                    Row(modifier = Modifier.padding(top = 40.dp)){
-                        Box(modifier = Modifier.background(Color(0xFFBB8C94)).padding(top = 20.dp, bottom = 20.dp, start = 23.dp, end = 50.dp)){
-                            Image(painterResource(id = R.drawable.tempo), contentDescription = null,
-                                modifier = Modifier
-                                    .width(40.dp)
-                                    .height(40.dp)
-                            )}
-
-                        Box(modifier = Modifier.background(Color(0xFFBB8C94)).padding(top = 30.dp, bottom = 33.5.dp, end = 53.dp)){
-                            Text("Listas e provas", color = White, modifier = Modifier.padding(start = 28.dp))
-
-                        }
-
-                    }
-                    Row(modifier = Modifier.padding(top = 40.dp)){
-                        Box(modifier = Modifier.background(Color(0xFFBB8C94)).padding(top = 20.dp, bottom = 20.dp, start = 22.dp, end = 50.dp)){
-                            Image(painterResource(id = R.drawable.competdois), contentDescription = null,
-                                modifier = Modifier
-                                    .width(40.dp)
-                                    .height(40.dp)
-                            )}
-
-                        Box(modifier = Modifier.background(Color(0xFFBB8C94)).padding(top = 30.dp, bottom = 33.5.dp, end = 72.dp, start = 2.dp)){
-                            Text("Competição", color = White, modifier = Modifier.padding(start = 25.dp))
-
-                        }
-
-                    }
-                    Row(modifier = Modifier.padding(top = 40.dp)){
-                        Box(modifier = Modifier.background(Color(0xFFBB8C94)).padding(top = 20.dp, bottom = 20.dp, start = 24.dp, end = 55.dp)){
-                            Image(painterResource(id = R.drawable.estadois), contentDescription = null,
-                                modifier = Modifier
-                                    .width(40.dp)
-                                    .height(40.dp)
-                            )}
-
-                        Box(modifier = Modifier.background(Color(0xFFBB8C94)).padding(top = 30.dp, bottom = 33.5.dp, end = 67.dp, start = 2.dp)){
-                            Text("Estatísticas", color = White, modifier = Modifier.padding(start = 27.dp))
-
-                        }
-
-                    }
-                
-                }
-            }
-
-        }
-    }
-}
 
 
 @Preview(showSystemUi = true)
 @Composable
 fun AppPreview(){
-    TelaBloqueio(rememberNavController())
+    Bloqueio(rememberNavController())
 }

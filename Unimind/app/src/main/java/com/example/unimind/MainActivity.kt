@@ -8,7 +8,6 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement
 /*import androidx.compose.foundation.layout.BoxScopeInstance.align
@@ -134,7 +133,7 @@ fun Header(nomePagina: String){
 
 //função para chamar (tem várias telas que tem a mesma parte como o footer, fica mais facil assim)
 @Composable
-fun Footer(navController: NavController) {
+fun Footer() {
     Column(
         Modifier
             .fillMaxSize()
@@ -154,10 +153,6 @@ fun Footer(navController: NavController) {
                 Image(
                     painterResource(id = R.drawable.flashcards),
                     contentDescription = null,
-                    modifier = Modifier
-                        .clickable {
-                            navController.navigate("telaFlashcardsArea")
-                        }
                 )
 
                 Spacer(
@@ -198,10 +193,6 @@ fun Footer(navController: NavController) {
                 Image(
                     painterResource(id = R.drawable.bichinho),
                     contentDescription = null,
-                    modifier = Modifier
-                        .clickable {
-                            navController.navigate("telaInicial")
-                        }
                 )
             }
         }
@@ -1100,11 +1091,13 @@ fun Inicial(navController: NavController){
                             Text("Estatísticas", color = White, modifier = Modifier.padding(start = 27.dp))
 
                         }
+
                     }
+
                 }
             }
+
         }
-        Footer(rememberNavController())
     }
 }
 
@@ -1209,7 +1202,7 @@ fun FlashcardsArea(navController: NavController) {
                 }
             }
 
-            Footer(rememberNavController())
+            Footer()
         }
     }
 }
@@ -1429,5 +1422,5 @@ fun FlashcardsResposta(navController: NavController) {
 @Preview(showSystemUi = true)
 @Composable
 fun AppPreview(){
-    Inicial(rememberNavController())
+    Bloqueio(rememberNavController())
 }

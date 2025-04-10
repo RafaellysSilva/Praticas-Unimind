@@ -138,7 +138,8 @@ fun Footer(navController: NavController) {
     Column(
         Modifier
             .fillMaxSize()
-            .verticalScroll(rememberScrollState()),
+            .verticalScroll(rememberScrollState())
+            .padding(bottom = 50.dp),
         verticalArrangement = Arrangement.Bottom,
     ) {
         Box(
@@ -197,7 +198,7 @@ fun Footer(navController: NavController) {
                     painterResource(id = R.drawable.bichinho),
                     contentDescription = null,
                     modifier = Modifier
-                        .clickable { navController.navigate("telaInicial") }
+                        .clickable(onClick = {navController.navigate("telaInicial")})
                 )
             }
         }
@@ -1017,7 +1018,12 @@ fun Inicial(navController: NavController){
                     modifier = Modifier.fillMaxSize()
                 ){
                     Row(modifier = Modifier.padding(top = 55.dp)){
-                        Box(modifier = Modifier.background(Color(0xFFBB8C94)).padding(top = 24.dp, bottom = 24.dp, start = 10.dp , end = 10.dp).clickable { navController.navigate("telaConfiguracoes") }){
+                        Box(modifier = Modifier
+                            .clickable(onClick = {navController.navigate("telaConfiguracoes")})
+                            .background(Color(0xFFBB8C94))
+                            .padding(top = 24.dp, bottom = 24.dp, start = 10.dp , end = 10.dp)
+                        )
+                        {
                             Image(painterResource(id = R.drawable.config), contentDescription = null,
                                 modifier = Modifier
                                     .width(20.dp)

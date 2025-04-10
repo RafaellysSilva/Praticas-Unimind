@@ -599,6 +599,7 @@ fun Entrar(navController: NavController){
 }
 
 
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class)
 @Composable
 fun Configuracoes(navController: NavController) {
     val inter = FontFamily(

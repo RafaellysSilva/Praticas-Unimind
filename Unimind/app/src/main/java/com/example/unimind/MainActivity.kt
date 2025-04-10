@@ -90,6 +90,47 @@ fun AppNavigation() {
 }
 
 
+@Composable
+fun Header(nomePagina: String){
+    Column(
+        Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState()),
+        verticalArrangement = Arrangement.Top
+    ) {
+        Box(
+            Modifier
+                .height(220.dp)
+                .clip(RoundedCornerShape(bottomStart = 1500.dp, bottomEnd = 1500.dp))
+                .background(Bege)
+                .fillMaxWidth()
+        ) {
+            Box(
+                Modifier
+                    .height(190.dp)
+                    .clip(RoundedCornerShape(bottomStart = 1500.dp, bottomEnd = 1500.dp))
+                    .background(Rosinha)
+                    .fillMaxWidth()
+            ) {
+                Box(
+                    Modifier
+                        .height(160.dp)
+                        .clip(RoundedCornerShape(bottomStart = 1500.dp, bottomEnd = 1500.dp))
+                        .background(Vinho)
+                        .fillMaxWidth(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = nomePagina,
+                        color = Nude,
+                        fontSize = 20.sp,
+                    )
+                }
+            }
+        }
+    }
+}
+
 //função para chamar (tem várias telas que tem a mesma parte como o footer, fica mais facil assim)
 @Composable
 fun Footer() {
@@ -153,47 +194,6 @@ fun Footer() {
                     painterResource(id = R.drawable.bichinho),
                     contentDescription = null,
                 )
-            }
-        }
-    }
-}
-
-@Composable
-fun Header(nomePagina: String){
-    Column(
-        Modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState()),
-        verticalArrangement = Arrangement.Top
-    ) {
-        Box(
-            Modifier
-                .height(220.dp)
-                .clip(RoundedCornerShape(bottomStart = 1500.dp, bottomEnd = 1500.dp))
-                .background(Bege)
-                .fillMaxWidth()
-        ) {
-            Box(
-                Modifier
-                    .height(190.dp)
-                    .clip(RoundedCornerShape(bottomStart = 1500.dp, bottomEnd = 1500.dp))
-                    .background(Rosinha)
-                    .fillMaxWidth()
-            ) {
-                Box(
-                    Modifier
-                        .height(160.dp)
-                        .clip(RoundedCornerShape(bottomStart = 1500.dp, bottomEnd = 1500.dp))
-                        .background(Vinho)
-                        .fillMaxWidth(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(
-                        text = nomePagina,
-                        color = Nude,
-                        fontSize = 20.sp,
-                    )
-                }
             }
         }
     }
@@ -402,7 +402,7 @@ fun Cadastro(navController: NavController) {
                         )
                         Spacer(modifier = Modifier.height(20.dp))
                         OutlinedButton(
-                            onClick = {null}, //fazer a verificação aq
+                            onClick = {navController.navigate("telaInicial")}, //fazer a verificação aq
                             border = BorderStroke(2.dp, Vinho),
                             modifier = Modifier.width(280.dp)
                         ) {
@@ -556,7 +556,7 @@ fun Entrar(navController: NavController){
                         Spacer(modifier = Modifier.height(50.dp))
 
                         OutlinedButton (
-                            onClick = { navController.navigate("telaBloqueio") },
+                            onClick = { navController.navigate("telaInicial") },
                             border = BorderStroke(2.dp, Vinho),
 
                             modifier = Modifier

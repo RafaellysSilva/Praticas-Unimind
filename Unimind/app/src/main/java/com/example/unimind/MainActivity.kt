@@ -59,6 +59,12 @@ import com.example.unimind.ui.theme.Vinho
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.unimind.ui.theme.Rosinha
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import okhttp3.OkHttpClient
+import okhttp3.Request
 
 
 class MainActivity : ComponentActivity() {
@@ -450,6 +456,38 @@ fun Entrar(navController: NavController){
     var user by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
+    var erroLogin by remember { mutableStateOf("") }
+
+    fun verificarLogin(nome: String, senha: String, onSuccess: () -> Unit, onError: () -> Unit) {
+        val url = "http://10.0.2.2:5000/login/$nome/$senha" // use 10.0.2.2 no emulador Android
+
+        val client = OkHttpClient()
+        val request = Request.Builder().url(url).build()
+
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = client.newCall(request).execute()
+                val body = response.body?.string()
+
+                if (response.isSuccessful && body?.contains("Login válido") == true) {
+                    withContext(Dispatchers.Main) {
+                        onSuccess()
+                    }
+                } else {
+                    withContext(Dispatchers.Main) {
+                        onError()
+                    }
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    onError()
+                }
+            }
+        }
+    }
+
+
+
     val cuteFont = FontFamily(
         Font(R.font.cute_letters) // Nome do arquivo sem a extensão .ttf ou .otf
     )
@@ -562,7 +600,16 @@ fun Entrar(navController: NavController){
                         Spacer(modifier = Modifier.height(50.dp))
 
                         OutlinedButton (
-                            onClick = { navController.navigate("telaInicial") },
+                            onClick = {
+                                verificarLogin(user, password,
+                                    onSuccess = {
+                                        navController.navigate("telaInicial")
+                                    },
+                                    onError = {
+                                        erroLogin = "Usuário ou senha inválidos"
+                                    }
+                                )
+                            },
                             border = BorderStroke(2.dp, Vinho),
 
                             modifier = Modifier
@@ -597,8 +644,6 @@ fun Entrar(navController: NavController){
 
                     }
                 }
-
-
             }
         }
     }

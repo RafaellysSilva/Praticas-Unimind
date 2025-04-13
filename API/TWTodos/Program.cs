@@ -42,7 +42,6 @@ builder.Services.AddAuthentication("Bearer").AddJwtBearer("Bearer", options => {
         IssuerSigningKey = new SymmetricSecurityKey(keyBytes)
     };
 });
-
 builder.Services.AddCors();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddAuthorization();
@@ -107,6 +106,21 @@ app.MapGet("/usuarios", async (HttpContext context) =>
         return Results.Problem(detail: ex.Message, statusCode: 500, title: "Erro ao obter os usuários");
     }
 });
+
+// rota para obter usuario especifico (nada segura, mas da p caso)
+app.MapGet("/login/{nome}/{senha}", async (string nome, string senha) => {
+    string query = $"SELECT * FROM unimind.Usuario WHERE nome = '{nome}' AND senha = '{senha}'";
+    var results = await execQuery(query);
+
+    if (results.Any()) {
+        return Results.Json(new { message = "Login válido", usuario = results[0] });
+    }
+    else {
+        return Results.Json(new { message = "Usuário ou senha inválidos" }, statusCode: 401);
+    }
+});
+
+
 
 // rota geral/principal
 app.MapGet("/", () => Results.Json(new { message = "Servidor rodando" }));

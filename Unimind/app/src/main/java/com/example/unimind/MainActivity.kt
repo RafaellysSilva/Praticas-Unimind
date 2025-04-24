@@ -1176,7 +1176,7 @@ fun FlashcardsArea(navController: NavController) {
             ) {
                 Row(
                     Modifier
-                        .padding(start = 50.dp),
+                        .padding(start = 50.dp)
                 ) {
                     Box(
                         Modifier
@@ -1474,10 +1474,109 @@ fun FlashcardsResposta(navController: NavController) {
     }
 }
 
+@Composable
+fun ListasProvasArea(navController: NavController) {
+    UnimindTheme {
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            color = Nude
+        ) {
+            Header("Provas e listas")
+
+            Column(
+                Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState()),
+                verticalArrangement = Arrangement.Center
+            ) {
+                Row(
+                    Modifier.padding(start = 50.dp)
+                ) {
+                    Box(
+                        Modifier
+                            .height(40.dp)
+                            .width(200.dp)
+                            .clip(RoundedCornerShape(60.dp))
+                            .background(Vinho)
+                            .fillMaxWidth(),
+                    ) {
+                        Text(
+                            text = "Pesquisar...",
+                            color = Nude,
+                            fontSize = 15.sp,
+                        )
+                    }
+
+                    Button(
+                        colors = ButtonDefaults.buttonColors(containerColor = Vinho),
+                        onClick = { navController.navigate("telaCriarLista") },
+                        modifier = Modifier
+                            .padding(start = 20.dp)
+                            .height(40.dp)
+                            .width(50.dp)
+                            .clip(RoundedCornerShape(60.dp))
+                            .fillMaxWidth()
+                    ) {
+                        Text(
+                            text = "+",
+                            color = White,
+                            fontSize = 20.sp
+                        )
+                    }
+                }
+
+                Spacer(
+                    Modifier.padding(20.dp)
+                )
+
+                Row(
+                    Modifier.padding(start = 50.dp)
+                ) {
+                    Button(
+                        colors = ButtonDefaults.buttonColors(containerColor = Rosinha),
+                        onClick = { navController.navigate("TelaCriarLista") },
+                        modifier = Modifier
+                            .height(80.dp)
+                            .width(140.dp)
+                            .clip(RoundedCornerShape(10.dp))
+                            .fillMaxWidth(),
+                    )  {
+                        Text(
+                            text = "Título\nCategoria",
+                            color = White,
+                            fontSize = 17.sp
+                        )
+                    }
+
+                    Spacer(
+                        Modifier
+                            .padding(10.dp)
+                    )
+
+                    Button(
+                        colors = ButtonDefaults.buttonColors(containerColor = Rosinha),
+                        onClick = { navController.navigate("telaFlashcardsPergunta") },
+                        modifier = Modifier
+                            .height(80.dp)
+                            .width(140.dp)
+                            .clip(RoundedCornerShape(10.dp))
+                            .fillMaxWidth(),
+                    ) {
+                        Text(
+                            text = "Titulo\nCategoria",
+                            color = White,
+                            fontSize = 17.sp,
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
 
 
 @Preview(showSystemUi = true)
 @Composable
 fun AppPreview(){
-    Bloqueio(rememberNavController())
+    ListasProvasArea(rememberNavController())
 }

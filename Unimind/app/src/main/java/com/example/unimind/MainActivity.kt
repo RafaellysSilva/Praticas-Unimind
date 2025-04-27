@@ -46,6 +46,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -1474,6 +1475,138 @@ fun FlashcardsResposta(navController: NavController) {
     }
 }
 
+@Composable
+fun ResolucaoListaProva(navController: NavController) {
+    UnimindTheme {
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            color = Nude
+        ) {
+            Column(
+                modifier = Modifier.fillMaxSize()
+            ) {
+                // Cabeçalho
+                Box(
+                    Modifier
+                        .height(60.dp)
+                        .background(Nude)
+                        .fillMaxWidth(),
+                    contentAlignment = Center
+                ) {
+                    Text(
+                        text = "[Lista/Prova A] - [Conteúdo]",
+                        color = Vinho,
+                        fontSize = 18.sp,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
+
+                // Conteúdo principal (área vinho)
+                Column(
+                    modifier = Modifier
+                        .weight(1f) // Ocupa todo o espaco disponível
+                        .fillMaxWidth()
+                        .clip(RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp))
+                        .background(Vinho)
+                        .padding(horizontal = 16.dp)
+                        .padding(top = 122.dp) // <- AQUI aumentamos o espaço superior!
+                        .verticalScroll(rememberScrollState())
+                ) {
+                    // Caixa da questão
+                    Box(
+                        Modifier
+                            .fillMaxWidth()
+                            .background(Nude, shape = RoundedCornerShape(16.dp))
+                            .padding(16.dp)
+                    ) {
+                        Text("Questão 1\n\nTexto da questão...")
+                    }
+
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    // Caixa das alternativas
+                    Box(
+                        Modifier
+                            .fillMaxWidth()
+                            .background(Nude, shape = RoundedCornerShape(16.dp))
+                            .padding(16.dp)
+                    ) {
+                        Column {
+                            Text("A")
+                            Text("B")
+                            Text("C")
+                            Text("D")
+                            Text("E")
+                        }
+                    }
+
+                    Spacer(modifier = Modifier.height(32.dp))
+                }
+
+                // Botões de navegação fixos (com espaço antes do cronômetro)
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(Vinho),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Spacer(modifier = Modifier.height(16.dp)) // Espaço entre conteúdo e botões
+
+                    Row(
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 32.dp),
+                        horizontalArrangement = Arrangement.SpaceEvenly
+                    ) {
+                        Button(onClick = { /* Anterior */ }) {
+                            Text("Questão anterior")
+                        }
+                        Button(onClick = { /* Próxima */ }) {
+                            Text("Próxima questão")
+                        }
+                    }
+
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    Button(
+                        onClick = { /* Terminar prova */ },
+                        modifier = Modifier
+                            .align(Alignment.CenterHorizontally)
+
+                    ) {
+                        Text("Terminar")
+                    }
+
+                    Spacer(modifier = Modifier.height(16.dp)) // Espaço antes do cronômetro
+                }
+
+                // Cronômetro fixo no final da tela
+                Box(
+                    modifier = Modifier
+                        .background(Vinho)
+                        .fillMaxWidth()
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(100.dp)
+                            .clip(RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp))
+                            .background(Nude),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = "45:00",
+                            color = Vinho,
+                            fontSize = 48.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
 
 
 @Preview(showSystemUi = true)

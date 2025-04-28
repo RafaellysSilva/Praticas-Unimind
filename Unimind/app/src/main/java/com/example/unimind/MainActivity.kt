@@ -46,6 +46,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -1176,7 +1177,7 @@ fun FlashcardsArea(navController: NavController) {
             ) {
                 Row(
                     Modifier
-                        .padding(start = 50.dp)
+                        .padding(start = 50.dp),
                 ) {
                     Box(
                         Modifier
@@ -1475,97 +1476,130 @@ fun FlashcardsResposta(navController: NavController) {
 }
 
 @Composable
-fun ListasProvasArea(navController: NavController) {
+fun ResolucaoListaProva(navController: NavController) {
     UnimindTheme {
         Surface(
             modifier = Modifier.fillMaxSize(),
             color = Nude
         ) {
-            Header("Provas e listas")
-
             Column(
-                Modifier
-                    .fillMaxSize()
-                    .verticalScroll(rememberScrollState()),
-                verticalArrangement = Arrangement.Center
+                modifier = Modifier.fillMaxSize()
             ) {
-                Row(
-                    Modifier.padding(start = 50.dp)
+                // Cabeçalho
+                Box(
+                    Modifier
+                        .height(60.dp)
+                        .background(Nude)
+                        .fillMaxWidth(),
+                    contentAlignment = Center
                 ) {
-                    Box(
-                        Modifier
-                            .height(40.dp)
-                            .width(200.dp)
-                            .clip(RoundedCornerShape(60.dp))
-                            .background(Vinho)
-                            .fillMaxWidth(),
-                    ) {
-                        Text(
-                            text = "Pesquisar...",
-                            color = Nude,
-                            fontSize = 15.sp,
-                        )
-                    }
-
-                    Button(
-                        colors = ButtonDefaults.buttonColors(containerColor = Vinho),
-                        onClick = { navController.navigate("telaCriarLista") },
-                        modifier = Modifier
-                            .padding(start = 20.dp)
-                            .height(40.dp)
-                            .width(50.dp)
-                            .clip(RoundedCornerShape(60.dp))
-                            .fillMaxWidth()
-                    ) {
-                        Text(
-                            text = "+",
-                            color = White,
-                            fontSize = 20.sp
-                        )
-                    }
+                    Text(
+                        text = "[Lista/Prova A] - [Conteúdo]",
+                        color = Vinho,
+                        fontSize = 18.sp,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.fillMaxWidth()
+                    )
                 }
 
-                Spacer(
-                    Modifier.padding(20.dp)
-                )
-
-                Row(
-                    Modifier.padding(start = 50.dp)
+                // Conteúdo principal (área vinho)
+                Column(
+                    modifier = Modifier
+                        .weight(1f) // Ocupa todo o espaco disponível
+                        .fillMaxWidth()
+                        .clip(RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp))
+                        .background(Vinho)
+                        .padding(horizontal = 16.dp)
+                        .padding(top = 122.dp) // <- AQUI aumentamos o espaço superior!
+                        .verticalScroll(rememberScrollState())
                 ) {
-                    Button(
-                        colors = ButtonDefaults.buttonColors(containerColor = Rosinha),
-                        onClick = { navController.navigate("TelaCriarLista") },
-                        modifier = Modifier
-                            .height(80.dp)
-                            .width(140.dp)
-                            .clip(RoundedCornerShape(10.dp))
-                            .fillMaxWidth(),
-                    )  {
-                        Text(
-                            text = "Título\nCategoria",
-                            color = White,
-                            fontSize = 17.sp
-                        )
+                    // Caixa da questão
+                    Box(
+                        Modifier
+                            .fillMaxWidth()
+                            .background(Nude, shape = RoundedCornerShape(16.dp))
+                            .padding(16.dp)
+                    ) {
+                        Text("Questão 1\n\nTexto da questão...")
                     }
 
-                    Spacer(
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    // Caixa das alternativas
+                    Box(
                         Modifier
-                            .padding(10.dp)
-                    )
+                            .fillMaxWidth()
+                            .background(Nude, shape = RoundedCornerShape(16.dp))
+                            .padding(16.dp)
+                    ) {
+                        Column {
+                            Text("A")
+                            Text("B")
+                            Text("C")
+                            Text("D")
+                            Text("E")
+                        }
+                    }
+
+                    Spacer(modifier = Modifier.height(32.dp))
+                }
+
+                // Botões de navegação fixos (com espaço antes do cronômetro)
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(Vinho),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Spacer(modifier = Modifier.height(16.dp)) // Espaço entre conteúdo e botões
+
+                    Row(
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 32.dp),
+                        horizontalArrangement = Arrangement.SpaceEvenly
+                    ) {
+                        Button(onClick = { /* Anterior */ }) {
+                            Text("Questão anterior")
+                        }
+                        Button(onClick = { /* Próxima */ }) {
+                            Text("Próxima questão")
+                        }
+                    }
+
+                    Spacer(modifier = Modifier.height(8.dp))
 
                     Button(
-                        colors = ButtonDefaults.buttonColors(containerColor = Rosinha),
-                        onClick = { navController.navigate("telaFlashcardsPergunta") },
+                        onClick = { /* Terminar prova */ },
                         modifier = Modifier
-                            .height(80.dp)
-                            .width(140.dp)
-                            .clip(RoundedCornerShape(10.dp))
-                            .fillMaxWidth(),
+                            .align(Alignment.CenterHorizontally)
+
+                    ) {
+                        Text("Terminar")
+                    }
+
+                    Spacer(modifier = Modifier.height(16.dp)) // Espaço antes do cronômetro
+                }
+
+                // Cronômetro fixo no final da tela
+                Box(
+                    modifier = Modifier
+                        .background(Vinho)
+                        .fillMaxWidth()
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(100.dp)
+                            .clip(RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp))
+                            .background(Nude),
+                        contentAlignment = Alignment.Center
                     ) {
                         Text(
-                            text = "Titulo\nCategoria",
-                            color = White,
-                            fontSize = 17.sp,
+                            text = "45:00",
+                            color = Vinho,
+                            fontSize = 48.sp,
+                            fontWeight = FontWeight.Bold
                         )
                     }
                 }
@@ -1578,5 +1612,5 @@ fun ListasProvasArea(navController: NavController) {
 @Preview(showSystemUi = true)
 @Composable
 fun AppPreview(){
-    ListasProvasArea(rememberNavController())
+    Bloqueio(rememberNavController())
 }

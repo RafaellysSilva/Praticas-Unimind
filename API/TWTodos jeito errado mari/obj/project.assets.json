@@ -6279,11 +6279,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\u24140\\Documents\\GitHub\\Praticas-Unimind\\API\\TWTodos\\TWTodos.csproj",
+      "projectUniqueName": "C:\\Users\\u24140\\Documents\\GitHub\\Praticas-Unimind\\API\\TWTodos jeito errado mari\\TWTodos.csproj",
       "projectName": "TWTodos",
-      "projectPath": "C:\\Users\\u24140\\Documents\\GitHub\\Praticas-Unimind\\API\\TWTodos\\TWTodos.csproj",
+      "projectPath": "C:\\Users\\u24140\\Documents\\GitHub\\Praticas-Unimind\\API\\TWTodos jeito errado mari\\TWTodos.csproj",
       "packagesPath": "C:\\Users\\u24140\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\u24140\\Documents\\GitHub\\Praticas-Unimind\\API\\TWTodos\\obj\\",
+      "outputPath": "C:\\Users\\u24140\\Documents\\GitHub\\Praticas-Unimind\\API\\TWTodos jeito errado mari\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

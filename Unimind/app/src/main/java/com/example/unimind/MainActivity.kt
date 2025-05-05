@@ -1811,7 +1811,7 @@ fun ResolucaoListaProva(navController: NavController) {
                 }
 
 
-                // Conteúdo principal scrollável (incluindo os botões agora)
+                // Conteúdo principal scrollável (incluindo os botões)
                 Column(
                     modifier = Modifier
                         .weight(1f)
@@ -1960,6 +1960,8 @@ fun ResolucaoListaProva(navController: NavController) {
 }
 
 
+
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CompeticaoCriar(navController: NavController) {
@@ -1968,81 +1970,76 @@ fun CompeticaoCriar(navController: NavController) {
             modifier = Modifier.fillMaxSize(),
             color = Nude
         ) {
+
+            Header("Competições")
+
+            // Conteúdo abaixo do Header
             Column(
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier.fillMaxWidth()
             ) {
-                Header("Competição") // O Header agora é o primeiro elemento na Column principal
+                Spacer(Modifier.height(15.dp)) // Espaço entre o Header e "Preferências"
 
+                Text(
+                    text = "Preferências",
+                    fontSize = 23.sp,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(Color(0xFFf3d1c2))
+                        .padding(start = 10.dp, top = 5.dp, bottom = 5.dp)
+                )
 
-                Column(
-                    modifier = Modifier.fillMaxWidth() // A Column das preferências ocupa a largura total
-                ) {
+                Spacer(Modifier.height(15.dp)) // Espaço entre "Preferências" e "Dificuldade"
+
+                Row {
                     Text(
-                        text = "Preferências",
-                        fontSize = 23.sp,
+                        "Dificuldade:",
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Bold,
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .background(Color(0xFFf3d1c2))
-                            .padding(start = 10.dp, top = 5.dp, bottom = 5.dp)
+                            .padding(start = 10.dp, end = 14.dp, top = 3.dp)
                     )
-
-
-                    Spacer(Modifier.height(15.dp))
-
-
-                    Row {
-                        Text(
-                            "Dificuldade:",
-                            fontSize = 20.sp,
-                            fontWeight = FontWeight.Bold,
+                    var expanded by remember { mutableStateOf(false) }
+                    var selecionada by remember { mutableStateOf("") }
+                    val opcoes = listOf("Opção 1", "Opção 2", "Opção 3")
+                    ExposedDropdownMenuBox(
+                        expanded = expanded,
+                        onExpandedChange = { expanded = !expanded }
+                    ) {
+                        OutlinedTextField(
+                            value = selecionada,
+                            onValueChange = {},
+                            readOnly = true,
+                            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
                             modifier = Modifier
-                                .padding(start = 10.dp, end = 14.dp, top = 3.dp)
+                                .menuAnchor()
+                                .height(30.dp)
+                                .width(250.dp)
                         )
-                        var expanded by remember { mutableStateOf(false) }
-                        var selecionada by remember { mutableStateOf("") }
-                        val opcoes = listOf("Opção 1", "Opção 2", "Opção 3")
-                        ExposedDropdownMenuBox(
+
+                        ExposedDropdownMenu(
                             expanded = expanded,
-                            onExpandedChange = { expanded = !expanded }
+                            onDismissRequest = { expanded = false }
                         ) {
-                            OutlinedTextField(
-                                value = selecionada,
-                                onValueChange = {},
-                                readOnly = true,
-                                trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
-                                modifier = Modifier
-                                    .menuAnchor()
-                                    .height(30.dp)
-                                    .width(250.dp)
-                            )
-
-
-                            ExposedDropdownMenu(
-                                expanded = expanded,
-                                onDismissRequest = { expanded = false }
-                            ) {
-                                opcoes.forEach { opcao ->
-                                    DropdownMenuItem(
-                                        text = { Text(opcao) },
-                                        onClick = {
-                                            selecionada = opcao
-                                            expanded = false
-                                        }
-                                    )
-                                }
+                            opcoes.forEach { opcao ->
+                                DropdownMenuItem(
+                                    text = { Text(opcao) },
+                                    onClick = {
+                                        selecionada = opcao
+                                        expanded = false
+                                    }
+                                )
                             }
                         }
                     }
-                    // Adicione mais elementos de preferência aqui, se houver
                 }
+            // Adicione mais elementos de preferência aqui, dentro desta Column
             }
         }
     }
 }
 
-
 @Preview(showSystemUi = true)
 @Composable
 fun AppPreview() {
-    Bloqueio(rememberNavController())
+    CompeticaoCriar(rememberNavController())
 }

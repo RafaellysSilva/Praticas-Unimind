@@ -20,17 +20,20 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -41,20 +44,24 @@ import androidx.compose.ui.Alignment.Companion.BottomCenter
 import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.Black
 import androidx.compose.ui.graphics.Color.Companion.Blue
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextDirection
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -1697,7 +1704,7 @@ fun ListasProvasArea(navController: NavController) {
                 Button(
                     colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFF3E0D1)),
                     shape = RoundedCornerShape(17.dp),
-                    border = BorderStroke(2.dp, Color(0x66BB8C94)),
+                    border = BorderStroke(2.dp, Color(0x66BB8C94)), // AQUI!
                     onClick = { navController.navigate("telaFlashcardsPergunta") },
                     modifier = Modifier
                         .fillMaxWidth()
@@ -1816,7 +1823,7 @@ fun ResolucaoListaProva(navController: NavController) {
                 }
 
 
-                // Conteúdo principal scrollável (incluindo os botões agora)
+                // Conteúdo principal scrollável (incluindo os botões)
                 Column(
                     modifier = Modifier
                         .weight(1f)
@@ -1963,6 +1970,8 @@ fun ResolucaoListaProva(navController: NavController) {
         }
     }
 }
+
+
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -2283,9 +2292,432 @@ fun CompeticaoCriar(navController: NavController) {
     }
 }
 
+@Composable
+fun Estatisticas(navController: NavController){
+    UnimindTheme {
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            color = Nude
+        ){
+            Header("Estatísticas")
+
+            Card(
+                modifier = Modifier.fillMaxWidth()
+                //Colocar as barrinhas de questoes aqui
+            ) {
+                Column(
+                    horizontalAlignment = Alignment.Start,
+                    modifier = Modifier.padding(horizontal = 15.dp)
+                ){
+                    Row(
+                        modifier = Modifier.padding(vertical = 15.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(85.dp)
+                    ){
+                        Text("Questões", fontSize = 25.sp, fontWeight = FontWeight.Bold, color = Color.Black)
+                    }
+
+                    Text("Corretas", fontSize = 15.sp, color = Color.Black)
+
+                    Text("Incorretas", fontSize = 15.sp, color = Color.Black)
+
+                    Text("Total:50")
+                }
+            }
+
+            Card(
+                modifier = Modifier.fillMaxWidth()
+                //Colocar as cores das barrinhas aqui
+            ){
+                Column(
+                    horizontalAlignment = Alignment.Start,
+                    modifier = Modifier.padding(horizontal = 15.dp)
+                ){
+                    Row(
+                        modifier = Modifier.padding(vertical = 15.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ){
+                        Text("Tempo de estudo", fontSize = 25.sp, fontWeight = FontWeight.Bold, color = Color.Black)
+                    }
+
+                    Text("Tempo", fontSize = 15.sp, color = Color.Black)
+
+                    Text("Total:50")
+                }
+            }
+
+            Card(
+                modifier = Modifier.fillMaxWidth()
+            ){
+                Column(
+                    horizontalAlignment = Alignment.Start,
+                    modifier = Modifier.padding(horizontal = 15.dp)
+                ){
+                    Row(
+                        modifier = Modifier.padding(vertical = 15.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ){
+                        Text("Competições reralizadas", fontSize = 25.sp, fontWeight = FontWeight.Bold, color = Color.Black)
+                    }
+
+                    Text("Competições", fontSize = 15.sp, color = Color.Black)
+
+                    Text("Total:50")
+                }
+            }
+
+            Footer(rememberNavController())
+        }
+    }
+}
+
+@Composable
+fun CriarListaPersonalizada(navController: NavController){
+    UnimindTheme {
+        Surface (
+            modifier = Modifier.fillMaxSize(),
+            color = Nude
+        ){
+            Column(
+                modifier = Modifier.fillMaxWidth()
+            ){
+
+            }
+
+            Footer(rememberNavController())
+        }
+    }
+}
+
+@Composable
+fun calendario(navController: NavController){
+    UnimindTheme {
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            color = Nude
+        ){
+            Column (
+                modifier = Modifier.fillMaxWidth()
+            ){
+
+            }
+
+            Footer(rememberNavController())
+        }
+    }
+}
+
+@Composable
+fun CompeticaoMomento(navController: NavController){
+    UnimindTheme {
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            color = Rosinha
+        ){
+            Column(
+                modifier = Modifier.fillMaxWidth()
+            ){
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 8.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = "45:00",
+                        color = Vinho,
+                        fontSize = 32.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun MultiColorProgressBar(progress1: Float, progress2: Float) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(40.dp)
+            .background(Color.White)
+    ) {
+        Row(modifier = Modifier.fillMaxSize().border(width = 5.dp, color = Color.White)) {
+            Box(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .fillMaxWidth(progress1)
+                    .background(Color(0xFF4A90E2))
+            )
+            Box(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .fillMaxWidth(progress2)
+                    .background(Color(0xFFD32F2F))
+            )
+        }
+    }
+}
+
+@Composable
+fun PlayerCard(questoesText : String){
+    Card(
+        border = BorderStroke(width = 2.dp, color = Color(0xFFBFC8CD)),
+        modifier = Modifier
+            .width(170.dp)
+            .height(120.dp)
+            .padding(vertical = 10.dp)
+    ) {
+        Column(
+            modifier = Modifier
+                .background(color = Color(0xFFAFE5FF))
+                .padding(vertical = 6.dp)
+                .fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+
+            Box(
+                modifier = Modifier
+                    .weight(1f)
+                    .clip(CircleShape),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    modifier = Modifier.size(80.dp),
+                    painter = painterResource(R.drawable.fotouser1),
+                    contentDescription = null,
+                    tint = Color.Unspecified,
+                )
+            }
+
+            Spacer(modifier = Modifier.height(4.dp))
+
+            Text(text = questoesText, fontSize = 16.sp, color = Color(0xFF3E6B88), textAlign = TextAlign.Center)
+        }
+    }
+}
+
+@Composable
+fun ProgressionCard(){
+    Card(
+        modifier = Modifier
+            .fillMaxWidth(0.95f).shadow(5.dp),
+        colors = CardDefaults.cardColors(containerColor = Color(0xFFF3E0D1)),
+    ) {
+        Column(
+            horizontalAlignment = Alignment.Start,
+            modifier = Modifier
+                .padding(horizontal = 15.dp)
+        ) {
+            Row(
+                modifier = Modifier
+                    .padding(vertical = 15.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(85.dp)
+            ) {
+                Text("Desafio", fontSize = 38.sp, fontWeight = FontWeight.Bold, color = Color.Black)
+
+                Text("7 dias restantes", fontSize = 16.sp, color = Color.Gray)
+            }
+
+            Text("Resolver 100 questões", fontSize = 18.sp, color = Color.Black)
+
+            Spacer(modifier = Modifier.height(25.dp))
+
+            MultiColorProgressBar(0.5f, 0.5f)
+
+            Row(
+                horizontalArrangement = Arrangement.Center,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                PlayerCard("34 questões")
+
+                Spacer(modifier = Modifier.width(6.dp))
+
+                PlayerCard("25 questões")
+            }
+        }
+    }
+}
+
+@Composable
+fun CorrectQuestionsCard(){
+    Card(modifier = Modifier
+        .fillMaxWidth(0.95f).shadow(5.dp),
+        colors = CardDefaults.cardColors(containerColor = Color(0xFFF3E0D1)),){
+        Column(
+            horizontalAlignment = Alignment.Start,
+            verticalArrangement = Arrangement.spacedBy(15.dp),
+            modifier = Modifier.padding(16.dp)
+        ){
+            Text(text = "Questões corretas", fontSize = 20.sp, fontWeight = FontWeight.SemiBold)
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(16.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ){
+                Text(text = "Nome 1", fontSize = 15.sp, fontWeight = FontWeight.SemiBold)
+                Box(
+                    modifier = Modifier
+                        .height(30.dp)
+                        .fillMaxWidth(0.5f)
+                        .background(Color(0xFF4A90E2))
+                )
+            }
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(16.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ){
+                Text(text = "Nome 2", fontSize = 15.sp, fontWeight = FontWeight.SemiBold)
+                Box(
+                    modifier = Modifier
+                        .height(30.dp)
+                        .fillMaxWidth(0.8f)
+                        .background(Color(0xFFD32F2F))
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun BottomBar(){
+    BottomAppBar(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp)),
+        containerColor = Color(0xFFF3E0D1)
+    ) {
+        Row(
+            horizontalArrangement = Arrangement.End,
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.fillMaxWidth()
+        ){
+            Icon(
+                painter = painterResource(R.drawable.bichinho),
+                contentDescription = "Porco Espinho",
+                modifier = Modifier.size(48.dp),
+                tint = Color.Unspecified,
+            )
+        }
+    }
+}
+
+@Composable
+fun HeaderUserProfile(color : Color, name : String){
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
+    ){
+        Box(
+            modifier = Modifier
+                .padding(vertical = 6.dp)
+                .weight(1f)
+                .clip(CircleShape),
+            contentAlignment = Alignment.Center
+        ) {
+            Icon(
+                modifier = Modifier.size(80.dp),
+                painter = painterResource(R.drawable.fotouser2),
+                contentDescription = null,
+                tint = Color.Unspecified,
+            )
+        }
+
+        Text(text = name, fontSize = 16.sp, fontWeight = FontWeight.Bold, color = color,
+            modifier = Modifier
+                .padding(vertical = 6.dp))
+    }
+}
+
+@Composable
+fun ChallengeHeader(){
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(100.dp)
+            .clip(RoundedCornerShape(bottomStart = 12.dp, bottomEnd = 12.dp))
+            .background(Color(0xFFF3E0D1)),
+        contentAlignment = Alignment.Center
+    ) {
+        Image(
+            painter = painterResource(R.drawable.em_cima_versus__1___1_),
+            contentDescription = "Imagem de fundo",
+            contentScale = ContentScale.Crop,
+            modifier = Modifier.matchParentSize()
+        )
+
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(65.dp),
+        ){
+
+            HeaderUserProfile(color = Color(0xFF741C28), "Nome 1")
+
+            Text(
+                text = buildAnnotatedString {
+                    withStyle(style = SpanStyle(color = Color(0xFF741C28),
+                        fontFamily = FontFamily.Serif)
+                    ) {
+                        append("V")
+                    }
+                    withStyle(style = SpanStyle(color = Color(0xFFFFF1E7),
+                        fontFamily = FontFamily.Serif)
+                    ) {
+                        append("S")
+                    }
+                },
+                fontSize = 50.sp,
+                fontStyle = FontStyle.Italic,
+                fontWeight = FontWeight.SemiBold,
+                modifier = Modifier.offset(x = (-7).dp)
+            )
+
+            HeaderUserProfile(color = Color(0xFFFFF1E7), name = "Nome 2")
+        }
+    }
+
+}
+
+@Composable
+fun ChallengeScreen(navController: NavController) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = Color(0xFFBB8C8C))
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize(),
+            verticalArrangement = Arrangement.SpaceBetween,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+
+            ChallengeHeader()
+
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                ProgressionCard()
+
+                Spacer(modifier = Modifier.height(21.dp))
+
+                CorrectQuestionsCard()
+            }
+
+            BottomBar()
+        }
+    }
+}
+
 
 @Preview(showSystemUi = true)
 @Composable
 fun AppPreview() {
-    CompeticaoCriar(rememberNavController())
+    ChallengeScreen(rememberNavController())
 }

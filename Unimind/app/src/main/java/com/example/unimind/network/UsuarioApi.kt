@@ -11,18 +11,18 @@ import retrofit2.http.DELETE
 
 
 interface UsuarioApi {
-    @GET("/clientes")
+    @GET("/usuarios")
     suspend fun listarClientes(): List<Usuario>
 
-    @GET("/clientes/{id}")
+    @GET("/usuarios/{id}")
     suspend fun buscarCliente(@Path("id") id: Int): Usuario?
 
-    @POST("/clientes")
+    @POST("/usuarios")
     suspend fun criarCliente(@Body cliente: Usuario): Usuario
 
-    @PUT("/clientes/{id}")
+    @PUT("/usuarios/{id}")
     suspend fun atualizarCliente(@Path("id") id: Int, @Body cliente: Usuario): retrofit2.Response<Unit>
 
-    @DELETE("/clientes/{id}")
+    @DELETE("/usuarios/{id}")
     suspend fun deletarCliente(@Path("id") id: Int): retrofit2.Response<Unit>
 }

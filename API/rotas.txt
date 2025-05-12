@@ -1,0 +1,39 @@
+// GET: /usuarios (Listar todos os usuarios)
+app.MapGet("/usuarios", async (UsuarioDbContext db) =>
+    await db.Usuarios.ToListAsync());
+
+// GET: /usuarios/{id} (Buscar um usuario por ID)
+app.MapGet("/usuarios/{id}", async (int id, UsuarioDbContext db) =>
+    await db.Usuarios.FindAsync(id) is Usuario usuario ? Results.Ok(usuario) : Results.NotFound());
+
+
+// POST: /usuarios (Criar um novo usuario)
+app.MapPost("/usuarios/add", async (Usuario usuario, UsuarioDbContext db) =>
+{
+    db.Usuario.Add(usuario);    
+    await db.SaveChangesAsync();
+    return Results.Created($"/usuarios/{usuario.Id}", usuario);
+});
+
+
+// PUT: /usuarios/{id} (Atualizar um usuario existente)
+app.MapPut("/usuarios/{id}", async (int id, Usuario usuarioAtualizado, UsuarioDbContext db) =>
+{
+    var usuario = await db.Usuarios.FindAsync(id);
+    if (usuario is null) return Results.NotFound();
+    usuario.Nome = usuarioAtualizado.Nome;
+    usuario.Senha = usuarioAtualizado.Senha;
+    await db.SaveChangesAsync();
+    return Results.NoContent();
+});
+
+
+// DELETE: /usuarios/{id} (Excluir um usuario)
+app.MapDelete("/usuarios/del/{id}", async (int id, UsuarioDbContext db) =>
+{
+    var usuario = await db.Usuario.FindAsync(id);
+    if (usuario is null) return Results.NotFound();
+    db.Usuario.Remove(usuario);
+    await db.SaveChangesAsync();
+    return Results.NoContent();
+});

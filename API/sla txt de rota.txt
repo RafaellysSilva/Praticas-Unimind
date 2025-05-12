@@ -1,0 +1,17 @@
+// POST: /clientes (Criar um novo cliente)
+app.MapPost("/clientes/add", async (Cliente cliente, ClienteDbContext db) =>
+{
+    db.Usuario.Add(cliente);    
+    await db.SaveChangesAsync();
+    return Results.Created($"/clientes/{cliente.Id}", cliente);
+});
+
+// DELETE: /clientes/{id} (Excluir um cliente)
+app.MapDelete("/clientes/del/{id}", async (int id, ClienteDbContext db) =>
+{
+    var cliente = await db.Usuario.FindAsync(id);
+    if (cliente is null) return Results.NotFound();
+    db.Usuario.Remove(cliente);
+    await db.SaveChangesAsync();
+    return Results.NoContent();
+});

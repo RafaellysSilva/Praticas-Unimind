@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.FlowRowScopeInstance.align*/
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -29,6 +30,7 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -46,10 +48,13 @@ import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDirection
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -1692,7 +1697,7 @@ fun ListasProvasArea(navController: NavController) {
                 Button(
                     colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFF3E0D1)),
                     shape = RoundedCornerShape(17.dp),
-                    border = BorderStroke(2.dp, Color(0x66BB8C94)), // AQUI!
+                    border = BorderStroke(2.dp, Color(0x66BB8C94)),
                     onClick = { navController.navigate("telaFlashcardsPergunta") },
                     modifier = Modifier
                         .fillMaxWidth()
@@ -1968,74 +1973,312 @@ fun CompeticaoCriar(navController: NavController) {
             modifier = Modifier.fillMaxSize(),
             color = Nude
         ) {
+            Header("Competição") // O Header agora é o primeiro elemento na Column principal
+
             Column(
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier
+                    .fillMaxWidth() // A Column das preferências ocupa a largura total
+                    .padding(top = 250.dp)
             ) {
-                Header("Competição") // O Header agora é o primeiro elemento na Column principal
+                Box(
+                    Modifier.fillMaxWidth()
+                )
+                Text(
+                    text = "Preferências",
+                    fontSize = 18.sp,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(Color(0xFFf3d1c2))
+                        .padding(start = 10.dp, top = 5.dp, bottom = 5.dp)
+                )
 
+                Spacer(Modifier.height(10.dp))
 
-                Column(
-                    modifier = Modifier.fillMaxWidth() // A Column das preferências ocupa a largura total
-                ) {
+                Row {
                     Text(
-                        text = "Preferências",
-                        fontSize = 23.sp,
+                        "Categoria:",
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Bold,
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .background(Color(0xFFf3d1c2))
-                            .padding(start = 10.dp, top = 5.dp, bottom = 5.dp)
+                            .padding(start = 35.dp, end = 23.dp, top = 3.dp)
                     )
-
-
-                    Spacer(Modifier.height(15.dp))
-
-
-                    Row {
-                        Text(
-                            "Dificuldade:",
-                            fontSize = 20.sp,
-                            fontWeight = FontWeight.Bold,
+                    var expanded by remember { mutableStateOf(false) }
+                    var selecionada by remember { mutableStateOf("") }
+                    val opcoes = listOf("Opção 1", "Opção 2", "Opção 3")
+                    ExposedDropdownMenuBox(
+                        expanded = expanded,
+                        onExpandedChange = { expanded = !expanded }
+                    ) {
+                        OutlinedTextField(
+                            value = selecionada,
+                            onValueChange = {},
+                            readOnly = true,
+                            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
                             modifier = Modifier
-                                .padding(start = 10.dp, end = 14.dp, top = 3.dp)
+                                .menuAnchor()
+                                .height(30.dp)
+                                .width(210.dp)
                         )
-                        var expanded by remember { mutableStateOf(false) }
-                        var selecionada by remember { mutableStateOf("") }
-                        val opcoes = listOf("Opção 1", "Opção 2", "Opção 3")
-                        ExposedDropdownMenuBox(
+
+
+                        ExposedDropdownMenu(
                             expanded = expanded,
-                            onExpandedChange = { expanded = !expanded }
+                            onDismissRequest = { expanded = false }
                         ) {
-                            OutlinedTextField(
-                                value = selecionada,
-                                onValueChange = {},
-                                readOnly = true,
-                                trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
-                                modifier = Modifier
-                                    .menuAnchor()
-                                    .height(30.dp)
-                                    .width(250.dp)
-                            )
-
-
-                            ExposedDropdownMenu(
-                                expanded = expanded,
-                                onDismissRequest = { expanded = false }
-                            ) {
-                                opcoes.forEach { opcao ->
-                                    DropdownMenuItem(
-                                        text = { Text(opcao) },
-                                        onClick = {
-                                            selecionada = opcao
-                                            expanded = false
-                                        }
-                                    )
-                                }
+                            opcoes.forEach { opcao ->
+                                DropdownMenuItem(
+                                    text = { Text(opcao) },
+                                    onClick = {
+                                        selecionada = opcao
+                                        expanded = false
+                                    }
+                                )
                             }
                         }
                     }
-                    // Adicione mais elementos de preferência aqui, se houver
+                }
+
+                Spacer(Modifier.height(10.dp))
+
+                Row {
+                    Text(
+                        "Fonte:",
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier
+                            .padding(start = 35.dp, end = 55.dp, top = 3.dp)
+                    )
+
+                    var expanded by remember { mutableStateOf(false) }
+                    var selecionada by remember { mutableStateOf("") }
+                    val opcoes = listOf("Opção 1", "Opção 2", "Opção 3")
+                    ExposedDropdownMenuBox(
+                        expanded = expanded,
+                        onExpandedChange = { expanded = !expanded }
+                    ) {
+                        OutlinedTextField(
+                            value = selecionada,
+                            onValueChange = {},
+                            readOnly = true,
+                            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
+                            modifier = Modifier
+                                .menuAnchor()
+                                .height(30.dp)
+                                .width(210.dp)
+                        )
+
+
+                        ExposedDropdownMenu(
+                            expanded = expanded,
+                            onDismissRequest = { expanded = false }
+                        ) {
+                            opcoes.forEach { opcao ->
+                                DropdownMenuItem(
+                                    text = { Text(opcao) },
+                                    onClick = {
+                                        selecionada = opcao
+                                        expanded = false
+                                    }
+                                )
+                            }
+                        }
+                    }
+                }
+
+                Spacer(Modifier.height(10.dp))
+
+                Row {
+                    Text(
+                        "Tempo:",
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier
+                            .padding(start = 35.dp, end = 46.dp, top = 3.dp)
+                    )
+
+                    var expanded by remember { mutableStateOf(false) }
+                    var selecionada by remember { mutableStateOf("") }
+                    val opcoes = listOf("Opção 1", "Opção 2", "Opção 3")
+                    ExposedDropdownMenuBox(
+                        expanded = expanded,
+                        onExpandedChange = { expanded = !expanded }
+                    ) {
+                        OutlinedTextField(
+                            value = selecionada,
+                            onValueChange = {},
+                            readOnly = true,
+                            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
+                            modifier = Modifier
+                                .menuAnchor()
+                                .height(30.dp)
+                                .width(210.dp)
+                        )
+
+
+                        ExposedDropdownMenu(
+                            expanded = expanded,
+                            onDismissRequest = { expanded = false }
+                        ) {
+                            opcoes.forEach { opcao ->
+                                DropdownMenuItem(
+                                    text = { Text(opcao) },
+                                    onClick = {
+                                        selecionada = opcao
+                                        expanded = false
+                                    }
+                                )
+                            }
+                        }
+                    }
+                }
+
+                Spacer(Modifier.height(10.dp))
+
+                Row {
+                    Text(
+                        "Questões:",
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier
+                            .padding(start = 35.dp, end = 25.dp, top = 3.dp)
+                    )
+
+                    var expanded by remember { mutableStateOf(false) }
+                    var selecionada by remember { mutableStateOf("") }
+                    val opcoes = listOf("Opção 1", "Opção 2", "Opção 3")
+                    ExposedDropdownMenuBox(
+                        expanded = expanded,
+                        onExpandedChange = { expanded = !expanded }
+                    ) {
+                        OutlinedTextField(
+                            value = selecionada,
+                            onValueChange = {},
+                            readOnly = true,
+                            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
+                            modifier = Modifier
+                                .menuAnchor()
+                                .height(30.dp)
+                                .width(210.dp)
+                        )
+
+
+                        ExposedDropdownMenu(
+                            expanded = expanded,
+                            onDismissRequest = { expanded = false }
+                        ) {
+                            opcoes.forEach { opcao ->
+                                DropdownMenuItem(
+                                    text = { Text(opcao) },
+                                    onClick = {
+                                        selecionada = opcao
+                                        expanded = false
+                                    }
+                                )
+                            }
+                        }
+                    }
+                }
+
+                Spacer(Modifier.height(30.dp))
+
+                Button(
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFF3E0D1)),
+                    shape = RoundedCornerShape(10.dp),
+                    border = BorderStroke(1.dp, Vinho),
+                    onClick = { navController.navigate("") },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 100.dp)
+                        .height(38.dp)
+                ) {
+                    Text(
+                        text = "Salvar alterações",
+                        color = Vinho,
+                        fontSize = 17.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+
+                Spacer(Modifier.height(30.dp))
+
+                Column(
+                    Modifier
+                        .fillMaxSize()
+                        .padding(start = 30.dp, end = 30.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = "Você ainda não está competindo com ninguém. Convide alguém do mesmo nível para apostar questões.",
+                        fontSize = 14.sp,
+                        lineHeight = 18.sp,
+                        color = Vinho,
+                        modifier = Modifier.fillMaxWidth(),
+                        textAlign = TextAlign.Center
+                    )
+
+                    Spacer(modifier = Modifier.height(15.dp))
+
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = "Usuário para competir",
+                            fontSize = 17.sp,
+                            fontWeight = FontWeight.Bold,
+                            modifier = Modifier.widthIn(max = 80.dp)
+                        )
+
+                        var nomeUsuario by remember { mutableStateOf("") }
+
+                        BasicTextField(
+                            value = nomeUsuario,
+                            onValueChange = { nomeUsuario = it },
+                            modifier = Modifier
+                                .width(240.dp)
+                                .height(40.dp)
+                                .background(Color(0xFFE0E0E0))
+                                .padding(vertical = 8.dp),
+                            textStyle = TextStyle(
+                                fontSize = 16.sp,
+                                color = Black
+                            ),
+                            decorationBox = { innerTextField ->
+                                if (nomeUsuario.isEmpty()) {
+                                    Text(
+                                        text = "Nome do usuário",
+                                        style = TextStyle(
+                                            fontSize = 16.sp,
+                                            color = Color.Gray
+                                        ),
+                                        modifier = Modifier.align(Alignment.CenterVertically)
+                                    )
+                                }
+                                innerTextField()
+                            }
+                        )
+                    }
+
+                    Spacer(Modifier.height(10.dp))
+
+                    Button(
+                        colors = ButtonDefaults.buttonColors(containerColor = Rosinha),
+                        onClick = { navController.navigate("") },
+                        modifier = Modifier
+                            .width(190.dp)
+                            .height(40.dp)
+                    ) {
+                        Text(
+                            text = "Convidar",
+                            color = White,
+                            fontSize = 18.sp
+                        )
+                    }
                 }
             }
+            Footer(rememberNavController())
+
         }
     }
 }
@@ -2044,5 +2287,5 @@ fun CompeticaoCriar(navController: NavController) {
 @Preview(showSystemUi = true)
 @Composable
 fun AppPreview() {
-    Bloqueio(rememberNavController())
+    CompeticaoCriar(rememberNavController())
 }

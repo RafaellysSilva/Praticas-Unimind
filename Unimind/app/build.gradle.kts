@@ -58,25 +58,25 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
-    implementation("androidx.navigation:navigation-compose:2.5.3")
+    implementation(libs.androidx.navigation.compose)
 
-    implementation("com.squareup.okhttp3:okhttp:4.12.0")
+    implementation(libs.okhttp)
 
     dependencies {
         // Retrofit
-        implementation("com.squareup.retrofit2:retrofit:2.9.0")
+        implementation(libs.retrofit)
 
         // Converter Gson
-        implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+        implementation(libs.converter.gson)
 
         // Coroutines (se estiver usando suspend)
-        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
+        implementation(libs.kotlinx.coroutines.android)
 
-        implementation("com.squareup.retrofit2:retrofit:2.9.0")
-        implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-        implementation("com.squareup.okhttp3:okhttp:4.11.0")
-        implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
-        implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
+        implementation(libs.retrofit)
+        implementation(libs.converter.gson)
+        implementation(libs.okhttp.v4110)
+        implementation(libs.androidx.lifecycle.runtime.ktx.v262)
+        implementation(libs.androidx.lifecycle.viewmodel.compose)
     }
 
 

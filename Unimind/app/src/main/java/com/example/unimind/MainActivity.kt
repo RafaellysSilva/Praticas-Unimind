@@ -674,6 +674,7 @@ fun Entrar(navController: NavController){
 
 
 //@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Configuracoes(navController: NavController) {
     val inter = FontFamily(
@@ -1841,6 +1842,7 @@ fun ListaPersonalizadaCriar(navController: NavController){
 
 
 //@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CompeticaoCriar(navController: NavController) {
     UnimindTheme {
@@ -2372,7 +2374,7 @@ fun Calendario(navController: NavController){
                 CalendarView()
                 Spacer(modifier = Modifier.weight(1f))
                 Image(
-                    painter = painterResource(id = R.drawable.unimind_logo_small),
+                    painter = painterResource(id = R.drawable.bichinho),
                     contentDescription = "Unimind Logo Bottom",
                     modifier = Modifier
                         .size(48.dp)
@@ -2420,7 +2422,7 @@ fun CalendarView() {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
-                imageVector = Icons.Rounded.ArrowBackIosNew,
+                imageVector = Icons.Rounded.ArrowBack,
                 contentDescription = "Previous Month",
                 tint = Vinho,
                 modifier = Modifier.clickable {

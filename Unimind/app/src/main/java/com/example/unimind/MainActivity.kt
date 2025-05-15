@@ -12,9 +12,6 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement
-/*import androidx.compose.foundation.layout.BoxScopeInstance.align
-import androidx.compose.foundation.layout.ColumnScopeInstance.align
-import androidx.compose.foundation.layout.FlowRowScopeInstance.align*/
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -71,8 +68,6 @@ import com.example.unimind.ui.theme.Bege
 import com.example.unimind.ui.theme.Nude
 import com.example.unimind.ui.theme.UnimindTheme
 import com.example.unimind.ui.theme.Vinho
-
-
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.unimind.ui.theme.Rosinha
@@ -82,7 +77,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
 import okhttp3.Request
-
 
 
 
@@ -99,13 +93,9 @@ class MainActivity : ComponentActivity() {
 }
 
 
-
-
 @Composable
 fun AppNavigation() {
     val navController = rememberNavController()
-
-
     NavHost(navController, startDestination = "telaBloqueio") {
         composable("telaBloqueio") { Bloqueio(navController) }
         composable("telaCadastro") { Cadastro(navController) }
@@ -115,12 +105,18 @@ fun AppNavigation() {
         composable("telaFlashCardsArea") { FlashcardsArea(navController) }
         composable("telaFlashCardsPergunta") { FlashcardsPergunta(navController) }
         composable("telaFlashcardsResposta") { FlashcardsResposta(navController) }
+        composable("telaListasProvasArea") { ListasProvasArea(navController) }
+        composable("telaListaProvaResolucao") { ListaProvaResolucao(navController) }
+        composable("telaListaPersonalizadaCriar") { ListaPersonalizadaCriar(navController) }
+        composable("telaCompeticaoCriar") { CompeticaoCriar(navController) }
+        composable("telaCompeticaoMomento") { CompeticaoMomento(navController) }
+        composable("telaEstatisticas") { Estatisticas(navController) }
+        composable("telaCalendario") { Calendario(navController) }
     }
 }
 
 
-
-
+//função para chamar (tem várias telas que tem a mesma parte como o footer, fica mais facil assim)
 @Composable
 fun Header(nomePagina: String){
     Column(
@@ -162,8 +158,6 @@ fun Header(nomePagina: String){
     }
 }
 
-
-//função para chamar (tem várias telas que tem a mesma parte como o footer, fica mais facil assim)
 @Composable
 fun Footer(navController: NavController) {
     Column(
@@ -246,7 +240,6 @@ fun Footer(navController: NavController) {
 
 
 
-
 @Composable
 fun Bloqueio(navController: NavController){
     UnimindTheme{
@@ -276,7 +269,6 @@ fun Bloqueio(navController: NavController){
                             .padding(bottom = 250.dp)
                     )
 
-
                     Text(
                         text = "UNIMIND",
                         color = Vinho,
@@ -285,7 +277,6 @@ fun Bloqueio(navController: NavController){
                             .padding(bottom = 100.dp)
                     )
 
-
                     Text(
                         text = "Mentalizou, realizou.",
                         color = Vinho,
@@ -293,7 +284,6 @@ fun Bloqueio(navController: NavController){
                         modifier = Modifier
                             .padding(bottom = 40.dp)
                     )
-
 
                     Column (
                         Modifier
@@ -316,7 +306,6 @@ fun Bloqueio(navController: NavController){
                             )
                         }
 
-
                         OutlinedButton (
                             onClick = { navController.navigate("telaEntrar") },
                             border = BorderStroke(2.dp, Vinho),
@@ -334,8 +323,6 @@ fun Bloqueio(navController: NavController){
         }
     }
 }
-
-
 
 
 @Composable
@@ -366,9 +353,6 @@ fun Cadastro(navController: NavController) {
                         .fillMaxWidth(),
                     contentAlignment = Alignment.Center
 
-
-
-
                 ) {
                     Row(
                         verticalAlignment = Alignment.CenterVertically, // Alinha os itens no centro verticalmente
@@ -395,8 +379,6 @@ fun Cadastro(navController: NavController) {
                         )
                     }
                 }
-
-
             }
             //é o corpo da página
             Column(
@@ -425,12 +407,10 @@ fun Cadastro(navController: NavController) {
                             modifier = Modifier.padding(0.dp, 40.dp, 0.dp, 0.dp)
                         )
 
-
                         var nome by remember { mutableStateOf("") }
                         var email by remember { mutableStateOf("") }
                         var senha by remember { mutableStateOf("") }
                         var senhaDnv by remember { mutableStateOf("") }
-
 
                         Spacer(modifier = Modifier.height(50.dp))
                         Text(text = "Digite seu nome:", fontSize = 20.sp,
@@ -467,8 +447,6 @@ fun Cadastro(navController: NavController) {
                             Text(text = "Cadastrar", color = Vinho, fontSize = 20.sp)
                         }
                     }
-
-
                 }
                 Box(contentAlignment = Alignment.TopCenter,
                     modifier = Modifier.height(140.dp)) {
@@ -488,74 +466,59 @@ fun Cadastro(navController: NavController) {
                                 //esse text nao ta ficando no meio, por isso os espaços
                             }
                         }
-
-
                     }
                 }
             }
         }
-
-
     }
 }
 
 
-
-
 @Composable
 fun Entrar(navController: NavController){
-    var user by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
 
-
-    var erroLogin by remember { mutableStateOf("") }
-
-
-    fun verificarLogin(nome: String, senha: String, onSuccess: () -> Unit, onError: () -> Unit) {
-        val url = "http://10.0.2.2:5000/login/$nome/$senha" // use 10.0.2.2 no emulador Android
-
-
-        val client = OkHttpClient()
-        val request = Request.Builder().url(url).build()
-
-
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                val response = client.newCall(request).execute()
-                val body = response.body?.string()
-
-
-                if (response.isSuccessful && body?.contains("Login válido") == true) {
-                    withContext(Dispatchers.Main) {
-                        onSuccess()
-                    }
-                } else {
-                    withContext(Dispatchers.Main) {
-                        onError()
-                    }
-                }
-            } catch (e: Exception) {
-                withContext(Dispatchers.Main) {
-                    onError()
-                }
-            }
-        }
-    }
-
-
-
-
-
+//    var user by remember { mutableStateOf("") }
+//    var password by remember { mutableStateOf("") }
+//
+//    var erroLogin by remember { mutableStateOf("") }
+//
+//    fun verificarLogin(nome: String, senha: String, onSuccess: () -> Unit, onError: () -> Unit) {
+//        val url = "http://10.0.2.2:5000/login/$nome/$senha" // use 10.0.2.2 no emulador Android
+//        //val url = "http://localhost:5133/usuarios"
+//
+//        val client = OkHttpClient()
+//        val request = Request.Builder().url(url).build()
+//
+//        CoroutineScope(Dispatchers.IO).launch {
+//            try {
+//                val response = client.newCall(request).execute()
+//                val body = response.body?.string()
+//
+//
+//                if (response.isSuccessful && body?.contains("Login válido") == true) {
+//                    withContext(Dispatchers.Main) {
+//                        onSuccess()
+//                    }
+//                } else {
+//                    withContext(Dispatchers.Main) {
+//                        onError()
+//                    }
+//                }
+//            } catch (e: Exception) {
+//                withContext(Dispatchers.Main) {
+//                    onError()
+//                }
+//            }
+//        }
+//    }
 
     val cuteFont = FontFamily(
         Font(R.font.cute_letters) // Nome do arquivo sem a extensão .ttf ou .otf
     )
 
-
     val inter = FontFamily(
         Font(R.font.inter)
     )
-
 
     UnimindTheme{
         //É o cabeçário da página
@@ -576,10 +539,6 @@ fun Entrar(navController: NavController){
                         .background(Vinho)
                         .fillMaxWidth(),
                     contentAlignment = Alignment.Center
-
-
-
-
                 ) {
                     Row(
                         verticalAlignment = Alignment.CenterVertically, // Alinha os itens no centro verticalmente
@@ -606,8 +565,6 @@ fun Entrar(navController: NavController){
                         )
                     }
                 }
-
-
             }
             //é o corpo da página
             Column(
@@ -617,8 +574,6 @@ fun Entrar(navController: NavController){
                 verticalArrangement = Arrangement.Bottom,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-
-
                 Box(
                     Modifier
                         .height(650.dp)
@@ -642,18 +597,14 @@ fun Entrar(navController: NavController){
                             modifier = Modifier.height(50.dp)
                         )
 
-
                         //permite que a caixa de texto mantenha e atualize o valor
                         //digitado pelo usuário dinamicamente.
-
 
                         Text(text = "Digite seu usuário:", fontSize = 20.sp)
                         Spacer(modifier = Modifier.height(3.dp))
                         OutlinedTextField(
                             value = user,      //o valor q o usuário digitar será armazenado na var texto
                             onValueChange = { user = it },  //atualiza o valor da variável texto sempre que o usuário digitar algo.
-
-
                         )
 
                         Spacer(modifier = Modifier.height(16.dp))
@@ -665,9 +616,7 @@ fun Entrar(navController: NavController){
                             onValueChange = {password = it}
                         )
 
-
                         Spacer(modifier = Modifier.height(50.dp))
-
 
                         OutlinedButton (
                             onClick = {
@@ -681,8 +630,6 @@ fun Entrar(navController: NavController){
                                 )
                             },
                             border = BorderStroke(2.dp, Vinho),
-
-
                             modifier = Modifier
                                 .width(280.dp)
                         )
@@ -692,8 +639,6 @@ fun Entrar(navController: NavController){
                                 fontSize = 20.sp)
                         }
                     }
-
-
                 }
                 Box(contentAlignment = Alignment.TopCenter,
                     modifier = Modifier.height(140.dp)) {
@@ -713,8 +658,6 @@ fun Entrar(navController: NavController){
                                 //esse text nao ta ficando no meio, por isso os espaços
                             }
                         }
-
-
                     }
                 }
             }
@@ -723,9 +666,7 @@ fun Entrar(navController: NavController){
 }
 
 
-
-
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class)
+//@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class)
 @Composable
 fun Configuracoes(navController: NavController) {
     val inter = FontFamily(
@@ -751,9 +692,6 @@ fun Configuracoes(navController: NavController) {
                         .background(Vinho)
                         .fillMaxWidth(),
                     contentAlignment = Alignment.Center
-
-
-
 
                 ) {
                     Row(
@@ -816,7 +754,6 @@ fun Configuracoes(navController: NavController) {
                         )
                         Spacer(Modifier.height(15.dp))
 
-
                         Row{
                             var user by remember { mutableStateOf("") }
                             Text("Usuário:", fontSize = 20.sp, fontWeight = FontWeight.Bold,
@@ -833,11 +770,7 @@ fun Configuracoes(navController: NavController) {
                             )
                         }
 
-
-
-
                         Spacer(Modifier.height(15.dp))
-
 
                         Row{
                             var nome by remember { mutableStateOf("") }
@@ -855,9 +788,7 @@ fun Configuracoes(navController: NavController) {
                             )
                         }
 
-
                         Spacer(Modifier.height(15.dp))
-
 
                         Row{
                             var email by remember { mutableStateOf("") }
@@ -875,9 +806,7 @@ fun Configuracoes(navController: NavController) {
                             )
                         }
 
-
                         Spacer(Modifier.height(15.dp))
-
 
                         Row{
                             var senha by remember { mutableStateOf("") }
@@ -895,9 +824,7 @@ fun Configuracoes(navController: NavController) {
                             )
                         }
 
-
                         Spacer(Modifier.height(15.dp))
-
 
                         Row{
                             var nivel by remember { mutableStateOf("") }
@@ -925,7 +852,6 @@ fun Configuracoes(navController: NavController) {
                         )
                         Spacer(Modifier.height(15.dp))
 
-
                         Row{
                             Text("Dificuldade:", fontSize = 20.sp, fontWeight = FontWeight.Bold,
                                 modifier = Modifier
@@ -948,7 +874,6 @@ fun Configuracoes(navController: NavController) {
                                         .height(30.dp)
                                         .width(250.dp)
                                 )
-
 
                                 ExposedDropdownMenu(
                                     expanded = expanded,
@@ -991,7 +916,6 @@ fun Configuracoes(navController: NavController) {
                                         .width(250.dp)
                                 )
 
-
                                 ExposedDropdownMenu(
                                     expanded = expanded,
                                     onDismissRequest = { expanded = false }
@@ -1010,7 +934,6 @@ fun Configuracoes(navController: NavController) {
                             }
                         }
 
-
                         Spacer(Modifier.height(8.dp))
                         Row{
                             var minutos by remember { mutableStateOf("") }
@@ -1028,7 +951,6 @@ fun Configuracoes(navController: NavController) {
                             )
                         }
 
-
                         Spacer(Modifier.height(20.dp))
                         Text(text = "Outros",
                             fontSize = 23.sp,
@@ -1038,9 +960,7 @@ fun Configuracoes(navController: NavController) {
                                 .padding(start = 10.dp, top = 5.dp, bottom = 5.dp)
                         )
 
-
                         Spacer(Modifier.height(20.dp))
-
 
                         Row{
                             Text("Excluir conta:", fontSize = 20.sp, fontWeight = FontWeight.Bold,
@@ -1053,8 +973,6 @@ fun Configuracoes(navController: NavController) {
                                 modifier = Modifier
                                     .width(200.dp)
                                     .height(40.dp)
-
-
                             ) {
                                 Image(
                                     painterResource(id = R.drawable.lixeira),
@@ -1063,9 +981,7 @@ fun Configuracoes(navController: NavController) {
                             }
                         }
 
-
                         Spacer(Modifier.height(10.dp))
-
 
                         Row{
                             Text("Nosso contato:", fontSize = 20.sp, fontWeight = FontWeight.Bold,
@@ -1074,39 +990,25 @@ fun Configuracoes(navController: NavController) {
                             )
                             Text(text = "email@example.com", fontSize = 20.sp, modifier = Modifier
                                 .padding(top = 7.dp))
-
-
                         }
 
-
                         Spacer(Modifier.height(15.dp))
-
 
                         Row(
                             Modifier.padding(start = 120.dp)
                         ){
                             OutlinedButton(
                                 onClick = {}
-
-
                             ) {
                                 Text(text = "Salvar alterações", color = Black)
                             }
                         }
-
-
-
-
                     }
                 }
             }
-
-
         }
     }
 }
-
-
 
 
 @Composable
@@ -1129,9 +1031,6 @@ fun Inicial(navController: NavController){
                     .background(Vinho)
                     .fillMaxWidth(),
                 contentAlignment = Alignment.Center
-
-
-
 
             ) {
                 Row(
@@ -1158,7 +1057,6 @@ fun Inicial(navController: NavController){
                     )
                     Image(
                         painterResource(id = R.drawable.user), contentDescription = null
-
 
                     )
                 }
@@ -1202,8 +1100,6 @@ fun Inicial(navController: NavController){
                                 modifier = Modifier.padding(start = 25.dp)
                             )
                         }
-
-
                     }
                     Row(modifier = Modifier.padding(top = 60.dp)){
                         Box(modifier = Modifier
@@ -1214,17 +1110,11 @@ fun Inicial(navController: NavController){
                                     .width(40.dp)
                                     .height(40.dp)
                             )}
-
-
                         Box(modifier = Modifier
                             .background(Color(0xFFBB8C94))
                             .padding(top = 30.dp, bottom = 33.5.dp, end = 75.dp)){
                             Text("FlashCards", color = White, modifier = Modifier.padding(start = 25.dp))
-
-
                         }
-
-
                     }
                     Row(modifier = Modifier.padding(top = 40.dp)){
                         Box(modifier = Modifier
@@ -1236,16 +1126,11 @@ fun Inicial(navController: NavController){
                                     .height(40.dp)
                             )}
 
-
                         Box(modifier = Modifier
                             .background(Color(0xFFBB8C94))
                             .padding(top = 30.dp, bottom = 33.5.dp, end = 53.dp)){
                             Text("Listas e provas", color = White, modifier = Modifier.padding(start = 28.dp))
-
-
                         }
-
-
                     }
                     Row(modifier = Modifier.padding(top = 40.dp)){
                         Box(modifier = Modifier
@@ -1257,16 +1142,11 @@ fun Inicial(navController: NavController){
                                     .height(40.dp)
                             )}
 
-
                         Box(modifier = Modifier
                             .background(Color(0xFFBB8C94))
                             .padding(top = 30.dp, bottom = 33.5.dp, end = 72.dp, start = 2.dp)){
                             Text("Competição", color = White, modifier = Modifier.padding(start = 25.dp))
-
-
                         }
-
-
                     }
                     Row(modifier = Modifier.padding(top = 40.dp)){
                         Box(modifier = Modifier
@@ -1278,29 +1158,18 @@ fun Inicial(navController: NavController){
                                     .height(40.dp)
                             )}
 
-
                         Box(modifier = Modifier
                             .background(Color(0xFFBB8C94))
                             .padding(top = 30.dp, bottom = 33.5.dp, end = 67.dp, start = 2.dp)){
                             Text("Estatísticas", color = White, modifier = Modifier.padding(start = 27.dp))
-
-
                         }
-
-
                     }
-
-
                 }
             }
-
-
         }
         Footer(rememberNavController())
     }
 }
-
-
 
 
 @Composable
@@ -1311,7 +1180,6 @@ fun FlashcardsArea(navController: NavController) {
             color = Nude
         ) {
             Header("Flashcards")
-
 
             Column(
                 Modifier
@@ -1338,7 +1206,6 @@ fun FlashcardsArea(navController: NavController) {
                         )
                     }
 
-
                     Button(
                         colors = ButtonDefaults.buttonColors(containerColor = Vinho),
                         onClick = { navController.navigate("telaFlashcardsPergunta") },
@@ -1357,12 +1224,10 @@ fun FlashcardsArea(navController: NavController) {
                     }
                 }
 
-
                 Spacer(
                     Modifier
                         .padding(20.dp)
                 )
-
 
                 Row (
                     Modifier
@@ -1384,12 +1249,10 @@ fun FlashcardsArea(navController: NavController) {
                         )
                     }
 
-
                     Spacer(
                         Modifier
                             .padding(10.dp)
                     )
-
 
                     Button(
                         colors = ButtonDefaults.buttonColors(containerColor = Rosinha),
@@ -1408,14 +1271,10 @@ fun FlashcardsArea(navController: NavController) {
                     }
                 }
             }
-
-
             Footer(rememberNavController())
         }
     }
 }
-
-
 
 
 @Composable
@@ -1444,12 +1303,10 @@ fun FlashcardsPergunta(navController: NavController) {
                     )
                 }
 
-
                 Spacer(
                     Modifier
                         .padding(20.dp)
                 )
-
 
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -1466,12 +1323,10 @@ fun FlashcardsPergunta(navController: NavController) {
                     ) {}
                 }
 
-
                 Spacer(
                     Modifier
                         .padding(20.dp)
                 )
-
 
                 Row(
                     Modifier
@@ -1503,8 +1358,6 @@ fun FlashcardsPergunta(navController: NavController) {
 }
 
 
-
-
 @Composable
 fun FlashcardsResposta(navController: NavController) {
     UnimindTheme {
@@ -1531,12 +1384,10 @@ fun FlashcardsResposta(navController: NavController) {
                     )
                 }
 
-
                 Spacer(
                     Modifier
                         .padding(20.dp)
                 )
-
 
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -1553,12 +1404,10 @@ fun FlashcardsResposta(navController: NavController) {
                     ) {}
                 }
 
-
                 Spacer(
                     Modifier
                         .padding(20.dp)
                 )
-
 
                 Row(
                     Modifier
@@ -1584,12 +1433,10 @@ fun FlashcardsResposta(navController: NavController) {
                         )
                     }
 
-
                     Spacer(
                         Modifier
                             .padding(10.dp)
                     )
-
 
                     Button(
                         colors = ButtonDefaults.buttonColors(containerColor = Vinho),
@@ -1610,12 +1457,10 @@ fun FlashcardsResposta(navController: NavController) {
                     }
                 }
 
-
                 Spacer(
                     Modifier
                         .padding(20.dp)
                 )
-
 
                 Row(
                     Modifier
@@ -1650,7 +1495,6 @@ fun ListasProvasArea(navController: NavController) {
             color = Nude
         ) {
             Header("Provas e listas")
-
 
             Column(
                 Modifier
@@ -1766,15 +1610,13 @@ fun ListasProvasArea(navController: NavController) {
                 }
             }
         }
-
-
         Footer(rememberNavController())
     }
 }
 
 
 @Composable
-fun ResolucaoListaProva(navController: NavController) {
+fun ListaProvaResolucao(navController: NavController) {
     UnimindTheme {
         Surface(
             modifier = Modifier.fillMaxSize(),
@@ -1972,9 +1814,26 @@ fun ResolucaoListaProva(navController: NavController) {
 }
 
 
+@Composable
+fun ListaPersonalizadaCriar(navController: NavController){
+    UnimindTheme {
+        Surface (
+            modifier = Modifier.fillMaxSize(),
+            color = Nude
+        ){
+            Column(
+                modifier = Modifier.fillMaxWidth()
+            ){
+
+            }
+
+            Footer(rememberNavController())
+        }
+    }
+}
 
 
-@OptIn(ExperimentalMaterial3Api::class)
+//@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CompeticaoCriar(navController: NavController) {
     UnimindTheme {
@@ -2029,7 +1888,6 @@ fun CompeticaoCriar(navController: NavController) {
                                 .width(210.dp)
                         )
 
-
                         ExposedDropdownMenu(
                             expanded = expanded,
                             onDismissRequest = { expanded = false }
@@ -2075,7 +1933,6 @@ fun CompeticaoCriar(navController: NavController) {
                                 .height(30.dp)
                                 .width(210.dp)
                         )
-
 
                         ExposedDropdownMenu(
                             expanded = expanded,
@@ -2123,7 +1980,6 @@ fun CompeticaoCriar(navController: NavController) {
                                 .width(210.dp)
                         )
 
-
                         ExposedDropdownMenu(
                             expanded = expanded,
                             onDismissRequest = { expanded = false }
@@ -2169,7 +2025,6 @@ fun CompeticaoCriar(navController: NavController) {
                                 .height(30.dp)
                                 .width(210.dp)
                         )
-
 
                         ExposedDropdownMenu(
                             expanded = expanded,
@@ -2287,10 +2142,39 @@ fun CompeticaoCriar(navController: NavController) {
                 }
             }
             Footer(rememberNavController())
-
         }
     }
 }
+
+
+@Composable
+fun CompeticaoMomento(navController: NavController){
+    UnimindTheme {
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            color = Rosinha
+        ){
+            Column(
+                modifier = Modifier.fillMaxWidth()
+            ){
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 8.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = "45:00",
+                        color = Vinho,
+                        fontSize = 32.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+            }
+        }
+    }
+}
+
 
 @Composable
 fun Estatisticas(navController: NavController){
@@ -2365,32 +2249,14 @@ fun Estatisticas(navController: NavController){
                     Text("Total:50")
                 }
             }
-
             Footer(rememberNavController())
         }
     }
 }
 
-@Composable
-fun CriarListaPersonalizada(navController: NavController){
-    UnimindTheme {
-        Surface (
-            modifier = Modifier.fillMaxSize(),
-            color = Nude
-        ){
-            Column(
-                modifier = Modifier.fillMaxWidth()
-            ){
-
-            }
-
-            Footer(rememberNavController())
-        }
-    }
-}
 
 @Composable
-fun calendario(navController: NavController){
+fun Calendario(navController: NavController){
     UnimindTheme {
         Surface(
             modifier = Modifier.fillMaxSize(),
@@ -2401,39 +2267,12 @@ fun calendario(navController: NavController){
             ){
 
             }
-
             Footer(rememberNavController())
         }
     }
 }
 
-@Composable
-fun CompeticaoMomento(navController: NavController){
-    UnimindTheme {
-        Surface(
-            modifier = Modifier.fillMaxSize(),
-            color = Rosinha
-        ){
-            Column(
-                modifier = Modifier.fillMaxWidth()
-            ){
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 8.dp),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(
-                        text = "45:00",
-                        color = Vinho,
-                        fontSize = 32.sp,
-                        fontWeight = FontWeight.Bold
-                    )
-                }
-            }
-        }
-    }
-}
+
 
 @Composable
 fun MultiColorProgressBar(progress1: Float, progress2: Float) {
@@ -2459,6 +2298,7 @@ fun MultiColorProgressBar(progress1: Float, progress2: Float) {
         }
     }
 }
+
 
 @Composable
 fun PlayerCard(questoesText : String){
@@ -2498,6 +2338,7 @@ fun PlayerCard(questoesText : String){
         }
     }
 }
+
 
 @Composable
 fun ProgressionCard(){
@@ -2542,6 +2383,7 @@ fun ProgressionCard(){
     }
 }
 
+
 @Composable
 fun CorrectQuestionsCard(){
     Card(modifier = Modifier
@@ -2581,6 +2423,7 @@ fun CorrectQuestionsCard(){
     }
 }
 
+
 @Composable
 fun BottomBar(){
     BottomAppBar(
@@ -2603,6 +2446,7 @@ fun BottomBar(){
         }
     }
 }
+
 
 @Composable
 fun HeaderUserProfile(color : Color, name : String){
@@ -2630,6 +2474,7 @@ fun HeaderUserProfile(color : Color, name : String){
                 .padding(vertical = 6.dp))
     }
 }
+
 
 @Composable
 fun ChallengeHeader(){
@@ -2680,6 +2525,7 @@ fun ChallengeHeader(){
 
 }
 
+
 @Composable
 fun ChallengeScreen(navController: NavController) {
     Box(
@@ -2719,5 +2565,5 @@ fun ChallengeScreen(navController: NavController) {
 @Preview(showSystemUi = true)
 @Composable
 fun AppPreview() {
-    ChallengeScreen(rememberNavController())
+    Inicial(rememberNavController())
 }

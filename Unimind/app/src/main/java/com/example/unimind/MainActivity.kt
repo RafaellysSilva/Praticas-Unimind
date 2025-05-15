@@ -2390,22 +2390,272 @@ fun CriarListaPersonalizada(navController: NavController){
 }
 
 @Composable
-fun calendario(navController: NavController){
+fun Calendario() {
     UnimindTheme {
         Surface(
             modifier = Modifier.fillMaxSize(),
-            color = Nude
-        ){
-            Column (
-                modifier = Modifier.fillMaxWidth()
-            ){
-
+            color = Rosinha // Assuming Rosinha is defined in your theme
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.unimind_logo_small), // Replace with your actual small logo
+                        contentDescription = "Unimind Logo",
+                        modifier = Modifier.size(32.dp)
+                    )
+                    Text(
+                        text = "Calendário",
+                        color = Vinho, // Assuming Vinho is defined in your theme
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 20.sp
+                    )
+                    Icon(
+                        imageVector = Icons.Rounded.CalendarMonth,
+                        contentDescription = "Calendário Icon",
+                        tint = Vinho,
+                        modifier = Modifier.size(32.dp)
+                    )
+                }
+                Spacer(modifier = Modifier.height(16.dp))
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(RoundedCornerShape(8.dp))
+                        .background(Color.White),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        imageVector = Icons.Rounded.Menu,
+                        contentDescription = "Menu Icon",
+                        tint = Color.Gray,
+                        modifier = Modifier.padding(start = 8.dp)
+                    )
+                    BasicTextField(
+                        value = "Search \"Prova Cotuca\"",
+                        onValueChange = {},
+                        textStyle = TextStyle(color = Color.Gray),
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(horizontal = 8.dp, vertical = 12.dp)
+                    )
+                    Icon(
+                        imageVector = Icons.Rounded.Search,
+                        contentDescription = "Search Icon",
+                        tint = Color.Gray,
+                        modifier = Modifier.padding(end = 8.dp)
+                    )
+                }
+                Spacer(modifier = Modifier.height(16.dp))
+                Box(
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(8.dp))
+                        .background(Color(0xFFE91E63).copy(alpha = 0.8f)) // Approximate color
+                        .padding(8.dp)
+                ) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Box(
+                            modifier = Modifier
+                                .size(24.dp)
+                                .background(Color.White, CircleShape)
+                                .border(2.dp, Color(0xFFE91E63), CircleShape)
+                                .padding(4.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                text = "L",
+                                color = Color(0xFFE91E63),
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 14.sp
+                            )
+                        }
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Box(
+                            modifier = Modifier
+                                .size(24.dp)
+                                .background(Color.White, CircleShape)
+                                .border(2.dp, Color(0xFF4CAF50), CircleShape)
+                                .padding(4.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                text = "M",
+                                color = Color(0xFF4CAF50),
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 14.sp
+                            )
+                        }
+                    }
+                }
+                Spacer(modifier = Modifier.height(16.dp))
+                CalendarView()
+                Spacer(modifier = Modifier.weight(1f))
+                Image(
+                    painter = painterResource(id = R.drawable.unimind_logo_small), // Replace with your actual small logo
+                    contentDescription = "Unimind Logo Bottom",
+                    modifier = Modifier
+                        .size(48.dp)
+                        .alpha(0.5f)
+                )
             }
-
-            Footer(rememberNavController())
         }
     }
 }
+
+@Composable
+fun CalendarView() {
+    val calendar = remember { Calendar.getInstance() }
+    val currentMonth = remember { mutableStateOf(calendar.get(Calendar.MONTH)) }
+    val currentYear = remember { mutableStateOf(calendar.get(Calendar.YEAR)) }
+
+    val daysInMonth = remember(currentMonth.value, currentYear.value) {
+        Calendar.getInstance().apply {
+            set(Calendar.YEAR, currentYear.value)
+            set(Calendar.MONTH, currentMonth.value)
+        }.getActualMaximum(Calendar.DAY_OF_MONTH)
+    }
+
+    val firstDayOfWeek = remember(currentMonth.value, currentYear.value) {
+        Calendar.getInstance().apply {
+            set(Calendar.YEAR, currentYear.value)
+            set(Calendar.MONTH, currentMonth.value)
+            set(Calendar.DAY_OF_MONTH, 1)
+        }.get(Calendar.DAY_OF_WEEK) - 1 // Adjust to start from Sunday (0)
+    }
+
+    val monthName = remember(currentMonth.value) {
+        DateFormatSymbols().months[currentMonth.value]
+    }
+
+    Column(
+        modifier = Modifier
+            .clip(RoundedCornerShape(8.dp))
+            .background(Color.White)
+            .padding(16.dp)
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(
+                imageVector = Icons.Rounded.ArrowBackIosNew,
+                contentDescription = "Previous Month",
+                tint = Vinho,
+                modifier = Modifier.clickable {
+                    if (currentMonth.value > 0) {
+                        currentMonth.value--
+                    } else {
+                        currentMonth.value = 11
+                        currentYear.value--
+                    }
+                }
+            )
+            Text(
+                text = "$monthName ${currentYear.value}",
+                fontWeight = FontWeight.Bold,
+                color = Vinho,
+                fontSize = 18.sp
+            )
+            Icon(
+                imageVector = Icons.Rounded.ArrowForwardIos,
+                contentDescription = "Next Month",
+                tint = Vinho,
+                modifier = Modifier.clickable {
+                    if (currentMonth.value < 11) {
+                        currentMonth.value++
+                    } else {
+                        currentMonth.value = 0
+                        currentYear.value++
+                    }
+                }
+            )
+        }
+        Spacer(modifier = Modifier.height(8.dp))
+        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceAround) {
+            Text("Sun", color = Color.Gray, fontSize = 12.sp)
+            Text("Mon", color = Color.Gray, fontSize = 12.sp)
+            Text("Tue", color = Color.Gray, fontSize = 12.sp)
+            Text("Wed", color = Color.Gray, fontSize = 12.sp)
+            Text("Thu", color = Color.Gray, fontSize = 12.sp)
+            Text("Fri", color = Color.Gray, fontSize = 12.sp)
+            Text("Sat", color = Color.Gray, fontSize = 12.sp)
+        }
+        Spacer(modifier = Modifier.height(4.dp))
+        for (week in 0..((daysInMonth + firstDayOfWeek - 1) / 7)) {
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceAround) {
+                for (dayOfWeek in 0..6) {
+                    val day = week * 7 + dayOfWeek - firstDayOfWeek + 1
+                    if (day in 1..daysInMonth) {
+                        val isToday = day == Calendar.getInstance().get(Calendar.DAY_OF_MONTH) &&
+                                       currentMonth.value == Calendar.getInstance().get(Calendar.MONTH) &&
+                                       currentYear.value == Calendar.getInstance().get(Calendar.YEAR)
+                        Text(
+                            text = day.toString(),
+                            color = if (isToday) Color(0xFFE91E63) else Color.Black,
+                            fontWeight = if (isToday) FontWeight.Bold else FontWeight.Normal,
+                            modifier = Modifier
+                                .size(32.dp)
+                                .wrapContentWidth(Alignment.CenterHorizontally)
+                                .wrapContentHeight(Alignment.CenterVertically)
+                                .clip(CircleShape)
+                                .background(if (isToday) Color(0xFFE91E63).copy(alpha = 0.2f) else Color.Transparent)
+                                .padding(4.dp)
+                        )
+                    } else {
+                        Text("", modifier = Modifier.size(32.dp))
+                    }
+                }
+            }
+        }
+        Spacer(modifier = Modifier.height(8.dp))
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text("Ends", color = Color.Gray, fontSize = 14.sp)
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Box(
+                    modifier = Modifier
+                        .border(1.dp, Color.Gray, RoundedCornerShape(4.dp))
+                        .padding(horizontal = 8.dp, vertical = 4.dp)
+                ) {
+                    Text("8:00", color = Color.Black, fontSize = 14.sp)
+                }
+                Spacer(modifier = Modifier.width(8.dp))
+                Box(
+                    modifier = Modifier
+                        .border(1.dp, if (isSystemInDarkTheme()) Color.LightGray else Color.DarkGray, RoundedCornerShape(4.dp))
+                        .background(if (isSystemInDarkTheme()) Color.DarkGray else Color.LightGray)
+                        .padding(horizontal = 8.dp, vertical = 4.dp)
+                        .clickable { /* Handle AM/PM selection */ }
+                ) {
+                    Text("AM", color = Color.White, fontSize = 14.sp)
+                }
+                Spacer(modifier = Modifier.width(4.dp))
+                Box(
+                    modifier = Modifier
+                        .border(1.dp, Color.Gray, RoundedCornerShape(4.dp))
+                        .padding(horizontal = 8.dp, vertical = 4.dp)
+                        .clickable { /* Handle AM/PM selection */ }
+                ) {
+                    Text("PM", color = Color.Black, fontSize = 14.sp)
+                }
+            }
+        }
+    }
+}
+
+
 
 @Composable
 fun CompeticaoMomento(navController: NavController){

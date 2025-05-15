@@ -2394,7 +2394,7 @@ fun Calendario() {
     UnimindTheme {
         Surface(
             modifier = Modifier.fillMaxSize(),
-            color = Rosinha // Assuming Rosinha is defined in your theme
+            color = Rosinha 
         ) {
             Column(
                 modifier = Modifier
@@ -2408,13 +2408,13 @@ fun Calendario() {
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Image(
-                        painter = painterResource(id = R.drawable.unimind_logo_small), // Replace with your actual small logo
+                        painter = painterResource(id = R.drawable.bichinho), 
                         contentDescription = "Unimind Logo",
                         modifier = Modifier.size(32.dp)
                     )
                     Text(
                         text = "Calendário",
-                        color = Vinho, // Assuming Vinho is defined in your theme
+                        color = Vinho, 
                         fontWeight = FontWeight.Bold,
                         fontSize = 20.sp
                     )
@@ -2458,7 +2458,7 @@ fun Calendario() {
                 Box(
                     modifier = Modifier
                         .clip(RoundedCornerShape(8.dp))
-                        .background(Color(0xFFE91E63).copy(alpha = 0.8f)) // Approximate color
+                        .background(Color(0xFFE91E63).copy(alpha = 0.8f)) 
                         .padding(8.dp)
                 ) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
@@ -2499,7 +2499,7 @@ fun Calendario() {
                 CalendarView()
                 Spacer(modifier = Modifier.weight(1f))
                 Image(
-                    painter = painterResource(id = R.drawable.unimind_logo_small), // Replace with your actual small logo
+                    painter = painterResource(id = R.drawable.unimind_logo_small), 
                     contentDescription = "Unimind Logo Bottom",
                     modifier = Modifier
                         .size(48.dp)

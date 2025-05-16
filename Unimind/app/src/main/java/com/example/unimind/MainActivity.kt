@@ -1827,18 +1827,321 @@ fun ListaProvaResolucao(navController: NavController) {
 
 
 @Composable
-fun ListaPersonalizadaCriar(navController: NavController){
+fun CriarListaPersonalizada(navController: NavController) {
     UnimindTheme {
-        Surface (
+        Surface(
             modifier = Modifier.fillMaxSize(),
             color = Nude
-        ){
+        ) {
+            Header("Competição") // O Header agora é o primeiro elemento na Column principal
+
             Column(
-                modifier = Modifier.fillMaxWidth()
-            ){
+                modifier = Modifier
+                    .fillMaxWidth() // A Column das preferências ocupa a largura total
+                    .padding(top = 250.dp)
+            ) {
+                Box(
+                    Modifier.fillMaxWidth()
+                )
+                
+                Spacer(Modifier.height(10.dp))
 
-            }
+		Row {
+                    Text(
+                        "Nome:",
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier
+                            .padding(start = 35.dp, end = 55.dp, top = 3.dp)
+                    )
 
+                    var expanded by remember { mutableStateOf(false) }
+                    var selecionada by remember { mutableStateOf("") }
+                    val opcoes = listOf("Opção 1", "Opção 2", "Opção 3")
+                    ExposedDropdownMenuBox(
+                        expanded = expanded,
+                        onExpandedChange = { expanded = !expanded }
+                    ) {
+                        OutlinedTextField(
+                            value = selecionada,
+                            onValueChange = {},
+                            readOnly = true,
+                            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
+                            modifier = Modifier
+                                .menuAnchor()
+                                .height(30.dp)
+                                .width(210.dp)
+                        )
+
+                        ExposedDropdownMenu(
+                            expanded = expanded,
+                            onDismissRequest = { expanded = false }
+                        ) {
+                            opcoes.forEach { opcao ->
+                                DropdownMenuItem(
+                                    text = { Text(opcao) },
+                                    onClick = {
+                                        selecionada = opcao
+                                        expanded = false
+                                    }
+                                )
+                            }
+                        }
+                    }
+                }
+
+                Spacer(Modifier.height(10.dp))
+
+                Row {
+                    Text(
+                        "Categoria:",
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier
+                            .padding(start = 35.dp, end = 23.dp, top = 3.dp)
+                    )
+                    var expanded by remember { mutableStateOf(false) }
+                    var selecionada by remember { mutableStateOf("") }
+                    val opcoes = listOf("Opção 1", "Opção 2", "Opção 3")
+                    ExposedDropdownMenuBox(
+                        expanded = expanded,
+                        onExpandedChange = { expanded = !expanded }
+                    ) {
+                        OutlinedTextField(
+                            value = selecionada,
+                            onValueChange = {},
+                            readOnly = true,
+                            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
+                            modifier = Modifier
+                                .menuAnchor()
+                                .height(30.dp)
+                                .width(210.dp)
+                        )
+
+                        ExposedDropdownMenu(
+                            expanded = expanded,
+                            onDismissRequest = { expanded = false }
+                        ) {
+                            opcoes.forEach { opcao ->
+                                DropdownMenuItem(
+                                    text = { Text(opcao) },
+                                    onClick = {
+                                        selecionada = opcao
+                                        expanded = false
+                                    }
+                                )
+                            }
+                        }
+                    }
+                }
+
+                Spacer(Modifier.height(10.dp))
+
+                Row {
+                    Text(
+                        "Fonte:",
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier
+                            .padding(start = 35.dp, end = 55.dp, top = 3.dp)
+                    )
+
+                    var expanded by remember { mutableStateOf(false) }
+                    var selecionada by remember { mutableStateOf("") }
+                    val opcoes = listOf("Opção 1", "Opção 2", "Opção 3")
+                    ExposedDropdownMenuBox(
+                        expanded = expanded,
+                        onExpandedChange = { expanded = !expanded }
+                    ) {
+                        OutlinedTextField(
+                            value = selecionada,
+                            onValueChange = {},
+                            readOnly = true,
+                            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
+                            modifier = Modifier
+                                .menuAnchor()
+                                .height(30.dp)
+                                .width(210.dp)
+                        )
+
+                        ExposedDropdownMenu(
+                            expanded = expanded,
+                            onDismissRequest = { expanded = false }
+                        ) {
+                            opcoes.forEach { opcao ->
+                                DropdownMenuItem(
+                                    text = { Text(opcao) },
+                                    onClick = {
+                                        selecionada = opcao
+                                        expanded = false
+                                    }
+                                )
+                            }
+                        }
+                    }
+                }
+
+                Spacer(Modifier.height(10.dp))
+
+		Row {
+                    Text(
+                        "Ano:",
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier
+                            .padding(start = 35.dp, end = 55.dp, top = 3.dp)
+                    )
+
+                    var expanded by remember { mutableStateOf(false) }
+                    var selecionada by remember { mutableStateOf("") }
+                    val opcoes = listOf("Opção 1", "Opção 2", "Opção 3")
+                    ExposedDropdownMenuBox(
+                        expanded = expanded,
+                        onExpandedChange = { expanded = !expanded }
+                    ) {
+                        OutlinedTextField(
+                            value = selecionada,
+                            onValueChange = {},
+                            readOnly = true,
+                            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
+                            modifier = Modifier
+                                .menuAnchor()
+                                .height(30.dp)
+                                .width(210.dp)
+                        )
+
+                        ExposedDropdownMenu(
+                            expanded = expanded,
+                            onDismissRequest = { expanded = false }
+                        ) {
+                            opcoes.forEach { opcao ->
+                                DropdownMenuItem(
+                                    text = { Text(opcao) },
+                                    onClick = {
+                                        selecionada = opcao
+                                        expanded = false
+                                    }
+                                )
+                            }
+                        }
+                    }
+                }
+
+                Spacer(Modifier.height(10.dp))
+
+                Row {
+                    Text(
+                        "Tempo:",
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier
+                            .padding(start = 35.dp, end = 46.dp, top = 3.dp)
+                    )
+
+                    var expanded by remember { mutableStateOf(false) }
+                    var selecionada by remember { mutableStateOf("") }
+                    val opcoes = listOf("Opção 1", "Opção 2", "Opção 3")
+                    ExposedDropdownMenuBox(
+                        expanded = expanded,
+                        onExpandedChange = { expanded = !expanded }
+                    ) {
+                        OutlinedTextField(
+                            value = selecionada,
+                            onValueChange = {},
+                            readOnly = true,
+                            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
+                            modifier = Modifier
+                                .menuAnchor()
+                                .height(30.dp)
+                                .width(210.dp)
+                        )
+
+                        ExposedDropdownMenu(
+                            expanded = expanded,
+                            onDismissRequest = { expanded = false }
+                        ) {
+                            opcoes.forEach { opcao ->
+                                DropdownMenuItem(
+                                    text = { Text(opcao) },
+                                    onClick = {
+                                        selecionada = opcao
+                                        expanded = false
+                                    }
+                                )
+                            }
+                        }
+                    }
+                }
+
+                Spacer(Modifier.height(10.dp))
+
+                Row {
+                    Text(
+                        "Questões:",
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier
+                            .padding(start = 35.dp, end = 25.dp, top = 3.dp)
+                    )
+
+                    var expanded by remember { mutableStateOf(false) }
+                    var selecionada by remember { mutableStateOf("") }
+                    val opcoes = listOf("Opção 1", "Opção 2", "Opção 3")
+                    ExposedDropdownMenuBox(
+                        expanded = expanded,
+                        onExpandedChange = { expanded = !expanded }
+                    ) {
+                        OutlinedTextField(
+                            value = selecionada,
+                            onValueChange = {},
+                            readOnly = true,
+                            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
+                            modifier = Modifier
+                                .menuAnchor()
+                                .height(30.dp)
+                                .width(210.dp)
+                        )
+
+                        ExposedDropdownMenu(
+                            expanded = expanded,
+                            onDismissRequest = { expanded = false }
+                        ) {
+                            opcoes.forEach { opcao ->
+                                DropdownMenuItem(
+                                    text = { Text(opcao) },
+                                    onClick = {
+                                        selecionada = opcao
+                                        expanded = false
+                                    }
+                                )
+                            }
+                        }
+                    }
+                }
+
+                Spacer(Modifier.height(30.dp))
+
+                Button(
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFF3E0D1)),
+                    shape = RoundedCornerShape(10.dp),
+                    border = BorderStroke(1.dp, Vinho),
+                    onClick = { navController.navigate("") },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 100.dp)
+                        .height(38.dp)
+                ) {
+                    Text(
+                        text = "Criar",
+                        color = Vinho,
+                        fontSize = 17.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+
+                Spacer(Modifier.height(30.dp))
+
+              }
             Footer(rememberNavController())
         }
     }

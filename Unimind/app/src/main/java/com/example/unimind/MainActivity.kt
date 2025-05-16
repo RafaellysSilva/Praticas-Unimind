@@ -2464,25 +2464,139 @@ fun CompeticaoCriar(navController: NavController) {
 
 
 @Composable
-fun CompeticaoMomento(navController: NavController){
-    UnimindTheme {
-        Surface(
+fun competicaoMomento(navConteoller: NacController){
+    UnimindTheme{
+    	Surface(
             modifier = Modifier.fillMaxSize(),
-            color = Rosinha
+	    color = Rosinha
         ){
-            Column(
-                modifier = Modifier.fillMaxWidth()
-            ){
+           Column(
+	   	modifier = Modifier.fillMaxSize(),
+		verticalArrangement = Arrangement.SpaceBetween,
+		horizontalAlignment = Alignment.CenterHorizontally
+	   ){
+		ChallengeHeader()
+
+		Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.correndo), 
+                            contentDescription = "Competindo",
+                            tint = Color.White,
+                            modifier = Modifier.size(32.dp)
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text(
+                            text = "Responda corretamente as\nquestões antes do seu parceiro.",
+                            color = Color.White,
+                            textAlign = TextAlign.Center
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.height(24.dp))
+
+		 // Conteúdo principal scrollável (incluindo os botões)
+                Column(
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxWidth()
+                        .clip(RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp))
+                        .background(Vinho)
+                        .padding(horizontal = 16.dp)
+                        .padding(top = 16.dp)
+                        .verticalScroll(rememberScrollState())
+                ) {
+                    // Caixa da questão
+                    Box(
+                        Modifier
+                            .fillMaxWidth()
+                            .background(Nude, shape = RoundedCornerShape(16.dp))
+                            .padding(14.dp)
+                    ) {
+                        Text("dsmfkjnfkjhasbdhsvhfbaskdbas")
+                    }
+
+
+                    Spacer(modifier = Modifier.height(16.dp))
+
+
+                    // Caixa das alternativas
+                    Box(
+                        Modifier
+                            .fillMaxWidth()
+                            .background(Nude, shape = RoundedCornerShape(20.dp))
+                            .padding(15.dp)
+                    ) {
+                        Column(
+                            verticalArrangement = Arrangement.spacedBy(12.dp)
+                        ) {
+                            listOf("A", "B", "C", "D", "E").forEach { alternativa ->
+                                Button(
+                                    onClick = { /* Ação ao clicar */ },
+                                    colors = ButtonDefaults.buttonColors(containerColor = Color.White),
+                                    shape = RoundedCornerShape(20.dp),
+                                    border = BorderStroke(1.dp, Color(0xFFB9B9B9)),
+                                    contentPadding = PaddingValues(0.dp),
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .height(35.dp)
+                                ) {
+                                    Box(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(start = 16.dp),
+                                        contentAlignment = Alignment.CenterStart
+                                    ) {
+                                        Text(
+                                            text = alternativa,
+                                            color = Color.Black,
+                                            fontSize = 14.sp
+                                        )
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+
+                    Spacer(modifier = Modifier.height(32.dp))
+
+
+                    // Botão Responder 
+                    Button(
+                        onClick = { /* Responder */ },
+                        colors = ButtonDefaults.buttonColors(Nude),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 120.dp)
+                            .align(Alignment.CenterHorizontally)
+                    ) {
+                        Text(
+                            text = "Responder",
+                            color = Vinho,
+                            modifier = Modifier.padding(start = 8.dp)
+                        )
+                    }
+
+
+                    Spacer(modifier = Modifier.height(16.dp))
+                }
+		
+		 // Temporizador
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(vertical = 8.dp),
+                        .background(Vinho)
+                        .padding(vertical = 24.dp),
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
                         text = "45:00",
-                        color = Vinho,
-                        fontSize = 32.sp,
+                        color = Color.White,
+                        fontSize = 36.sp,
                         fontWeight = FontWeight.Bold
                     )
                 }
@@ -2490,7 +2604,6 @@ fun CompeticaoMomento(navController: NavController){
         }
     }
 }
-
 
 @Composable
 fun Estatisticas(navController: NavController){

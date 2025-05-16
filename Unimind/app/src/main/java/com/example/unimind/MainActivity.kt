@@ -1831,9 +1831,9 @@ fun CriarListaPersonalizada(navController: NavController) {
     UnimindTheme {
         Surface(
             modifier = Modifier.fillMaxSize(),
-            color = Nude
+            color = Vinho
         ) {
-            Header("Competição") // O Header agora é o primeiro elemento na Column principal
+            Header("Criar Lista Personalizada") // O Header agora é o primeiro elemento na Column principal
 
             Column(
                 modifier = Modifier

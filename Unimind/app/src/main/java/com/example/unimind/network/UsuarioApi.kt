@@ -15,13 +15,13 @@ interface UsuarioApi {
     suspend fun listarUsuarios(): List<Usuario>
 
     @GET("/usuarios/{id}")
-    suspend fun buscarUsuario(@Path("id") id: Int): Usuario?
+    suspend fun buscarUsuario(@Path("nome, senha") nome: String, senha: String): Usuario?
 
     @POST("/usuarios")
-    suspend fun criarUsuario(@Body cliente: Usuario): Usuario
+    suspend fun criarUsuario(@Body usuario: Usuario): Usuario
 
     @PUT("/usuarios/{id}")
-    suspend fun atualizarUsuario(@Path("id") id: Int, @Body cliente: Usuario): retrofit2.Response<Unit>
+    suspend fun atualizarUsuario(@Path("id") id: Int, @Body usuario: Usuario): retrofit2.Response<Unit>
 
     @DELETE("/usuarios/{id}")
     suspend fun deletarUsuario(@Path("id") id: Int): retrofit2.Response<Unit>

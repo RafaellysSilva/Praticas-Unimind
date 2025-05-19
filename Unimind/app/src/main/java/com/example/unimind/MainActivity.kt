@@ -73,6 +73,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.unimind.ui.theme.Bege
@@ -82,6 +83,7 @@ import com.example.unimind.ui.theme.Vinho
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.unimind.ui.theme.Rosinha
+import com.example.usuarioapp.viewmodel.UsuarioViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -488,12 +490,20 @@ fun Cadastro(navController: NavController) {
 
 
 @Composable
-fun Entrar(navController: NavController){
+fun Entrar(navController: NavController, viewModel: UsuarioViewModel = viewModel()){
 
     var user by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-//
     var erroLogin by remember { mutableStateOf("") }
+
+    val usuarios by viewModel.usuarios
+    var novoNome by remember { mutableStateOf("") }
+    var usuarioIdBusca by remember { mutableStateOf("") }
+    var usuarioIdAtualizar by remember { mutableStateOf("") }
+    var novoNomeAtualizar by remember { mutableStateOf("") }
+    var usuarioIdDeletar by remember { mutableStateOf("") }
+    val usuarioDetalhe by viewModel.usuarioDetalhe
+
 //
 //    fun verificarLogin(nome: String, senha: String, onSuccess: () -> Unit, onError: () -> Unit) {
 //        val url = "http://10.0.2.2:5000/login/$nome/$senha" // use 10.0.2.2 no emulador Android
@@ -633,14 +643,9 @@ fun Entrar(navController: NavController){
 
                         OutlinedButton (
                             onClick = {
-                                verificarLogin(user, password,
-                                    onSuccess = {
-                                        navController.navigate("telaInicial")
-                                    },
-                                    onError = {
-                                        erroLogin = "Usuário ou senha inválidos"
-                                    }
-                                )
+                                if (usuarioIdBusca.isNotEmpty()) {
+                                    viewModel.buscarUsuario(user.toString(), password.toString())
+                                }
                             },
                             border = BorderStroke(2.dp, Vinho),
                             modifier = Modifier
@@ -676,10 +681,11 @@ fun Entrar(navController: NavController){
             }
         }
     }
+    usuarios
 }
 
 fun verificarLogin(user: String, password: String, onSuccess: () -> Unit, onError: () -> Unit) {
-    
+
 }
 
 //@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class)
@@ -3249,5 +3255,5 @@ fun ChallengeScreen(navController: NavController) {
 @Preview(showSystemUi = true)
 @Composable
 fun AppPreview() {
-    Inicial(rememberNavController())
+    Entrar(rememberNavController())
 }

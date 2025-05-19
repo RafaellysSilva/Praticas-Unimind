@@ -32,10 +32,11 @@ class UsuarioViewModel : ViewModel() {
         }
     }
 
-    fun buscarUsuario(id: Int) {
+    //tem q fzr pelo nome
+    fun buscarUsuario(nome: String, senha: String) {
         coroutineScope.launch {
             try {
-                _usuarioDetalhe.value = RetrofitUsuario.instance.buscarUsuario(id)
+                _usuarioDetalhe.value = RetrofitUsuario.instance.buscarUsuario(nome, senha)
                 _mensagem.value = if (_usuarioDetalhe.value != null) "Usuário encontrado." else "Usuário não encontrado."
             } catch (e: Exception) {
                 _mensagem.value = "Erro ao buscar usuário: ${e.message}"

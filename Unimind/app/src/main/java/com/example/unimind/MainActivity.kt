@@ -23,6 +23,7 @@ import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.automirrored.rounded.ArrowForward
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.ArrowForward
+import androidx.compose.material.icons.rounded.CheckCircle
 import androidx.compose.material.icons.rounded.Menu
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material3.BottomAppBar
@@ -56,6 +57,7 @@ import androidx.compose.ui.graphics.Color.Companion.Black
 import androidx.compose.ui.graphics.Color.Companion.Blue
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -156,7 +158,7 @@ fun Header(nomePagina: String){
                         .clip(RoundedCornerShape(bottomStart = 1500.dp, bottomEnd = 1500.dp))
                         .background(Vinho)
                         .fillMaxWidth(),
-                    contentAlignment = Alignment.Center
+                    contentAlignment = Center
                 ) {
                     Text(
                         text = nomePagina,
@@ -179,7 +181,7 @@ fun Footer(navController: NavController) {
         verticalArrangement = Arrangement.Bottom,
     ) {
         Box(
-            contentAlignment = Alignment.Center
+            contentAlignment = Center
         ) {
             Row(
                 Modifier
@@ -271,7 +273,7 @@ fun Bloqueio(navController: NavController){
                         .clip(RoundedCornerShape(topStart = 50.dp, topEnd = 50.dp))
                         .background(Nude)
                         .fillMaxWidth(),
-                    contentAlignment = Alignment.Center
+                    contentAlignment = Center
                 ) {
                     Image(
                         painterResource(id = R.drawable.bichinho),
@@ -362,7 +364,7 @@ fun Cadastro(navController: NavController) {
                         .height(95.dp)
                         .background(Vinho)
                         .fillMaxWidth(),
-                    contentAlignment = Alignment.Center
+                    contentAlignment = Center
 
                 ) {
                     Row(
@@ -488,10 +490,10 @@ fun Cadastro(navController: NavController) {
 @Composable
 fun Entrar(navController: NavController){
 
-//    var user by remember { mutableStateOf("") }
-//    var password by remember { mutableStateOf("") }
+    var user by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
 //
-//    var erroLogin by remember { mutableStateOf("") }
+    var erroLogin by remember { mutableStateOf("") }
 //
 //    fun verificarLogin(nome: String, senha: String, onSuccess: () -> Unit, onError: () -> Unit) {
 //        val url = "http://10.0.2.2:5000/login/$nome/$senha" // use 10.0.2.2 no emulador Android
@@ -549,7 +551,7 @@ fun Entrar(navController: NavController){
                         .height(95.dp)
                         .background(Vinho)
                         .fillMaxWidth(),
-                    contentAlignment = Alignment.Center
+                    contentAlignment = Center
                 ) {
                     Row(
                         verticalAlignment = Alignment.CenterVertically, // Alinha os itens no centro verticalmente
@@ -676,6 +678,9 @@ fun Entrar(navController: NavController){
     }
 }
 
+fun verificarLogin(user: String, password: String, onSuccess: () -> Unit, onError: () -> Unit) {
+    
+}
 
 //@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class)
 @OptIn(ExperimentalMaterial3Api::class)
@@ -703,7 +708,7 @@ fun Configuracoes(navController: NavController) {
                         .height(95.dp)
                         .background(Vinho)
                         .fillMaxWidth(),
-                    contentAlignment = Alignment.Center
+                    contentAlignment = Center
 
                 ) {
                     Row(
@@ -1042,7 +1047,7 @@ fun Inicial(navController: NavController){
                     .height(95.dp)
                     .background(Vinho)
                     .fillMaxWidth(),
-                contentAlignment = Alignment.Center
+                contentAlignment = Center
 
             ) {
                 Row(
@@ -1074,7 +1079,7 @@ fun Inicial(navController: NavController){
                 }
             }
             //corpo
-            Box(contentAlignment = Alignment.Center
+            Box(contentAlignment = Center
             ){
                 Column(
                     verticalArrangement = Arrangement.Center,
@@ -1331,7 +1336,7 @@ fun FlashcardsPergunta(navController: NavController) {
                             .clip(RoundedCornerShape(20.dp))
                             .background(Nude)
                             .fillMaxWidth(),
-                        contentAlignment = Alignment.Center
+                        contentAlignment = Center
                     ) {}
                 }
 
@@ -1412,7 +1417,7 @@ fun FlashcardsResposta(navController: NavController) {
                             .clip(RoundedCornerShape(20.dp))
                             .background(Vinho)
                             .fillMaxWidth(),
-                        contentAlignment = Alignment.Center
+                        contentAlignment = Center
                     ) {}
                 }
 
@@ -1648,7 +1653,7 @@ fun ListaProvaResolucao(navController: NavController) {
                         Modifier
                             .height(60.dp)
                             .fillMaxWidth(),
-                        contentAlignment = Alignment.Center
+                        contentAlignment = Center
                     ) {
                         Text(
                             text = "Prova A - Conteúdo",
@@ -1665,7 +1670,7 @@ fun ListaProvaResolucao(navController: NavController) {
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(vertical = 8.dp),
-                        contentAlignment = Alignment.Center
+                        contentAlignment = Center
                     ) {
                         Text(
                             text = "45:00",
@@ -1715,7 +1720,7 @@ fun ListaProvaResolucao(navController: NavController) {
                             listOf("A", "B", "C", "D", "E").forEach { alternativa ->
                                 Button(
                                     onClick = { /* Ação ao clicar */ },
-                                    colors = ButtonDefaults.buttonColors(containerColor = Color.White),
+                                    colors = ButtonDefaults.buttonColors(containerColor = White),
                                     shape = RoundedCornerShape(20.dp),
                                     border = BorderStroke(1.dp, Color(0xFFB9B9B9)),
                                     contentPadding = PaddingValues(0.dp),
@@ -1731,7 +1736,7 @@ fun ListaProvaResolucao(navController: NavController) {
                                     ) {
                                         Text(
                                             text = alternativa,
-                                            color = Color.Black,
+                                            color = Black,
                                             fontSize = 14.sp
                                         )
                                     }
@@ -1758,7 +1763,7 @@ fun ListaProvaResolucao(navController: NavController) {
                             modifier = Modifier.height(50.dp),
                             contentPadding = PaddingValues(all = 8.dp)
                         ) {
-                            Box(modifier = Modifier.size(24.dp), contentAlignment = Alignment.Center) {
+                            Box(modifier = Modifier.size(24.dp), contentAlignment = Center) {
                                 Image(
                                     painterResource(id = R.drawable.baseline_arrow_forward_ios_vinho),
                                     contentDescription = null,
@@ -1788,7 +1793,7 @@ fun ListaProvaResolucao(navController: NavController) {
                                 color = Vinho
                             )
                             Spacer(modifier = Modifier.width(8.dp))
-                            Box(modifier = Modifier.size(24.dp), contentAlignment = Alignment.Center) {
+                            Box(modifier = Modifier.size(24.dp), contentAlignment = Center) {
                                 Image(
                                     painterResource(id = R.drawable.baseline_arrow_forward_ios_vinho),
                                     contentDescription = null
@@ -1826,8 +1831,9 @@ fun ListaProvaResolucao(navController: NavController) {
 }
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CriarListaPersonalizada(navController: NavController) {
+fun ListaPersonalizadaCriar(navController: NavController) {
     UnimindTheme {
         Surface(
             modifier = Modifier.fillMaxSize(),
@@ -2464,7 +2470,7 @@ fun CompeticaoCriar(navController: NavController) {
 
 
 @Composable
-fun competicaoMomento(navConteoller: NacController){
+fun CompeticaoMomento(navController: NavController){
     UnimindTheme{
     	Surface(
             modifier = Modifier.fillMaxSize(),
@@ -2483,15 +2489,15 @@ fun competicaoMomento(navConteoller: NacController){
                         horizontalArrangement = Arrangement.Center
                     ) {
                         Icon(
-                            painter = painterResource(id = R.drawable.correndo), 
+                            painter = painterResource(id = R.drawable.fotouser1), //é "correndo" o nome da imagem, mas não tem essa imagem na pasta e estava dando erro
                             contentDescription = "Competindo",
-                            tint = Color.White,
+                            tint = White,
                             modifier = Modifier.size(32.dp)
                         )
                         Spacer(modifier = Modifier.width(8.dp))
                         Text(
                             text = "Responda corretamente as\nquestões antes do seu parceiro.",
-                            color = Color.White,
+                            color = White,
                             textAlign = TextAlign.Center
                         )
                     }
@@ -2536,7 +2542,7 @@ fun competicaoMomento(navConteoller: NacController){
                             listOf("A", "B", "C", "D", "E").forEach { alternativa ->
                                 Button(
                                     onClick = { /* Ação ao clicar */ },
-                                    colors = ButtonDefaults.buttonColors(containerColor = Color.White),
+                                    colors = ButtonDefaults.buttonColors(containerColor = White),
                                     shape = RoundedCornerShape(20.dp),
                                     border = BorderStroke(1.dp, Color(0xFFB9B9B9)),
                                     contentPadding = PaddingValues(0.dp),
@@ -2552,7 +2558,7 @@ fun competicaoMomento(navConteoller: NacController){
                                     ) {
                                         Text(
                                             text = alternativa,
-                                            color = Color.Black,
+                                            color = Black,
                                             fontSize = 14.sp
                                         )
                                     }
@@ -2591,11 +2597,11 @@ fun competicaoMomento(navConteoller: NacController){
                         .fillMaxWidth()
                         .background(Vinho)
                         .padding(vertical = 24.dp),
-                    contentAlignment = Alignment.Center
+                    contentAlignment = Center
                 ) {
                     Text(
                         text = "45:00",
-                        color = Color.White,
+                        color = White,
                         fontSize = 36.sp,
                         fontWeight = FontWeight.Bold
                     )
@@ -2627,12 +2633,12 @@ fun Estatisticas(navController: NavController){
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(85.dp)
                     ){
-                        Text("Questões", fontSize = 25.sp, fontWeight = FontWeight.Bold, color = Color.Black)
+                        Text("Questões", fontSize = 25.sp, fontWeight = FontWeight.Bold, color = Black)
                     }
 
-                    Text("Corretas", fontSize = 15.sp, color = Color.Black)
+                    Text("Corretas", fontSize = 15.sp, color = Black)
 
-                    Text("Incorretas", fontSize = 15.sp, color = Color.Black)
+                    Text("Incorretas", fontSize = 15.sp, color = Black)
 
                     Text("Total:50")
                 }
@@ -2650,10 +2656,10 @@ fun Estatisticas(navController: NavController){
                         modifier = Modifier.padding(vertical = 15.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ){
-                        Text("Tempo de estudo", fontSize = 25.sp, fontWeight = FontWeight.Bold, color = Color.Black)
+                        Text("Tempo de estudo", fontSize = 25.sp, fontWeight = FontWeight.Bold, color = Black)
                     }
 
-                    Text("Tempo", fontSize = 15.sp, color = Color.Black)
+                    Text("Tempo", fontSize = 15.sp, color = Black)
 
                     Text("Total:50")
                 }
@@ -2670,10 +2676,10 @@ fun Estatisticas(navController: NavController){
                         modifier = Modifier.padding(vertical = 15.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ){
-                        Text("Competições reralizadas", fontSize = 25.sp, fontWeight = FontWeight.Bold, color = Color.Black)
+                        Text("Competições reralizadas", fontSize = 25.sp, fontWeight = FontWeight.Bold, color = Black)
                     }
 
-                    Text("Competições", fontSize = 15.sp, color = Color.Black)
+                    Text("Competições", fontSize = 15.sp, color = Black)
 
                     Text("Total:50")
                 }
@@ -2714,7 +2720,7 @@ fun Calendario(navController: NavController){
                         fontSize = 20.sp
                     )
                     Icon(
-                        imageVector = Icons.Rounded.CalendarMonth,
+                        imageVector = Icons.Rounded.CheckCircle,        //NÃO É ESSA IMAGEM, É CalendarMonth, MAS ELA NÃO EXISTE E EU QUERIA TIRAR O ERRO
                         contentDescription = "Calendário Icon",
                         tint = Vinho,
                         modifier = Modifier.size(32.dp)
@@ -2725,7 +2731,7 @@ fun Calendario(navController: NavController){
                     modifier = Modifier
                         .fillMaxWidth()
                         .clip(RoundedCornerShape(8.dp))
-                        .background(Color.White),
+                        .background(White),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Icon(
@@ -2760,10 +2766,10 @@ fun Calendario(navController: NavController){
                         Box(
                             modifier = Modifier
                                 .size(24.dp)
-                                .background(Color.White, CircleShape)
+                                .background(White, CircleShape)
                                 .border(2.dp, Color(0xFFE91E63), CircleShape)
                                 .padding(4.dp),
-                            contentAlignment = Alignment.Center
+                            contentAlignment = Center
                         ) {
                             Text(
                                 text = "L",
@@ -2776,10 +2782,10 @@ fun Calendario(navController: NavController){
                         Box(
                             modifier = Modifier
                                 .size(24.dp)
-                                .background(Color.White, CircleShape)
+                                .background(White, CircleShape)
                                 .border(2.dp, Color(0xFF4CAF50), CircleShape)
                                 .padding(4.dp),
-                            contentAlignment = Alignment.Center
+                            contentAlignment = Center
                         ) {
                             Text(
                                 text = "M",
@@ -2833,7 +2839,7 @@ fun CalendarView() {
     Column(
         modifier = Modifier
             .clip(RoundedCornerShape(8.dp))
-            .background(Color.White)
+            .background(White)
             .padding(16.dp)
     ) {
         Row(
@@ -2895,7 +2901,7 @@ fun CalendarView() {
                                 currentYear.value == Calendar.getInstance().get(Calendar.YEAR)
                         Text(
                             text = day.toString(),
-                            color = if (isToday) Color(0xFFE91E63) else Color.Black,
+                            color = if (isToday) Color(0xFFE91E63) else Black,
                             fontWeight = if (isToday) FontWeight.Bold else FontWeight.Normal,
                             modifier = Modifier
                                 .size(32.dp)
@@ -2924,7 +2930,7 @@ fun CalendarView() {
                         .border(1.dp, Color.Gray, RoundedCornerShape(4.dp))
                         .padding(horizontal = 8.dp, vertical = 4.dp)
                 ) {
-                    Text("8:00", color = Color.Black, fontSize = 14.sp)
+                    Text("8:00", color = Black, fontSize = 14.sp)
                 }
                 Spacer(modifier = Modifier.width(8.dp))
                 Box(
@@ -2934,7 +2940,7 @@ fun CalendarView() {
                         .padding(horizontal = 8.dp, vertical = 4.dp)
                         .clickable { /* Handle AM/PM selection */ }
                 ) {
-                    Text("AM", color = Color.White, fontSize = 14.sp)
+                    Text("AM", color = White, fontSize = 14.sp)
                 }
                 Spacer(modifier = Modifier.width(4.dp))
                 Box(
@@ -2943,7 +2949,7 @@ fun CalendarView() {
                         .padding(horizontal = 8.dp, vertical = 4.dp)
                         .clickable { /* Handle AM/PM selection */ }
                 ) {
-                    Text("PM", color = Color.Black, fontSize = 14.sp)
+                    Text("PM", color = Black, fontSize = 14.sp)
                 }
             }
             }
@@ -2958,9 +2964,9 @@ fun MultiColorProgressBar(progress1: Float, progress2: Float) {
         modifier = Modifier
             .fillMaxWidth()
             .height(40.dp)
-            .background(Color.White)
+            .background(White)
     ) {
-        Row(modifier = Modifier.fillMaxSize().border(width = 5.dp, color = Color.White)) {
+        Row(modifier = Modifier.fillMaxSize().border(width = 5.dp, color = White)) {
             Box(
                 modifier = Modifier
                     .fillMaxHeight()
@@ -3000,7 +3006,7 @@ fun PlayerCard(questoesText : String){
                 modifier = Modifier
                     .weight(1f)
                     .clip(CircleShape),
-                contentAlignment = Alignment.Center
+                contentAlignment = Center
             ) {
                 Icon(
                     modifier = Modifier.size(80.dp),
@@ -3036,12 +3042,12 @@ fun ProgressionCard(){
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(85.dp)
             ) {
-                Text("Desafio", fontSize = 38.sp, fontWeight = FontWeight.Bold, color = Color.Black)
+                Text("Desafio", fontSize = 38.sp, fontWeight = FontWeight.Bold, color = Black)
 
                 Text("7 dias restantes", fontSize = 16.sp, color = Color.Gray)
             }
 
-            Text("Resolver 100 questões", fontSize = 18.sp, color = Color.Black)
+            Text("Resolver 100 questões", fontSize = 18.sp, color = Black)
 
             Spacer(modifier = Modifier.height(25.dp))
 
@@ -3137,7 +3143,7 @@ fun HeaderUserProfile(color : Color, name : String){
                 .padding(vertical = 6.dp)
                 .weight(1f)
                 .clip(CircleShape),
-            contentAlignment = Alignment.Center
+            contentAlignment = Center
         ) {
             Icon(
                 modifier = Modifier.size(80.dp),
@@ -3162,7 +3168,7 @@ fun ChallengeHeader(){
             .height(100.dp)
             .clip(RoundedCornerShape(bottomStart = 12.dp, bottomEnd = 12.dp))
             .background(Color(0xFFF3E0D1)),
-        contentAlignment = Alignment.Center
+        contentAlignment = Center
     ) {
         Image(
             painter = painterResource(R.drawable.em_cima_versus__1___1_),

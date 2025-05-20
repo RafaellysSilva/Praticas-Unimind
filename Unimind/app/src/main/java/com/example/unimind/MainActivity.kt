@@ -643,7 +643,7 @@ fun Entrar(navController: NavController, viewModel: UsuarioViewModel = viewModel
 
                         OutlinedButton (
                             onClick = {
-                                if (usuarioIdBusca.isNotEmpty()) {
+                                if (user.isNotEmpty() && password.isNotEmpty()) {
                                     viewModel.buscarUsuario(user.toString(), password.toString())
                                 }
                             },

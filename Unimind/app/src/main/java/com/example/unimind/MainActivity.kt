@@ -681,7 +681,6 @@ fun Entrar(navController: NavController, viewModel: UsuarioViewModel = viewModel
             }
         }
     }
-    usuarios
 }
 
 fun verificarLogin(user: String, password: String, onSuccess: () -> Unit, onError: () -> Unit) {

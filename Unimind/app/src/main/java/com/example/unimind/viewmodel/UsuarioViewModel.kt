@@ -33,13 +33,29 @@ class UsuarioViewModel : ViewModel() {
     }
 
     //tem q fzr pelo nome
-    fun buscarUsuario(nome: String, senha: String) {
+    /*
+    * fun buscarUsuario(nome: String, senha: String) {
         coroutineScope.launch {
             try {
                 _usuarioDetalhe.value = RetrofitUsuario.instance.buscarUsuario(nome, senha)
                 _mensagem.value = if (_usuarioDetalhe.value != null) "Usuário encontrado." else "Usuário não encontrado."
             } catch (e: Exception) {
                 _mensagem.value = "Erro ao buscar usuário: ${e.message}"
+            }
+        }
+    }
+    */
+
+    fun buscarUsuario(nome: String, senha: String, callback: (Boolean) -> Unit) {
+        coroutineScope.launch {
+            try {
+                val usuario = RetrofitUsuario.instance.buscarUsuario(nome, senha)
+                _usuarioDetalhe.value = usuario
+                _mensagem.value = if (usuario != null) "Usuário encontrado." else "Usuário não encontrado."
+                callback(usuario != null)
+            } catch (e: Exception) {
+                _mensagem.value = "Erro ao buscar usuário: ${e.message}"
+                callback(false)
             }
         }
     }

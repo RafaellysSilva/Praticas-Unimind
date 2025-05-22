@@ -1,6 +1,7 @@
 package com.example.unimind
 
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -73,6 +74,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
@@ -504,7 +506,7 @@ fun Entrar(navController: NavController, viewModel: UsuarioViewModel = viewModel
     var usuarioIdDeletar by remember { mutableStateOf("") }
     val usuarioDetalhe by viewModel.usuarioDetalhe
 
-//
+
 //    fun verificarLogin(nome: String, senha: String, onSuccess: () -> Unit, onError: () -> Unit) {
 //        val url = "http://10.0.2.2:5000/login/$nome/$senha" // use 10.0.2.2 no emulador Android
 //        //val url = "http://localhost:5133/usuarios"
@@ -641,10 +643,11 @@ fun Entrar(navController: NavController, viewModel: UsuarioViewModel = viewModel
 
                         Spacer(modifier = Modifier.height(50.dp))
 
+                        //TEM QUE COLOCAR A FUNÇÃO VERIFICAR LOGIN AQUI NESSE BOTÃO
                         OutlinedButton (
                             onClick = {
                                 if (user.isNotEmpty() && password.isNotEmpty()) {
-                                    viewModel.buscarUsuario(user.toString(), password.toString())
+                                    verificarLogin(user, password)
                                 }
                             },
                             border = BorderStroke(2.dp, Vinho),
@@ -683,7 +686,20 @@ fun Entrar(navController: NavController, viewModel: UsuarioViewModel = viewModel
     }
 }
 
-fun verificarLogin(user: String, password: String, onSuccess: () -> Unit, onError: () -> Unit) {
+@SuppressLint("ViewModelConstructorInComposable")
+@Composable
+fun verificarLogin(user: String, password: String) {
+    //acho q vai ter q pegar o user e o password e verificar
+    val usuarioViewModel = UsuarioViewModel()
+
+    usuarioViewModel.buscarUsuario(user.toString(), password.toString()) { encontrado ->
+        if (encontrado) {
+            // Usuário encontrado
+        } else {
+            // Usuário não encontrado
+        }
+    }
+
 
 }
 

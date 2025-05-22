@@ -85,6 +85,7 @@ import com.example.unimind.ui.theme.UnimindTheme
 import com.example.unimind.ui.theme.Vinho
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.unimind.ui.theme.Azul
 import com.example.unimind.ui.theme.Rosinha
 import com.example.usuarioapp.viewmodel.UsuarioViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -648,7 +649,7 @@ fun Entrar(navController: NavController, viewModel: UsuarioViewModel = viewModel
                         OutlinedButton (
                             onClick = {
                                 if (user.isNotEmpty() && password.isNotEmpty()) {
-                                    verificarLogin(user, password)
+                                   // verificarLogin(user, password)
                                 }
                             },
                             border = BorderStroke(2.dp, Vinho),
@@ -2637,80 +2638,57 @@ fun CompeticaoMomento(navController: NavController){
 fun Estatisticas(navController: NavController){
     UnimindTheme {
         Surface(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier.fillMaxWidth(),
             color = Nude
         ){
             Header("Estatísticas")
 
-            Card(
-                modifier = Modifier.fillMaxWidth()
-                //Colocar as barrinhas de questoes aqui
-            ) {
+            Card(modifier = Modifier
+                .fillMaxWidth(0.95f).shadow(6.dp)
+                .padding(top = 250.dp),
+                colors = CardDefaults.cardColors(containerColor = Nude),){
                 Column(
                     horizontalAlignment = Alignment.Start,
-                    modifier = Modifier.padding(horizontal = 15.dp)
+                    verticalArrangement = Arrangement.spacedBy(15.dp),
+                    modifier = Modifier.padding(16.dp)
                 ){
+                    Text(text = "Questões", fontSize = 20.sp, fontWeight = FontWeight.SemiBold)
                     Row(
-                        modifier = Modifier.padding(vertical = 15.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(85.dp)
-                    ){
-                        Text("Questões", fontSize = 25.sp, fontWeight = FontWeight.Bold, color = Black)
-                    }
-
-                    Text("Corretas", fontSize = 15.sp, color = Black)
-
-                    Text("Incorretas", fontSize = 15.sp, color = Black)
-
-                    Text("Total:50")
-                }
-            }
-
-            Card(
-                modifier = Modifier.fillMaxWidth()
-                //Colocar as cores das barrinhas aqui
-            ){
-                Column(
-                    horizontalAlignment = Alignment.Start,
-                    modifier = Modifier.padding(horizontal = 15.dp)
-                ){
-                    Row(
-                        modifier = Modifier.padding(vertical = 15.dp),
+                        horizontalArrangement = Arrangement.spacedBy(16.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ){
-                        Text("Tempo de estudo", fontSize = 25.sp, fontWeight = FontWeight.Bold, color = Black)
+                        Text(text = "Corretas", fontSize = 15.sp, fontWeight = FontWeight.SemiBold)
+                        Box(
+                            modifier = Modifier
+                                .height(30.dp)
+                                .fillMaxWidth(0.5f)
+                                .background(Vinho)
+                        )
                     }
-
-                    Text("Tempo", fontSize = 15.sp, color = Black)
-
-                    Text("Total:50")
-                }
-            }
-
-            Card(
-                modifier = Modifier.fillMaxWidth()
-            ){
-                Column(
-                    horizontalAlignment = Alignment.Start,
-                    modifier = Modifier.padding(horizontal = 15.dp)
-                ){
                     Row(
-                        modifier = Modifier.padding(vertical = 15.dp),
+                        horizontalArrangement = Arrangement.spacedBy(16.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ){
-                        Text("Competições reralizadas", fontSize = 25.sp, fontWeight = FontWeight.Bold, color = Black)
+                        Text(text = "Incorretas", fontSize = 15.sp, fontWeight = FontWeight.SemiBold)
+                        Box(
+                            modifier = Modifier
+                                .height(30.dp)
+                                .fillMaxWidth(0.8f)
+                                .background(Azul)
+                        )
                     }
-
-                    Text("Competições", fontSize = 15.sp, color = Black)
-
-                    Text("Total:50")
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(16.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ){
+                        Text(text = "Total:50", fontSize = 15.sp, fontWeight = FontWeight.SemiBold)
+                    }
                 }
             }
-            Footer(navController)
+            Footer(rememberNavController())
         }
     }
 }
-
 
 @Composable
 fun Calendario(navController: NavController){
@@ -3271,5 +3249,5 @@ fun ChallengeScreen(navController: NavController) {
 @Preview(showSystemUi = true)
 @Composable
 fun AppPreview() {
-    Entrar(rememberNavController())
+    Estatisticas(rememberNavController())
 }

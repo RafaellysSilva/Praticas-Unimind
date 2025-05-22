@@ -77,6 +77,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.unimind.ui.theme.Bege
 import com.example.unimind.ui.theme.Nude
@@ -102,8 +103,9 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
+            val navController = rememberNavController()
             UnimindTheme {
-                AppNavigation()
+                AppNavigation(navController)
             }
         }
     }
@@ -111,9 +113,8 @@ class MainActivity : ComponentActivity() {
 
 
 @Composable
-fun AppNavigation() {
-    val navController = rememberNavController()
-    NavHost(navController, startDestination = "telaBloqueio") {
+fun AppNavigation(navController: NavHostController) {
+    NavHost(navController = navController, startDestination = "telaBloqueio") {
         composable("telaBloqueio") { Bloqueio(navController) }
         composable("telaCadastro") { Cadastro(navController) }
         composable("telaEntrar") { Entrar(navController) }
@@ -1205,7 +1206,7 @@ fun Inicial(navController: NavController){
                 }
             }
         }
-        Footer(rememberNavController())
+        Footer(navController)
     }
 }
 
@@ -1309,7 +1310,7 @@ fun FlashcardsArea(navController: NavController) {
                     }
                 }
             }
-            Footer(rememberNavController())
+            Footer(navController)
         }
     }
 }
@@ -1648,7 +1649,7 @@ fun ListasProvasArea(navController: NavController) {
                 }
             }
         }
-        Footer(rememberNavController())
+        Footer(navController)
     }
 }
 
@@ -2169,7 +2170,7 @@ fun ListaPersonalizadaCriar(navController: NavController) {
                 Spacer(Modifier.height(30.dp))
 
               }
-            Footer(rememberNavController())
+            Footer(navController)
         }
     }
 }
@@ -2484,7 +2485,7 @@ fun CompeticaoCriar(navController: NavController) {
                     }
                 }
             }
-            Footer(rememberNavController())
+            Footer(navController)
         }
     }
 }
@@ -2705,7 +2706,7 @@ fun Estatisticas(navController: NavController){
                     Text("Total:50")
                 }
             }
-            Footer(rememberNavController())
+            Footer(navController)
         }
     }
 }

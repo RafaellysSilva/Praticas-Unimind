@@ -37,6 +37,12 @@ android {
     buildFeatures {
         compose = true
     }
+
+    packaging {
+        resources {
+            excludes += "META-INF/androidx/navigation/navigation-runtime/LICENSE.txt"
+        }
+    }
 }
 
 dependencies {
@@ -51,10 +57,7 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.androidx.benchmark.macro)
     implementation(libs.androidx.navigation.runtime.android)
-    implementation(libs.androidx.navigation.runtime.desktop)
-    implementation(libs.androidx.navigation.runtime.jvmstubs)
     implementation(libs.androidx.navigation.compose.android)
-    implementation(libs.androidx.navigation.compose.jvmstubs)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -66,23 +69,19 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
 
     implementation(libs.okhttp)
-
-    dependencies {
         // Retrofit
-        implementation(libs.retrofit)
+    implementation(libs.retrofit)
 
-        // Converter Gson
-        implementation(libs.converter.gson)
+    // Converter Gson
+    implementation(libs.converter.gson)
 
-        // Coroutines (se estiver usando suspend)
-        implementation(libs.kotlinx.coroutines.android)
+    // Coroutines (se estiver usando suspend)
+    implementation(libs.kotlinx.coroutines.android)
 
-        implementation(libs.retrofit)
-        implementation(libs.converter.gson)
-        implementation(libs.okhttp.v4110)
-        implementation(libs.androidx.lifecycle.runtime.ktx.v262)
-        implementation(libs.androidx.lifecycle.viewmodel.compose)
-    }
-
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    implementation(libs.okhttp.v4110)
+    implementation(libs.androidx.lifecycle.runtime.ktx.v262)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
 
 }

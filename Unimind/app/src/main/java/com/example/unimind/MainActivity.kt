@@ -227,6 +227,8 @@ fun Footer(navController: NavController) {
                 Image(
                     painterResource(id = R.drawable.competicao),
                     contentDescription = null,
+                    modifier = Modifier
+                        .clickable(onClick = {navController.navigate("telaCompeticaoCriar")})
                 )
 
 
@@ -239,6 +241,8 @@ fun Footer(navController: NavController) {
                 Image(
                     painterResource(id = R.drawable.estatisticas),
                     contentDescription = null,
+                    modifier = Modifier
+                        .clickable(onClick = { navController.navigate("telaEstatisticas") })
                 )
 
 
@@ -1127,6 +1131,7 @@ fun Inicial(navController: NavController){
                         }
                         Spacer(Modifier.width(15.dp))
                         Box(modifier = Modifier
+                            .clickable(onClick = { navController.navigate("telaCalendario")})
                             .background(Color(0xFFBB8C94))
                             .padding(top = 24.dp, bottom = 24.dp, start = 22.dp, end = 22.dp)) {
                             Image(
@@ -1143,7 +1148,9 @@ fun Inicial(navController: NavController){
                             )
                         }
                     }
-                    Row(modifier = Modifier.padding(top = 60.dp)){
+                    Row(modifier = Modifier
+                        .padding(top = 60.dp)
+                        .clickable(onClick = {navController.navigate("telaFlashcardsArea")})){
                         Box(modifier = Modifier
                             .background(Color(0xFFBB8C94))
                             .padding(top = 20.dp, bottom = 20.dp, start = 24.dp, end = 50.dp)){
@@ -1158,7 +1165,10 @@ fun Inicial(navController: NavController){
                             Text("FlashCards", color = White, modifier = Modifier.padding(start = 25.dp))
                         }
                     }
-                    Row(modifier = Modifier.padding(top = 40.dp)){
+                    Row(modifier = Modifier
+                        .padding(top = 40.dp)
+                        .clickable(onClick = {navController.navigate("telaListasProvasArea")})
+                    ){
                         Box(modifier = Modifier
                             .background(Color(0xFFBB8C94))
                             .padding(top = 20.dp, bottom = 20.dp, start = 23.dp, end = 50.dp)){
@@ -1174,7 +1184,10 @@ fun Inicial(navController: NavController){
                             Text("Listas e provas", color = White, modifier = Modifier.padding(start = 28.dp))
                         }
                     }
-                    Row(modifier = Modifier.padding(top = 40.dp)){
+                    Row(modifier = Modifier
+                        .padding(top = 40.dp)
+                        .clickable(onClick = {navController.navigate("telaCompeticaoCriar")})
+                    ){
                         Box(modifier = Modifier
                             .background(Color(0xFFBB8C94))
                             .padding(top = 20.dp, bottom = 20.dp, start = 22.dp, end = 50.dp)){
@@ -1190,7 +1203,10 @@ fun Inicial(navController: NavController){
                             Text("Competição", color = White, modifier = Modifier.padding(start = 25.dp))
                         }
                     }
-                    Row(modifier = Modifier.padding(top = 40.dp)){
+                    Row(modifier = Modifier
+                        .padding(top = 40.dp)
+                        .clickable(onClick = {navController.navigate("telaEstatisticas")})
+                    ){
                         Box(modifier = Modifier
                             .background(Color(0xFFBB8C94))
                             .padding(top = 20.dp, bottom = 20.dp, start = 24.dp, end = 55.dp)){

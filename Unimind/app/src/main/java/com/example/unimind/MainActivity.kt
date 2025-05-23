@@ -121,8 +121,8 @@ fun AppNavigation(navController: NavHostController) {
         composable("telaEntrar") { Entrar(navController) }
         composable("telaInicial") { Inicial(navController) }
         composable("telaConfiguracoes") { Configuracoes(navController) }
-        composable("telaFlashCardsArea") { FlashcardsArea(navController) }
-        composable("telaFlashCardsPergunta") { FlashcardsPergunta(navController) }
+        composable("telaFlashcardsArea") { FlashcardsArea(navController) }
+        composable("telaFlashcardsPergunta") { FlashcardsPergunta(navController) }
         composable("telaFlashcardsResposta") { FlashcardsResposta(navController) }
         composable("telaListasProvasArea") { ListasProvasArea(navController) }
         composable("telaListaProvaResolucao") { ListaProvaResolucao(navController) }
@@ -200,7 +200,7 @@ fun Footer(navController: NavController) {
                     painterResource(id = R.drawable.flashcards),
                     contentDescription = null,
                     modifier = Modifier
-                        .clickable { navController.navigate("telaFlashcardsArea") }
+                        .clickable(onClick = {navController.navigate("telaFlashcardsArea")})
                 )
 
 
@@ -213,6 +213,8 @@ fun Footer(navController: NavController) {
                 Image(
                     painterResource(id = R.drawable.listasprovas),
                     contentDescription = null,
+                    modifier = Modifier
+                        .clickable(onClick = {navController.navigate("telaListasProvasArea")})
                 )
 
 

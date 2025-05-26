@@ -1,4 +1,6 @@
 package com.example.usuarioapp.viewmodel
+//import com.example.usuarioapp.LoginResult // substitui com o nome certo do seu pacote
+
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
@@ -125,5 +127,3 @@ class UsuarioViewModel : ViewModel() {
         }
     }
 }
-
-

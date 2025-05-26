@@ -99,15 +99,14 @@ import java.text.DateFormatSymbols
 import java.util.Calendar
 import android.app.AlertDialog
 import android.content.Context
+import com.example.usuarioapp.viewmodel.LoginResult
+
 //import com.example.usuarioapp.viewmodel.LoginResult
 
 //import kotlin.coroutines.jvm.internal.CompletedContinuation.context
 
 // Tipo de resultado do login
-sealed class LoginResult {
-    object Sucesso : LoginResult()
-    data class Erro(val mensagem: String) : LoginResult()
-}
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -679,7 +678,7 @@ fun Entrar(navController: NavController, viewModel: UsuarioViewModel = viewModel
                                 fontSize = 20.sp)
                         }
                         when (val status = viewModel.loginStatus.value) {
-                            is LoginResult.Erro -> {
+                            is UsuarioViewModel.LoginResult -> {
                                 AlertDialog(
                                     onDismissRequest = { viewModel.limparLoginStatus() },
                                     title = { Text("Erro") },
@@ -702,6 +701,8 @@ fun Entrar(navController: NavController, viewModel: UsuarioViewModel = viewModel
                             }
 
                             null -> {} // Nada acontece
+                            is LoginResult.Erro -> TODO()
+                            LoginResult.Sucesso -> TODO()
                         }
 
                     }

@@ -683,8 +683,18 @@ fun Entrar(navController: NavController, viewModel: UsuarioViewModel = viewModel
                                 color = Vinho,
                                 fontSize = 20.sp)
                         }
+
                         when (val status = viewModel.loginStatus.value) {
-                            is LoginResult -> {
+                            is LoginResult.Sucesso -> {
+                                LaunchedEffect(Unit) {
+                                    viewModel.limparLoginStatus()
+                                    navController.navigate("telaInicial") {
+                                        popUpTo("telaLogin") { inclusive = true }
+                                    }
+                                }
+                            }
+
+                            is LoginResult.Erro -> {
                                 AlertDialog(
                                     onDismissRequest = { viewModel.limparLoginStatus() },
                                     title = { Text("Erro") },
@@ -697,19 +707,11 @@ fun Entrar(navController: NavController, viewModel: UsuarioViewModel = viewModel
                                 )
                             }
 
-                            is LoginResult.Sucesso -> {
-                                LaunchedEffect(Unit) {
-                                    viewModel.limparLoginStatus()
-                                    navController.navigate("telaInicial") {
-                                        popUpTo("telaLogin") { inclusive = true }
-                                    }
-                                }
+                            LoginResult.Nenhum -> {
+                                // Nada visível
                             }
-
-                            null -> {} // Nada acontece
-                            is LoginResult.Erro -> {}
-                            LoginResult.Sucesso -> {}
                         }
+
 
                     }
 

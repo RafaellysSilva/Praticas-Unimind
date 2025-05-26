@@ -347,9 +347,9 @@ app.MapPut("/competicoes/{id}", async (int id, Competicao competicaoAtualizada, 
 // DELETE: /usuarios/{id} (Excluir um usuario)
 app.MapDelete("/competicoes/del/{id}", async (int id, CompeticaoDbContext db) =>
 {
-    var flashcard = await db.Flashcards.FindAsync(id);
-    if (flashcard is null) return Results.NotFound();
-    db.Flashcards.Remove(flashcard);
+    var competicao = await db.Competicoes.FindAsync(id);
+    if (competicao is null) return Results.NotFound();
+    db.Competicoes.Remove(competicao);
     await db.SaveChangesAsync();
     return Results.NoContent();
 });

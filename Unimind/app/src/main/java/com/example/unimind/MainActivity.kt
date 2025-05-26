@@ -1,4 +1,6 @@
 package com.example.unimind
+import com.example.unimind.viewmodel.LoginResult
+
 
 
 import android.annotation.SuppressLint
@@ -99,7 +101,11 @@ import java.text.DateFormatSymbols
 import java.util.Calendar
 import android.app.AlertDialog
 import android.content.Context
-import com.example.usuarioapp.viewmodel.LoginResult
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+
 
 //import com.example.usuarioapp.viewmodel.LoginResult
 
@@ -678,7 +684,7 @@ fun Entrar(navController: NavController, viewModel: UsuarioViewModel = viewModel
                                 fontSize = 20.sp)
                         }
                         when (val status = viewModel.loginStatus.value) {
-                            is UsuarioViewModel.LoginResult -> {
+                            is LoginResult -> {
                                 AlertDialog(
                                     onDismissRequest = { viewModel.limparLoginStatus() },
                                     title = { Text("Erro") },
@@ -694,15 +700,15 @@ fun Entrar(navController: NavController, viewModel: UsuarioViewModel = viewModel
                             is LoginResult.Sucesso -> {
                                 LaunchedEffect(Unit) {
                                     viewModel.limparLoginStatus()
-                                    navController.navigate("telaHome") {
+                                    navController.navigate("telaInicial") {
                                         popUpTo("telaLogin") { inclusive = true }
                                     }
                                 }
                             }
 
                             null -> {} // Nada acontece
-                            is LoginResult.Erro -> TODO()
-                            LoginResult.Sucesso -> TODO()
+                            is LoginResult.Erro -> {}
+                            LoginResult.Sucesso -> {}
                         }
 
                     }

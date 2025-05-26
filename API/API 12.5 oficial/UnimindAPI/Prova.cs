@@ -19,5 +19,5 @@ public class Prova
     public int QntdQuestoes { get; set; }
 
     [Column("fase")]
-    public string Fase { get; set; }
+    public string? Fase { get; set; }
 }

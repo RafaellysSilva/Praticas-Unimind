@@ -6,6 +6,21 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<UsuarioDbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+builder.Services.AddDbContext<ProvaDbContext>(options =>
+options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddDbContext<QuestaoDbContext>(options =>
+options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddDbContext<ListaPersonalizadaDbContext>(options =>
+options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddDbContext<FlashcardDbContext>(options =>
+options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddDbContext<CompeticaoDbContext>(options =>
+options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 // Adiciona o suporte para endpoints da API e Swagger. Opcional.
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

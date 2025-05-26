@@ -1,4 +1,6 @@
 package com.example.usuarioapp.viewmodel
+//import com.example.usuarioapp.LoginResult // substitui com o nome certo do seu pacote
+
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
@@ -58,6 +60,23 @@ class UsuarioViewModel : ViewModel() {
                 callback(false)
             }
         }
+    }
+
+    private val _loginStatus = mutableStateOf<LoginResult?>(null)
+    val loginStatus: State<LoginResult?> = _loginStatus
+
+    fun verificarLogin(nome: String, senha: String) {
+        buscarUsuario(nome, senha) { sucesso ->
+            _loginStatus.value = if (sucesso) {
+                LoginResult.Sucesso
+            } else {
+                LoginResult.Erro("Usuário ou senha incorretos.")
+            }
+        }
+    }
+
+    fun limparLoginStatus() {
+        _loginStatus.value = null
     }
 
     fun criarUsuario(usuario: Usuario) {

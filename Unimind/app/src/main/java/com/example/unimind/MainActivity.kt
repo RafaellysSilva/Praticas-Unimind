@@ -97,6 +97,15 @@ import okhttp3.Request
 import java.lang.reflect.Array.set
 import java.text.DateFormatSymbols
 import java.util.Calendar
+import android.app.AlertDialog
+import android.content.Context
+import com.example.usuarioapp.viewmodel.LoginResult
+
+//import com.example.usuarioapp.viewmodel.LoginResult
+
+//import kotlin.coroutines.jvm.internal.CompletedContinuation.context
+
+// Tipo de resultado do login
 
 
 class MainActivity : ComponentActivity() {
@@ -504,7 +513,7 @@ fun Entrar(navController: NavController, viewModel: UsuarioViewModel = viewModel
 
     var user by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-    var erroLogin by remember { mutableStateOf("") }
+    /*var erroLogin by remember { mutableStateOf("") }
 
     val usuarios by viewModel.usuarios
     var novoNome by remember { mutableStateOf("") }
@@ -513,6 +522,7 @@ fun Entrar(navController: NavController, viewModel: UsuarioViewModel = viewModel
     var novoNomeAtualizar by remember { mutableStateOf("") }
     var usuarioIdDeletar by remember { mutableStateOf("") }
     val usuarioDetalhe by viewModel.usuarioDetalhe
+    */
 
 
 //    fun verificarLogin(nome: String, senha: String, onSuccess: () -> Unit, onError: () -> Unit) {
@@ -655,7 +665,7 @@ fun Entrar(navController: NavController, viewModel: UsuarioViewModel = viewModel
                         OutlinedButton (
                             onClick = {
                                 if (user.isNotEmpty() && password.isNotEmpty()) {
-                                   // verificarLogin(user, password)
+                                   verificarLogin(user, password, this)
                                 }
                             },
                             border = BorderStroke(2.dp, Vinho),
@@ -667,7 +677,36 @@ fun Entrar(navController: NavController, viewModel: UsuarioViewModel = viewModel
                                 color = Vinho,
                                 fontSize = 20.sp)
                         }
+                        when (val status = viewModel.loginStatus.value) {
+                            is UsuarioViewModel.LoginResult -> {
+                                AlertDialog(
+                                    onDismissRequest = { viewModel.limparLoginStatus() },
+                                    title = { Text("Erro") },
+                                    text = { Text(status.mensagem) },
+                                    confirmButton = {
+                                        TextButton(onClick = { viewModel.limparLoginStatus() }) {
+                                            Text("OK")
+                                        }
+                                    }
+                                )
+                            }
+
+                            is LoginResult.Sucesso -> {
+                                LaunchedEffect(Unit) {
+                                    viewModel.limparLoginStatus()
+                                    navController.navigate("telaHome") {
+                                        popUpTo("telaLogin") { inclusive = true }
+                                    }
+                                }
+                            }
+
+                            null -> {} // Nada acontece
+                            is LoginResult.Erro -> TODO()
+                            LoginResult.Sucesso -> TODO()
+                        }
+
                     }
+
                 }
                 Box(contentAlignment = Alignment.TopCenter,
                     modifier = Modifier.height(140.dp)) {
@@ -694,17 +733,28 @@ fun Entrar(navController: NavController, viewModel: UsuarioViewModel = viewModel
     }
 }
 
-@SuppressLint("ViewModelConstructorInComposable")
-@Composable
-fun verificarLogin(user: String, password: String) {
+//@SuppressLint("ViewModelConstructorInComposable")
+//@Composable
+fun verificarLogin(user: String, password: String, context : Context) {
     //acho q vai ter q pegar o user e o password e verificar
     val usuarioViewModel = UsuarioViewModel()
 
     usuarioViewModel.buscarUsuario(user.toString(), password.toString()) { encontrado ->
         if (encontrado) {
+
             // Usuário encontrado
+            //avisar que o login foi bem sucedido e levar a pessoa para a pagina inicial
+            AlertDialog.Builder(context)
+                .setTitle("titulo")
+                .setMessage("Login feito com sucesso!")
+                .setPositiveButton("OK") { dialog, _ ->
+                    dialog.dismiss()
+                }
+                .show()
         } else {
             // Usuário não encontrado
+            //avisar que ou o usuário ou a senha estavam incorretos e ficar na mesma pagina
+
         }
     }
 

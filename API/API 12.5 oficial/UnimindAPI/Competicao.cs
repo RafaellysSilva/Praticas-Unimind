@@ -8,17 +8,17 @@ public class Competicao
     [Key]
     [Column("idCompeticao")]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)] 
-    public int idCompeticao { get; set; }
+    public int IdCompeticao { get; set; }
 
     [Column("data")]
-    public Date data { get; set; }
+    public Date Data { get; set; }
 
     [Column("idUsuario1")]
-    public int idUsuario1 { get; set; }
+    public int IdUsuario1 { get; set; }
 
     [Column("idUsuario2")]
-    public int idUsuario2 { get; set; }
+    public int IdUsuario2 { get; set; }
 
     [Column("idNivel")]
-    public int idNivel { get; set; }
+    public int IdNivel { get; set; }
 }

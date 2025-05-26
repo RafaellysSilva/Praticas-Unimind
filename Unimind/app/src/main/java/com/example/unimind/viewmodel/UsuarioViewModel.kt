@@ -60,6 +60,23 @@ class UsuarioViewModel : ViewModel() {
         }
     }
 
+    private val _loginStatus = mutableStateOf<LoginResult?>(null)
+    val loginStatus: State<LoginResult?> = _loginStatus
+
+    fun verificarLogin(nome: String, senha: String) {
+        buscarUsuario(nome, senha) { sucesso ->
+            _loginStatus.value = if (sucesso) {
+                LoginResult.Sucesso
+            } else {
+                LoginResult.Erro("Usuário ou senha incorretos.")
+            }
+        }
+    }
+
+    fun limparLoginStatus() {
+        _loginStatus.value = null
+    }
+
     fun criarUsuario(usuario: Usuario) {
         coroutineScope.launch {
             try {
@@ -108,3 +125,5 @@ class UsuarioViewModel : ViewModel() {
         }
     }
 }
+
+

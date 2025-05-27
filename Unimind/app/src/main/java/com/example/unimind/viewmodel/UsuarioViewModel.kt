@@ -81,7 +81,7 @@ class UsuarioViewModel : ViewModel() {
     }
 
     fun limparLoginStatus() {
-        _loginStatus.value = null
+        _loginStatus.value = LoginResult.Nenhum
     }
 
     fun criarUsuario(usuario: Usuario) {

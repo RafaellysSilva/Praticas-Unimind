@@ -44,9 +44,10 @@ app.MapGet("/usuarios", async (UsuarioDbContext db) =>
     await db.Usuarios.ToListAsync());
 
 // GET: /usuarios/{id} (Buscar um usuario por ID)
-app.MapGet("/usuarios/{id}", async (int id, UsuarioDbContext db) =>
-    await db.Usuarios.FindAsync(id) is Usuario usuario ? Results.Ok(usuario) : Results.NotFound());
-
+app.MapGet("/usuarios/{nome}/{password}", async (string nome, string password, UsuarioDbContext db) =>
+    await db.Usuarios.FirstOrDefaultAsync(u => u.Nome == nome && u.Senha == password) is Usuario usuario
+        ? Results.Ok(usuario)
+        : Results.NotFound());
 
 // POST: /usuarios (Criar um novo usuario)
 app.MapPost("/usuarios/add", async (Usuario usuario, UsuarioDbContext db) =>
@@ -370,4 +371,4 @@ app.MapDelete("/competicoes/del/{id}", async (int id, CompeticaoDbContext db) =>
 });
 
 
-app.Run();
+app.Run("https://177.220.18.36:5133");

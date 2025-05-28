@@ -523,47 +523,6 @@ fun Entrar(navController: NavController, viewModel: UsuarioViewModel = viewModel
 
     var user by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-    /*var erroLogin by remember { mutableStateOf("") }
-
-    val usuarios by viewModel.usuarios
-    var novoNome by remember { mutableStateOf("") }
-    var usuarioIdBusca by remember { mutableStateOf("") }
-    var usuarioIdAtualizar by remember { mutableStateOf("") }
-    var novoNomeAtualizar by remember { mutableStateOf("") }
-    var usuarioIdDeletar by remember { mutableStateOf("") }
-    val usuarioDetalhe by viewModel.usuarioDetalhe
-    */
-
-
-//    fun verificarLogin(nome: String, senha: String, onSuccess: () -> Unit, onError: () -> Unit) {
-//        val url = "http://10.0.2.2:5000/login/$nome/$senha" // use 10.0.2.2 no emulador Android
-//        //val url = "http://localhost:5133/usuarios"
-//
-//        val client = OkHttpClient()
-//        val request = Request.Builder().url(url).build()
-//
-//        CoroutineScope(Dispatchers.IO).launch {
-//            try {
-//                val response = client.newCall(request).execute()
-//                val body = response.body?.string()
-//
-//
-//                if (response.isSuccessful && body?.contains("Login válido") == true) {
-//                    withContext(Dispatchers.Main) {
-//                        onSuccess()
-//                    }
-//                } else {
-//                    withContext(Dispatchers.Main) {
-//                        onError()
-//                    }
-//                }
-//            } catch (e: Exception) {
-//                withContext(Dispatchers.Main) {
-//                    onError()
-//                }
-//            }
-//        }
-//    }
 
     val cuteFont = FontFamily(
         Font(R.font.cute_letters) // Nome do arquivo sem a extensão .ttf ou .otf
@@ -685,7 +644,7 @@ fun Entrar(navController: NavController, viewModel: UsuarioViewModel = viewModel
                             onClick = {
                                 if (user.isNotEmpty() && password.isNotEmpty()) {
                                     Log.d("first step", "entrou no if de nao está vazio")
-                                   verificarLogin(user, password, context)
+                                    viewModel.verificarLogin(user, password)
                                 }
                             },
                             border = BorderStroke(2.dp, Vinho),
@@ -754,14 +713,14 @@ fun Entrar(navController: NavController, viewModel: UsuarioViewModel = viewModel
         }
     }
 }
-
+/*
 //@SuppressLint("ViewModelConstructorInComposable")
 //@Composable
 fun verificarLogin(user: String, password: String, context : Context) {
     //acho q vai ter q pegar o user e o password e verificar
     val usuarioViewModel = UsuarioViewModel()
 
-    usuarioViewModel.buscarUsuario(user.toString(), password.toString()) { encontrado ->
+    usuarioViewModel.buscarUsuario(user, password) { encontrado ->
         if (encontrado) {
 
             // Usuário encontrado
@@ -781,7 +740,7 @@ fun verificarLogin(user: String, password: String, context : Context) {
     }
 
 
-}
+}*/
 
 //@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class)
 @OptIn(ExperimentalMaterial3Api::class)

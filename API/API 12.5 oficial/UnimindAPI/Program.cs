@@ -47,6 +47,11 @@ app.MapGet("/usuarios", async (UsuarioDbContext db) =>
 app.MapGet("/usuarios/{id}", async (int id, UsuarioDbContext db) =>
     await db.Usuarios.FindAsync(id) is Usuario usuario ? Results.Ok(usuario) : Results.NotFound());
 
+app.MapGet("/login/{user}/{password}", async (string user, string password, UsuarioDbContext db) =>
+{
+    var usuario = await db.Usuarios.FirstOrDefaultAsync(u => u.Nome == user && u.Senha == password);
+    return usuario is not null ? Results.Ok(usuario) : Results.NotFound();
+});
 
 // POST: /usuarios (Criar um novo usuario)
 app.MapPost("/usuarios/add", async (Usuario usuario, UsuarioDbContext db) =>

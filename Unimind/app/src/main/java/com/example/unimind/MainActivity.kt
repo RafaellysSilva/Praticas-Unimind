@@ -673,7 +673,15 @@ fun Entrar(navController: NavController, viewModel: UsuarioViewModel = viewModel
                         Spacer(modifier = Modifier.height(3.dp))
                         OutlinedTextField(
                             value = password,
-                            onValueChange = {password = it}
+                            onValueChange = {password = it},
+                            colors = TextFieldDefaults.outlinedTextFieldColors(
+                                focusedTextColor = Color.Black, // Cor do texto quando em foco
+                                unfocusedTextColor = Color.Black,  // Cor do texto quando não está em foco
+                                focusedBorderColor = Color.Black,
+                                unfocusedBorderColor = Color.Black,
+                                cursorColor = Color.Black
+                            )
+
                         )
 
                         Spacer(modifier = Modifier.height(50.dp))
@@ -685,7 +693,7 @@ fun Entrar(navController: NavController, viewModel: UsuarioViewModel = viewModel
                             onClick = {
                                 if (user.isNotEmpty() && password.isNotEmpty()) {
                                     Log.d("first step", "entrou no if de nao está vazio")
-                                   verificarLogin(user, password, context)
+                                    viewModel.verificarLogin(user, password)
                                 }
                             },
                             border = BorderStroke(2.dp, Vinho),

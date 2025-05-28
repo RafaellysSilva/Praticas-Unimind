@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("UnimindAPI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+337bfc0e5eed294d8791dd24b4c8514d7d023bff")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e89e79dda418bd45e6897adce086fd2169f39e49")]
 [assembly: System.Reflection.AssemblyProductAttribute("UnimindAPI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("UnimindAPI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

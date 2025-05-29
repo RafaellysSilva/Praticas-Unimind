@@ -2595,7 +2595,7 @@ fun CompeticaoMomento(navController: NavController){
     UnimindTheme{
     	Surface(
             modifier = Modifier.fillMaxSize(),
-	    color = Rosinha
+	        color = Rosinha
         ){
            Column(
 	   	modifier = Modifier.fillMaxSize(),
@@ -2605,25 +2605,24 @@ fun CompeticaoMomento(navController: NavController){
 		ChallengeHeader()
 
 		Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.Center
-                    ) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.fotouser1), //é "correndo" o nome da imagem, mas não tem essa imagem na pasta e estava dando erro
-                            contentDescription = "Competindo",
-                            tint = White,
-                            modifier = Modifier.size(32.dp)
-                        )
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Text(
-                            text = "Responda corretamente as\nquestões antes do seu parceiro.",
-                            color = White,
-                            textAlign = TextAlign.Center
-                        )
-                    }
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.correndo),
+                contentDescription = "Competindo",
+                modifier = Modifier.size(32.dp)
+            )
+            Spacer(modifier = Modifier.width(8.dp))
+            Text(
+                text = "Responda corretamente as\nquestões antes do seu parceiro.",
+                color = White,
+                textAlign = TextAlign.Center
+            )
+        }
 
-                    Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(24.dp))
 
 		 // Conteúdo principal scrollável (incluindo os botões)
                 Column(
@@ -2631,7 +2630,7 @@ fun CompeticaoMomento(navController: NavController){
                         .weight(1f)
                         .fillMaxWidth()
                         .clip(RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp))
-                        .background(Vinho)
+                        .background(Rosinha)
                         .padding(horizontal = 16.dp)
                         .padding(top = 16.dp)
                         .verticalScroll(rememberScrollState())
@@ -2643,7 +2642,7 @@ fun CompeticaoMomento(navController: NavController){
                             .background(Nude, shape = RoundedCornerShape(16.dp))
                             .padding(14.dp)
                     ) {
-                        Text("dsmfkjnfkjhasbdhsvhfbaskdbas")
+                        Text("dsmfkjnfkjhasbdhsvhfbaskdbas nbvjhdbgjhe jbfuhev jhgdjfg ")
                     }
 
 
@@ -2716,13 +2715,13 @@ fun CompeticaoMomento(navController: NavController){
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .background(Vinho)
+                        .background(Nude)
                         .padding(vertical = 24.dp),
                     contentAlignment = Center
                 ) {
                     Text(
                         text = "45:00",
-                        color = White,
+                        color = Vinho,
                         fontSize = 36.sp,
                         fontWeight = FontWeight.Bold
                     )
@@ -3314,5 +3313,5 @@ fun ChallengeScreen(navController: NavController) {
 @Preview(showSystemUi = true)
 @Composable
 fun AppPreview() {
-    Calendario(rememberNavController())
+    CompeticaoMomento(rememberNavController())
 }

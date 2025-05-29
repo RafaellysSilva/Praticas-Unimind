@@ -2793,76 +2793,83 @@ fun Calendario(navController: NavController){
     UnimindTheme {
         Surface(
             modifier = Modifier.fillMaxSize(),
-            color = Rosinha
+            color = Nude
         ) {
             Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(16.dp),
+                modifier = Modifier.fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.bichinho),
-                        contentDescription = "Unimind Logo",
-                        modifier = Modifier.size(32.dp)
-                    )
-                    Text(
-                        text = "Calendário",
-                        color = Vinho,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 20.sp
-                    )
-                    Image(
-                        painter = painterResource(id = R.drawable.calendario),
-                        contentDescription = "Calendário Icon",
-                        modifier = Modifier.size(32.dp)
-                    )
-                }
-                Spacer(modifier = Modifier.height(16.dp))
-                Row(
+                Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clip(RoundedCornerShape(8.dp))
-                        .background(White),
-                    verticalAlignment = Alignment.CenterVertically
+                        .background(Vinho)
+                        .padding(horizontal = 16.dp, vertical = 16.dp)
                 ) {
-                    Icon(
-                        imageVector = Icons.Rounded.Menu,
-                        contentDescription = "Menu Icon",
-                        tint = Color.Gray,
-                        modifier = Modifier.padding(start = 8.dp)
-                    )
-                    BasicTextField(
-                        value = "Search \"Prova Cotuca\"",
-                        onValueChange = {},
-                        textStyle = TextStyle(color = Color.Gray),
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.bichinho),
+                            contentDescription = "Unimind Logo",
+                            modifier = Modifier.size(32.dp)
+                        )
+                        Spacer(modifier = Modifier.weight(1f))
+                        Text(
+                            text = "Calendário",
+                            color = White,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 20.sp
+                        )
+                        //Spacer(modifier = Modifier.weight(1f))
+                        Image(
+                            painter = painterResource(id = R.drawable.calendario),
+                            contentDescription = "Calendário Icon",
+                            modifier = Modifier.size(32.dp)
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Row(
                         modifier = Modifier
-                            .weight(1f)
-                            .padding(horizontal = 8.dp, vertical = 12.dp)
-                    )
-                    Icon(
-                        imageVector = Icons.Rounded.Search,
-                        contentDescription = "Search Icon",
-                        tint = Color.Gray,
-                        modifier = Modifier.padding(end = 8.dp)
-                    )
+                            .fillMaxWidth()
+                            .clip(RoundedCornerShape(8.dp))
+                            .background(White),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(
+                            imageVector = Icons.Rounded.Menu,
+                            contentDescription = "Menu Icon",
+                            tint = Color.Gray,
+                            modifier = Modifier.padding(start = 8.dp)
+                        )
+                        BasicTextField(
+                            value = "Search \"Prova Cotuca\"",
+                            onValueChange = {},
+                            textStyle = TextStyle(color = Color.Gray),
+                            modifier = Modifier
+                                .weight(1f)
+                                .padding(horizontal = 8.dp, vertical = 12.dp)
+                        )
+                        Icon(
+                            imageVector = Icons.Rounded.Search,
+                            contentDescription = "Search Icon",
+                            tint = Color.Gray,
+                            modifier = Modifier.padding(end = 8.dp)
+                        )
+                    }
                 }
 
-                Spacer(modifier = Modifier.height(50.dp))
-                CalendarView()
-                /*Spacer(modifier = Modifier.weight(1f))
-                Image(
-                    painter = painterResource(id = R.drawable.bichinho),
-                    contentDescription = "Unimind Logo Bottom",
+                Column(
                     modifier = Modifier
-                        .size(48.dp)
-                        .alpha(0.5f)
-                )*/
+                        .fillMaxSize()
+                        .padding(horizontal = 16.dp)
+                        .verticalScroll(rememberScrollState()),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Spacer(modifier = Modifier.height(50.dp))
+                    CalendarView()
+                }
             }
         }
         Footer(rememberNavController())

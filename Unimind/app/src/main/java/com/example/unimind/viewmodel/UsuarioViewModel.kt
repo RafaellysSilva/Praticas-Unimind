@@ -1,5 +1,8 @@
 package com.example.usuarioapp.viewmodel
 //import com.example.usuarioapp.LoginResult // substitui com o nome certo do seu pacote
+//package com.example.unimind.viewmodel
+import com.example.unimind.viewmodel.LoginResult
+
 
 
 import androidx.compose.runtime.State
@@ -62,21 +65,23 @@ class UsuarioViewModel : ViewModel() {
         }
     }
 
-    private val _loginStatus = mutableStateOf<LoginResult?>(null)
-    val loginStatus: State<LoginResult?> = _loginStatus
+    private val _loginStatus = mutableStateOf<LoginResult>(LoginResult.Nenhum)
+    val loginStatus: State<LoginResult> = _loginStatus
 
     fun verificarLogin(nome: String, senha: String) {
-        buscarUsuario(nome, senha) { sucesso ->
-            _loginStatus.value = if (sucesso) {
-                LoginResult.Sucesso
-            } else {
-                LoginResult.Erro("Usuário ou senha incorretos.")
+        coroutineScope.launch {
+            try {
+                val usuario = RetrofitUsuario.instance.buscarUsuario(nome, senha)
+                _loginStatus.value = if (usuario != null) LoginResult.Sucesso
+                else LoginResult.Erro("Usuário ou senha inválidos")
+            } catch (e: Exception) {
+                _loginStatus.value = LoginResult.Erro("Erro ao conectar: ${e.message}")
             }
         }
     }
 
     fun limparLoginStatus() {
-        _loginStatus.value = null
+        _loginStatus.value = LoginResult.Nenhum
     }
 
     fun criarUsuario(usuario: Usuario) {

@@ -1,4 +1,6 @@
 package com.example.unimind
+import com.example.unimind.viewmodel.LoginResult
+
 
 
 import android.annotation.SuppressLint
@@ -99,7 +101,14 @@ import java.text.DateFormatSymbols
 import java.util.Calendar
 import android.app.AlertDialog
 import android.content.Context
-import com.example.usuarioapp.viewmodel.LoginResult
+import android.util.Log
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.ui.platform.LocalContext
+
 
 //import com.example.usuarioapp.viewmodel.LoginResult
 
@@ -508,6 +517,7 @@ fun Cadastro(navController: NavController) {
 }
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Entrar(navController: NavController, viewModel: UsuarioViewModel = viewModel()){
 
@@ -648,6 +658,13 @@ fun Entrar(navController: NavController, viewModel: UsuarioViewModel = viewModel
                         OutlinedTextField(
                             value = user,      //o valor q o usuário digitar será armazenado na var texto
                             onValueChange = { user = it },  //atualiza o valor da variável texto sempre que o usuário digitar algo.
+                            colors = TextFieldDefaults.outlinedTextFieldColors(
+                                focusedTextColor = Color.Black, // Cor do texto quando em foco
+                                unfocusedTextColor = Color.Black,  // Cor do texto quando não está em foco
+                                focusedBorderColor = Color.Black,
+                                unfocusedBorderColor = Color.Black,
+                                cursorColor = Color.Black
+                            )
                         )
 
                         Spacer(modifier = Modifier.height(16.dp))
@@ -656,16 +673,27 @@ fun Entrar(navController: NavController, viewModel: UsuarioViewModel = viewModel
                         Spacer(modifier = Modifier.height(3.dp))
                         OutlinedTextField(
                             value = password,
-                            onValueChange = {password = it}
+                            onValueChange = {password = it},
+                            colors = TextFieldDefaults.outlinedTextFieldColors(
+                                focusedTextColor = Color.Black, // Cor do texto quando em foco
+                                unfocusedTextColor = Color.Black,  // Cor do texto quando não está em foco
+                                focusedBorderColor = Color.Black,
+                                unfocusedBorderColor = Color.Black,
+                                cursorColor = Color.Black
+                            )
+
                         )
 
                         Spacer(modifier = Modifier.height(50.dp))
 
                         //TEM QUE COLOCAR A FUNÇÃO VERIFICAR LOGIN AQUI NESSE BOTÃO
+                        val context = LocalContext.current
+
                         OutlinedButton (
                             onClick = {
                                 if (user.isNotEmpty() && password.isNotEmpty()) {
-                                   verificarLogin(user, password, this)
+                                    Log.d("first step", "entrou no if de nao está vazio")
+                                    viewModel.verificarLogin(user, password)
                                 }
                             },
                             border = BorderStroke(2.dp, Vinho),
@@ -677,8 +705,18 @@ fun Entrar(navController: NavController, viewModel: UsuarioViewModel = viewModel
                                 color = Vinho,
                                 fontSize = 20.sp)
                         }
+
                         when (val status = viewModel.loginStatus.value) {
-                            is UsuarioViewModel.LoginResult -> {
+                            is LoginResult.Sucesso -> {
+                                LaunchedEffect(Unit) {
+                                    viewModel.limparLoginStatus()
+                                    navController.navigate("telaInicial") {
+                                        popUpTo("telaLogin") { inclusive = true }
+                                    }
+                                }
+                            }
+
+                            is LoginResult.Erro -> {
                                 AlertDialog(
                                     onDismissRequest = { viewModel.limparLoginStatus() },
                                     title = { Text("Erro") },
@@ -691,19 +729,11 @@ fun Entrar(navController: NavController, viewModel: UsuarioViewModel = viewModel
                                 )
                             }
 
-                            is LoginResult.Sucesso -> {
-                                LaunchedEffect(Unit) {
-                                    viewModel.limparLoginStatus()
-                                    navController.navigate("telaHome") {
-                                        popUpTo("telaLogin") { inclusive = true }
-                                    }
-                                }
+                            LoginResult.Nenhum -> {
+                                // Nada visível
                             }
-
-                            null -> {} // Nada acontece
-                            is LoginResult.Erro -> TODO()
-                            LoginResult.Sucesso -> TODO()
                         }
+
 
                     }
 

@@ -14,8 +14,11 @@ interface UsuarioApi {
     @GET("/usuarios")
     suspend fun listarUsuarios(): List<Usuario>
 
-    @GET("/usuarios/{id}")
-    suspend fun buscarUsuario(@Path("nome, senha") nome: String, senha: String): Usuario?
+    @GET("/login/{user}/{password}")
+    suspend fun buscarUsuario(
+        @Path("user") nome: String,
+        @Path("password") senha: String
+    ): Usuario?
 
     @POST("/usuarios")
     suspend fun criarUsuario(@Body usuario: Usuario): Usuario

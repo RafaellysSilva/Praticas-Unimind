@@ -1,0 +1,4 @@
+*.dll
+API/API 12.5 oficial/UnimindAPI/bin/Debug/net9.0/UnimindAPI.dll
+*.exe
+*.pdb

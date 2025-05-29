@@ -2817,10 +2817,9 @@ fun Calendario(navController: NavController){
                         fontWeight = FontWeight.Bold,
                         fontSize = 20.sp
                     )
-                    Icon(
-                        imageVector = Icons.Rounded.CheckCircle,        //NÃO É ESSA IMAGEM, É CalendarMonth, MAS ELA NÃO EXISTE E EU QUERIA TIRAR O ERRO
+                    Image(
+                        painter = painterResource(id = R.drawable.calendario),
                         contentDescription = "Calendário Icon",
-                        tint = Vinho,
                         modifier = Modifier.size(32.dp)
                     )
                 }
@@ -2853,59 +2852,20 @@ fun Calendario(navController: NavController){
                         modifier = Modifier.padding(end = 8.dp)
                     )
                 }
-                Spacer(modifier = Modifier.height(16.dp))
-                Box(
-                    modifier = Modifier
-                        .clip(RoundedCornerShape(8.dp))
-                        .background(Color(0xFFE91E63).copy(alpha = 0.8f))
-                        .padding(8.dp)
-                ) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Box(
-                            modifier = Modifier
-                                .size(24.dp)
-                                .background(White, CircleShape)
-                                .border(2.dp, Color(0xFFE91E63), CircleShape)
-                                .padding(4.dp),
-                            contentAlignment = Center
-                        ) {
-                            Text(
-                                text = "L",
-                                color = Color(0xFFE91E63),
-                                fontWeight = FontWeight.Bold,
-                                fontSize = 14.sp
-                            )
-                        }
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Box(
-                            modifier = Modifier
-                                .size(24.dp)
-                                .background(White, CircleShape)
-                                .border(2.dp, Color(0xFF4CAF50), CircleShape)
-                                .padding(4.dp),
-                            contentAlignment = Center
-                        ) {
-                            Text(
-                                text = "M",
-                                color = Color(0xFF4CAF50),
-                                fontWeight = FontWeight.Bold,
-                                fontSize = 14.sp
-                            )
-                        }
-                    }
-                }
-                Spacer(modifier = Modifier.height(16.dp))
+
+                Spacer(modifier = Modifier.height(50.dp))
                 CalendarView()
-                Spacer(modifier = Modifier.weight(1f))
+                /*Spacer(modifier = Modifier.weight(1f))
                 Image(
                     painter = painterResource(id = R.drawable.bichinho),
                     contentDescription = "Unimind Logo Bottom",
                     modifier = Modifier
                         .size(48.dp)
                         .alpha(0.5f)
-                )
+                )*/
             }
         }
+        Footer(rememberNavController())
     }
 }
 
@@ -3347,5 +3307,5 @@ fun ChallengeScreen(navController: NavController) {
 @Preview(showSystemUi = true)
 @Composable
 fun AppPreview() {
-    Estatisticas(rememberNavController())
+    Calendario(rememberNavController())
 }

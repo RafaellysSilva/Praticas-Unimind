@@ -374,5 +374,5 @@ app.MapDelete("/competicoes/del/{id}", async (int id, CompeticaoDbContext db) =>
     return Results.NoContent();
 });
 
-
-app.Run("http://100.112.58.246:5133");
+app.Run("http://0.0.0.0:5133");
+    

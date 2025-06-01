@@ -2595,7 +2595,7 @@ fun CompeticaoMomento(navController: NavController){
     UnimindTheme{
     	Surface(
             modifier = Modifier.fillMaxSize(),
-	    color = Rosinha
+	        color = Rosinha
         ){
            Column(
 	   	modifier = Modifier.fillMaxSize(),
@@ -2605,25 +2605,24 @@ fun CompeticaoMomento(navController: NavController){
 		ChallengeHeader()
 
 		Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.Center
-                    ) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.fotouser1), //é "correndo" o nome da imagem, mas não tem essa imagem na pasta e estava dando erro
-                            contentDescription = "Competindo",
-                            tint = White,
-                            modifier = Modifier.size(32.dp)
-                        )
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Text(
-                            text = "Responda corretamente as\nquestões antes do seu parceiro.",
-                            color = White,
-                            textAlign = TextAlign.Center
-                        )
-                    }
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.correndo),
+                contentDescription = "Competindo",
+                modifier = Modifier.size(32.dp)
+            )
+            Spacer(modifier = Modifier.width(8.dp))
+            Text(
+                text = "Responda corretamente as\nquestões antes do seu parceiro.",
+                color = White,
+                textAlign = TextAlign.Center
+            )
+        }
 
-                    Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(24.dp))
 
 		 // Conteúdo principal scrollável (incluindo os botões)
                 Column(
@@ -2631,7 +2630,7 @@ fun CompeticaoMomento(navController: NavController){
                         .weight(1f)
                         .fillMaxWidth()
                         .clip(RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp))
-                        .background(Vinho)
+                        .background(Rosinha)
                         .padding(horizontal = 16.dp)
                         .padding(top = 16.dp)
                         .verticalScroll(rememberScrollState())
@@ -2643,7 +2642,7 @@ fun CompeticaoMomento(navController: NavController){
                             .background(Nude, shape = RoundedCornerShape(16.dp))
                             .padding(14.dp)
                     ) {
-                        Text("dsmfkjnfkjhasbdhsvhfbaskdbas")
+                        Text("dsmfkjnfkjhasbdhsvhfbaskdbas nbvjhdbgjhe jbfuhev jhgdjfg ")
                     }
 
 
@@ -2716,13 +2715,13 @@ fun CompeticaoMomento(navController: NavController){
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .background(Vinho)
+                        .background(Nude)
                         .padding(vertical = 24.dp),
                     contentAlignment = Center
                 ) {
                     Text(
                         text = "45:00",
-                        color = White,
+                        color = Vinho,
                         fontSize = 36.sp,
                         fontWeight = FontWeight.Bold
                     )
@@ -2793,119 +2792,86 @@ fun Calendario(navController: NavController){
     UnimindTheme {
         Surface(
             modifier = Modifier.fillMaxSize(),
-            color = Rosinha
+            color = Nude
         ) {
             Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(16.dp),
+                modifier = Modifier.fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.bichinho),
-                        contentDescription = "Unimind Logo",
-                        modifier = Modifier.size(32.dp)
-                    )
-                    Text(
-                        text = "Calendário",
-                        color = Vinho,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 20.sp
-                    )
-                    Icon(
-                        imageVector = Icons.Rounded.CheckCircle,        //NÃO É ESSA IMAGEM, É CalendarMonth, MAS ELA NÃO EXISTE E EU QUERIA TIRAR O ERRO
-                        contentDescription = "Calendário Icon",
-                        tint = Vinho,
-                        modifier = Modifier.size(32.dp)
-                    )
-                }
-                Spacer(modifier = Modifier.height(16.dp))
-                Row(
+                Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clip(RoundedCornerShape(8.dp))
-                        .background(White),
-                    verticalAlignment = Alignment.CenterVertically
+                        .background(Vinho)
+                        .padding(horizontal = 16.dp, vertical = 16.dp)
                 ) {
-                    Icon(
-                        imageVector = Icons.Rounded.Menu,
-                        contentDescription = "Menu Icon",
-                        tint = Color.Gray,
-                        modifier = Modifier.padding(start = 8.dp)
-                    )
-                    BasicTextField(
-                        value = "Search \"Prova Cotuca\"",
-                        onValueChange = {},
-                        textStyle = TextStyle(color = Color.Gray),
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.bichinho),
+                            contentDescription = "Unimind Logo",
+                            modifier = Modifier.size(32.dp)
+                        )
+                        Spacer(modifier = Modifier.weight(1f))
+                        Text(
+                            text = "Calendário",
+                            color = White,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 20.sp
+                        )
+                        //Spacer(modifier = Modifier.weight(1f))
+                        Image(
+                            painter = painterResource(id = R.drawable.calendario),
+                            contentDescription = "Calendário Icon",
+                            modifier = Modifier.size(32.dp)
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Row(
                         modifier = Modifier
-                            .weight(1f)
-                            .padding(horizontal = 8.dp, vertical = 12.dp)
-                    )
-                    Icon(
-                        imageVector = Icons.Rounded.Search,
-                        contentDescription = "Search Icon",
-                        tint = Color.Gray,
-                        modifier = Modifier.padding(end = 8.dp)
-                    )
-                }
-                Spacer(modifier = Modifier.height(16.dp))
-                Box(
-                    modifier = Modifier
-                        .clip(RoundedCornerShape(8.dp))
-                        .background(Color(0xFFE91E63).copy(alpha = 0.8f))
-                        .padding(8.dp)
-                ) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Box(
+                            .fillMaxWidth()
+                            .clip(RoundedCornerShape(8.dp))
+                            .background(White),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(
+                            imageVector = Icons.Rounded.Menu,
+                            contentDescription = "Menu Icon",
+                            tint = Color.Gray,
+                            modifier = Modifier.padding(start = 8.dp)
+                        )
+                        BasicTextField(
+                            value = "Search \"Prova Cotuca\"",
+                            onValueChange = {},
+                            textStyle = TextStyle(color = Color.Gray),
                             modifier = Modifier
-                                .size(24.dp)
-                                .background(White, CircleShape)
-                                .border(2.dp, Color(0xFFE91E63), CircleShape)
-                                .padding(4.dp),
-                            contentAlignment = Center
-                        ) {
-                            Text(
-                                text = "L",
-                                color = Color(0xFFE91E63),
-                                fontWeight = FontWeight.Bold,
-                                fontSize = 14.sp
-                            )
-                        }
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Box(
-                            modifier = Modifier
-                                .size(24.dp)
-                                .background(White, CircleShape)
-                                .border(2.dp, Color(0xFF4CAF50), CircleShape)
-                                .padding(4.dp),
-                            contentAlignment = Center
-                        ) {
-                            Text(
-                                text = "M",
-                                color = Color(0xFF4CAF50),
-                                fontWeight = FontWeight.Bold,
-                                fontSize = 14.sp
-                            )
-                        }
+                                .weight(1f)
+                                .padding(horizontal = 8.dp, vertical = 12.dp)
+                        )
+                        Icon(
+                            imageVector = Icons.Rounded.Search,
+                            contentDescription = "Search Icon",
+                            tint = Color.Gray,
+                            modifier = Modifier.padding(end = 8.dp)
+                        )
                     }
                 }
-                Spacer(modifier = Modifier.height(16.dp))
-                CalendarView()
-                Spacer(modifier = Modifier.weight(1f))
-                Image(
-                    painter = painterResource(id = R.drawable.bichinho),
-                    contentDescription = "Unimind Logo Bottom",
+
+                Column(
                     modifier = Modifier
-                        .size(48.dp)
-                        .alpha(0.5f)
-                )
+                        .fillMaxSize()
+                        .padding(horizontal = 16.dp)
+                        .verticalScroll(rememberScrollState()),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Spacer(modifier = Modifier.height(50.dp))
+                    CalendarView()
+                }
             }
         }
+        Footer(rememberNavController())
     }
 }
 
@@ -3347,5 +3313,5 @@ fun ChallengeScreen(navController: NavController) {
 @Preview(showSystemUi = true)
 @Composable
 fun AppPreview() {
-    Estatisticas(rememberNavController())
+    CompeticaoMomento(rememberNavController())
 }

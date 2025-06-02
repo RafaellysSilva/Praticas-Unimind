@@ -152,7 +152,7 @@ fun AppNavigation(navController: NavHostController) {
     }
 }
 
-
+    
 //função para chamar (tem várias telas que tem a mesma parte como o footer, fica mais facil assim)
 @Composable
 fun Header(nomePagina: String){
@@ -1958,10 +1958,30 @@ fun ListaPersonalizadaCriar(navController: NavController) {
     UnimindTheme {
         Surface(
             modifier = Modifier.fillMaxSize(),
-            color = Vinho
+            color = Nude
         ) {
-            Header("Criar Lista Personalizada") // O Header agora é o primeiro elemento na Column principal
+            // Coluna principal para conter o cabeçalho, o conteúdo e o rodapé
+            Column(
+                modifier = Modifier.fillMaxSize() // Faz a Coluna preencher a tela inteira para posicionar corretamente o cabeçalho e o rodapé
+            ) {
+                // INÍCIO DA IMPLEMENTAÇÃO DO CABEÇALHO
 
+                // Este Box atuará como o plano de fundo do cabeçalho
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(80.dp) // Define uma altura fixa para o cabeçalho
+                        .background(Vinho), // Usa uma cor semelhante à imagem (vermelho escuro/vinho)
+                    contentAlignment = Alignment.CenterStart // Alinha o conteúdo ao início (esquerda)
+                ) {
+                    Text(
+                        text = "Criar Lista Personalizada",
+                        color = Color.White, // Define a cor do texto para branco para contraste
+                        fontSize = 20.sp, // Ajusta o tamanho da fonte conforme necessário
+                        fontWeight = FontWeight.Bold, // Deixa o texto em negrito
+                        modifier = Modifier.padding(start = 20.dp) // Adiciona um preenchimento da borda esquerda
+                    )
+                }
             Column(
                 modifier = Modifier
                     .fillMaxWidth() // A Column das preferências ocupa a largura total
@@ -2116,7 +2136,7 @@ fun ListaPersonalizadaCriar(navController: NavController) {
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier
-                            .padding(start = 35.dp, end = 55.dp, top = 3.dp)
+                            .padding(start = 40.dp, end = 55.dp, top = 3.dp)
                     )
 
                     var expanded by remember { mutableStateOf(false) }
@@ -2780,6 +2800,64 @@ fun Estatisticas(navController: NavController){
                     ){
                         Text(text = "Total:50", fontSize = 15.sp, fontWeight = FontWeight.SemiBold)
                     }
+
+                    Card(modifier = Modifier
+                        .fillMaxWidth(0.95f).shadow(6.dp)
+                        .padding(top = 300.dp),
+                        colors = CardDefaults.cardColors(containerColor = Nude),){
+                        Column(
+                            horizontalAlignment = Alignment.Start,
+                            verticalArrangement = Arrangement.spacedBy(15.dp),
+                            modifier = Modifier.padding(16.dp)
+                        ){
+                            Text(text = "Tempo de estudo", fontSize = 20.sp, fontWeight = FontWeight.SemiBold)
+                            Row(
+                                horizontalArrangement = Arrangement.spacedBy(16.dp),
+                                verticalAlignment = Alignment.CenterVertically
+                            ){
+                                Text(text = "Tempo", fontSize = 15.sp, fontWeight = FontWeight.SemiBold)
+                                Box(
+                                    modifier = Modifier
+                                        .height(30.dp)
+                                        .fillMaxWidth(0.5f)
+                                        .background(Azul)
+                                )
+                            }
+                            Row(
+                                horizontalArrangement = Arrangement.spacedBy(16.dp),
+                                verticalAlignment = Alignment.CenterVertically
+                            ){
+                                Text(text = "Total:50 minutos", fontSize = 15.sp, fontWeight = FontWeight.SemiBold)
+                            }
+
+                            Card(modifier = Modifier
+                                .fillMaxWidth(0.95f).shadow(6.dp)
+                                .padding(top = 300.dp),
+                                colors = CardDefaults.cardColors(containerColor = Nude),){
+                                Column(
+                                    horizontalAlignment = Alignment.Start,
+                                    verticalArrangement = Arrangement.spacedBy(15.dp),
+                                    modifier = Modifier.padding(16.dp)
+                                ){
+                                    Text(text = "Competições realizadas", fontSize = 20.sp, fontWeight = FontWeight.SemiBold)
+                                    Row(
+                                        horizontalArrangement = Arrangement.spacedBy(16.dp),
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ){
+                                        Text(text = "Competições", fontSize = 15.sp, fontWeight = FontWeight.SemiBold)
+                                        Box(
+                                            modifier = Modifier
+                                                .height(30.dp)
+                                                .fillMaxWidth(0.5f)
+                                                .background(Azul)
+                                        )
+                                    }
+                                    Row(
+                                        horizontalArrangement = Arrangement.spacedBy(16.dp),
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ){
+                                        Text(text = "Total:50", fontSize = 15.sp, fontWeight = FontWeight.SemiBold)
+                                    }
                 }
             }
             Footer(rememberNavController())
@@ -3313,5 +3391,4 @@ fun ChallengeScreen(navController: NavController) {
 @Preview(showSystemUi = true)
 @Composable
 fun AppPreview() {
-    CompeticaoMomento(rememberNavController())
-}
+    Calendario(rememberNavController())}

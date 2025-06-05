@@ -1,9 +1,6 @@
 package com.example.unimind
+
 import com.example.unimind.viewmodel.LoginResult
-
-
-
-import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -22,11 +19,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.rounded.ArrowBack
-import androidx.compose.material.icons.automirrored.rounded.ArrowForward
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.ArrowForward
-import androidx.compose.material.icons.rounded.CheckCircle
 import androidx.compose.material.icons.rounded.Menu
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material3.BottomAppBar
@@ -52,7 +46,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.BottomCenter
 import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
@@ -60,10 +53,8 @@ import androidx.compose.ui.graphics.Color.Companion.Black
 import androidx.compose.ui.graphics.Color.Companion.Blue
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -76,7 +67,6 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
@@ -90,30 +80,17 @@ import androidx.navigation.compose.composable
 import com.example.unimind.ui.theme.Azul
 import com.example.unimind.ui.theme.Rosinha
 import com.example.usuarioapp.viewmodel.UsuarioViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import java.lang.reflect.Array.set
 import java.text.DateFormatSymbols
 import java.util.Calendar
-import android.app.AlertDialog
-import android.content.Context
 import android.util.Log
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.ui.platform.LocalContext
 
-
 //import com.example.usuarioapp.viewmodel.LoginResult
-
 //import kotlin.coroutines.jvm.internal.CompletedContinuation.context
-
 // Tipo de resultado do login
 
 
@@ -130,7 +107,6 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-
 @Composable
 fun AppNavigation(navController: NavHostController) {
     NavHost(navController = navController, startDestination = "telaBloqueio") {
@@ -143,10 +119,11 @@ fun AppNavigation(navController: NavHostController) {
         composable("telaFlashcardsPergunta") { FlashcardsPergunta(navController) }
         composable("telaFlashcardsResposta") { FlashcardsResposta(navController) }
         composable("telaListasProvasArea") { ListasProvasArea(navController) }
-        composable("telaListaProvaResolucao") { ListaProvaResolucao(navController) }
+        composable("telaListasProvasResolucao") { ListasProvasResolucao(navController) }
         composable("telaListaPersonalizadaCriar") { ListaPersonalizadaCriar(navController) }
         composable("telaCompeticaoCriar") { CompeticaoCriar(navController) }
         composable("telaCompeticaoMomento") { CompeticaoMomento(navController) }
+        composable("telaCompeticaoRelatorio") { CompeticaoRelatorio(navController) }
         composable("telaEstatisticas") { Estatisticas(navController) }
         composable("telaCalendario") { Calendario(navController) }
     }
@@ -221,12 +198,10 @@ fun Footer(navController: NavController) {
                         .clickable(onClick = {navController.navigate("telaFlashcardsArea")})
                 )
 
-
                 Spacer(
                     Modifier
                         .padding(start = 10.dp)
                 )
-
 
                 Image(
                     painterResource(id = R.drawable.listasprovas),
@@ -235,12 +210,10 @@ fun Footer(navController: NavController) {
                         .clickable(onClick = {navController.navigate("telaListasProvasArea")})
                 )
 
-
                 Spacer(
                     Modifier
                         .padding(start = 10.dp)
                 )
-
 
                 Image(
                     painterResource(id = R.drawable.competicao),
@@ -249,12 +222,10 @@ fun Footer(navController: NavController) {
                         .clickable(onClick = {navController.navigate("telaCompeticaoCriar")})
                 )
 
-
                 Spacer(
                     Modifier
                         .padding(start = 10.dp)
                 )
-
 
                 Image(
                     painterResource(id = R.drawable.estatisticas),
@@ -263,12 +234,10 @@ fun Footer(navController: NavController) {
                         .clickable(onClick = { navController.navigate("telaEstatisticas") })
                 )
 
-
                 Spacer(
                     Modifier
                         .padding(start = 10.dp)
                 )
-
 
                 Image(
                     painterResource(id = R.drawable.bichinho),
@@ -280,7 +249,6 @@ fun Footer(navController: NavController) {
         }
     }
 }
-
 
 
 @Composable
@@ -765,7 +733,7 @@ fun Entrar(navController: NavController, viewModel: UsuarioViewModel = viewModel
 
 //@SuppressLint("ViewModelConstructorInComposable")
 //@Composable
-fun verificarLogin(user: String, password: String, context : Context) {
+/*fun verificarLogin(user: String, password: String, context : Context) {
     //acho q vai ter q pegar o user e o password e verificar
     val usuarioViewModel = UsuarioViewModel()
 
@@ -787,15 +755,12 @@ fun verificarLogin(user: String, password: String, context : Context) {
 
         }
     }
-
-
 }
+*/
 
-fun fazerCadastro(){
+fun fazerCadastro(){}
 
-}
 
-//@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Configuracoes(navController: NavController) {
@@ -903,24 +868,6 @@ fun Configuracoes(navController: NavController) {
                         Spacer(Modifier.height(15.dp))
 
                         Row{
-                            var nome by remember { mutableStateOf("") }
-                            Text("Nome:", fontSize = 20.sp, fontWeight = FontWeight.Bold,
-                                modifier = Modifier
-                                    .padding(start = 10.dp, end = 17.dp)
-                            )
-                            OutlinedTextField(
-                                value = nome,
-                                onValueChange = {nome = it},
-                                modifier = Modifier
-                                    .width(280.dp)
-                                    .height(10.dp)
-                                    .padding(start = 20.dp, top = 10.dp)
-                            )
-                        }
-
-                        Spacer(Modifier.height(15.dp))
-
-                        Row{
                             var email by remember { mutableStateOf("") }
                             Text("E-mail:", fontSize = 20.sp, fontWeight = FontWeight.Bold,
                                 modifier = Modifier
@@ -970,114 +917,6 @@ fun Configuracoes(navController: NavController) {
                                     .width(280.dp)
                                     .height(10.dp)
                                     .padding(start = 20.dp, top = 10.dp)
-                            )
-                        }
-                        Spacer(Modifier.height(20.dp))
-                        Text(text = "Preferências",
-                            fontSize = 23.sp,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .background(Color(0xFFf3d1c2))
-                                .padding(start = 10.dp, top = 5.dp, bottom = 5.dp)
-                        )
-                        Spacer(Modifier.height(15.dp))
-
-                        Row{
-                            Text("Dificuldade:", fontSize = 20.sp, fontWeight = FontWeight.Bold,
-                                modifier = Modifier
-                                    .padding(start = 10.dp, end = 14.dp, top = 3.dp)
-                            )
-                            var expanded by remember { mutableStateOf(false) }
-                            var selecionada by remember { mutableStateOf("") }
-                            val opcoes = listOf("Opção 1", "Opção 2", "Opção 3")
-                            ExposedDropdownMenuBox(
-                                expanded = expanded,
-                                onExpandedChange = { expanded = !expanded }
-                            ) {
-                                OutlinedTextField(
-                                    value = selecionada,
-                                    onValueChange = {},
-                                    readOnly = true,
-                                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
-                                    modifier = Modifier
-                                        .menuAnchor() // Necessário para alinhar o menu corretamente
-                                        .height(30.dp)
-                                        .width(250.dp)
-                                )
-
-                                ExposedDropdownMenu(
-                                    expanded = expanded,
-                                    onDismissRequest = { expanded = false }
-                                    //Modifier.height(50.dp)
-                                ) {
-                                    opcoes.forEach { opcao ->
-                                        DropdownMenuItem(
-                                            text = { Text(opcao) },
-                                            onClick = {
-                                                selecionada = opcao
-                                                expanded = false
-                                            }
-                                        )
-                                    }
-                                }
-                            }
-                        }
-                        Spacer(Modifier.height(15.dp))
-                        Row{
-                            Text("Facilidade:", fontSize = 20.sp, fontWeight = FontWeight.Bold,
-                                modifier = Modifier
-                                    .padding(start = 10.dp, end = 23.dp, top = 3.dp)
-                            )
-                            var expanded by remember { mutableStateOf(false) }
-                            var selecionada by remember { mutableStateOf("") }
-                            val opcoes = listOf("Opção 1", "Opção 2", "Opção 3")
-                            ExposedDropdownMenuBox(
-                                expanded = expanded,
-                                onExpandedChange = { expanded = !expanded }
-                            ) {
-                                OutlinedTextField(
-                                    value = selecionada,
-                                    onValueChange = {},
-                                    readOnly = true,
-                                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
-                                    modifier = Modifier
-                                        .menuAnchor() // Necessário para alinhar o menu corretamente
-                                        .height(30.dp)
-                                        .width(250.dp)
-                                )
-
-                                ExposedDropdownMenu(
-                                    expanded = expanded,
-                                    onDismissRequest = { expanded = false }
-                                    //Modifier.height(50.dp)
-                                ) {
-                                    opcoes.forEach { opcao ->
-                                        DropdownMenuItem(
-                                            text = { Text(opcao) },
-                                            onClick = {
-                                                selecionada = opcao
-                                                expanded = false
-                                            }
-                                        )
-                                    }
-                                }
-                            }
-                        }
-
-                        Spacer(Modifier.height(8.dp))
-                        Row{
-                            var minutos by remember { mutableStateOf("") }
-                            Text("Tempo em \nresolução\nde listas:", fontSize = 15.sp, fontWeight = FontWeight.Bold,
-                                modifier = Modifier
-                                    .padding(start = 10.dp, end = 14.dp, top = 3.dp)
-                            )
-                            OutlinedTextField(
-                                value = minutos,
-                                onValueChange = {minutos = it},
-                                modifier = Modifier
-                                    .height(30.dp)
-                                    .width(281.dp)
-                                    .padding(top = 40.dp, start = 32.dp)
                             )
                         }
 
@@ -1758,7 +1597,7 @@ fun ListasProvasArea(navController: NavController) {
 
 
 @Composable
-fun ListaProvaResolucao(navController: NavController) {
+fun ListasProvasResolucao(navController: NavController) {
     UnimindTheme {
         Surface(
             modifier = Modifier.fillMaxSize(),
@@ -1788,24 +1627,7 @@ fun ListaProvaResolucao(navController: NavController) {
                             modifier = Modifier.fillMaxWidth()
                         )
                     }
-
-
-                    // Cronômetro menor abaixo do cabeçalho
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 8.dp),
-                        contentAlignment = Center
-                    ) {
-                        Text(
-                            text = "45:00",
-                            color = Vinho,
-                            fontSize = 32.sp,
-                            fontWeight = FontWeight.Bold
-                        )
-                    }
                 }
-
 
                 // Conteúdo principal scrollável (incluindo os botões)
                 Column(
@@ -1818,6 +1640,8 @@ fun ListaProvaResolucao(navController: NavController) {
                         .padding(top = 16.dp)
                         .verticalScroll(rememberScrollState())
                 ) {
+                    Spacer(modifier = Modifier.height(50.dp))
+
                     // Caixa da questão
                     Box(
                         Modifier
@@ -1825,7 +1649,7 @@ fun ListaProvaResolucao(navController: NavController) {
                             .background(Nude, shape = RoundedCornerShape(16.dp))
                             .padding(14.dp)
                     ) {
-                        Text("dsmfkjnfkjhasbdhsvhfbaskdbas")
+                        Text("Qual é a capital da França?")
                     }
 
 
@@ -1842,7 +1666,7 @@ fun ListaProvaResolucao(navController: NavController) {
                         Column(
                             verticalArrangement = Arrangement.spacedBy(12.dp)
                         ) {
-                            listOf("A", "B", "C", "D", "E").forEach { alternativa ->
+                            listOf("Paris", "Brasília", "Moçambique", "Judiaí", "Genova").forEach { alternativa ->
                                 Button(
                                     onClick = { /* Ação ao clicar */ },
                                     colors = ButtonDefaults.buttonColors(containerColor = White),
@@ -1974,7 +1798,7 @@ fun ListaPersonalizadaCriar(navController: NavController) {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(80.dp) // Define uma altura fixa para o cabeçalho
+                        .height(50.dp) // Define uma altura fixa para o cabeçalho
                         .background(Vinho), // Usa uma cor semelhante à imagem (vermelho escuro/vinho)
                     contentAlignment = Alignment.CenterStart // Alinha o conteúdo ao início (esquerda)
                 ) {
@@ -1997,7 +1821,7 @@ fun ListaPersonalizadaCriar(navController: NavController) {
                 
                 Spacer(Modifier.height(10.dp))
 
-		Row {
+		        Row {
                     Text(
                         "Nome:",
                         fontSize = 16.sp,
@@ -2182,52 +2006,6 @@ fun ListaPersonalizadaCriar(navController: NavController) {
 
                 Row {
                     Text(
-                        "Tempo:",
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Bold,
-                        modifier = Modifier
-                            .padding(start = 35.dp, end = 46.dp, top = 3.dp)
-                    )
-
-                    var expanded by remember { mutableStateOf(false) }
-                    var selecionada by remember { mutableStateOf("") }
-                    val opcoes = listOf("Opção 1", "Opção 2", "Opção 3")
-                    ExposedDropdownMenuBox(
-                        expanded = expanded,
-                        onExpandedChange = { expanded = !expanded }
-                    ) {
-                        OutlinedTextField(
-                            value = selecionada,
-                            onValueChange = {},
-                            readOnly = true,
-                            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
-                            modifier = Modifier
-                                .menuAnchor()
-                                .height(30.dp)
-                                .width(210.dp)
-                        )
-
-                        ExposedDropdownMenu(
-                            expanded = expanded,
-                            onDismissRequest = { expanded = false }
-                        ) {
-                            opcoes.forEach { opcao ->
-                                DropdownMenuItem(
-                                    text = { Text(opcao) },
-                                    onClick = {
-                                        selecionada = opcao
-                                        expanded = false
-                                    }
-                                )
-                            }
-                        }
-                    }
-                }
-
-                Spacer(Modifier.height(10.dp))
-
-                Row {
-                    Text(
                         "Questões:",
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Bold,
@@ -2299,7 +2077,7 @@ fun ListaPersonalizadaCriar(navController: NavController) {
     }
 }
 
-//@OptIn(ExperimentalMaterial3Api::class)
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CompeticaoCriar(navController: NavController) {
@@ -2422,52 +2200,6 @@ fun CompeticaoCriar(navController: NavController) {
 
                 Row {
                     Text(
-                        "Tempo:",
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Bold,
-                        modifier = Modifier
-                            .padding(start = 35.dp, end = 46.dp, top = 3.dp)
-                    )
-
-                    var expanded by remember { mutableStateOf(false) }
-                    var selecionada by remember { mutableStateOf("") }
-                    val opcoes = listOf("Opção 1", "Opção 2", "Opção 3")
-                    ExposedDropdownMenuBox(
-                        expanded = expanded,
-                        onExpandedChange = { expanded = !expanded }
-                    ) {
-                        OutlinedTextField(
-                            value = selecionada,
-                            onValueChange = {},
-                            readOnly = true,
-                            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
-                            modifier = Modifier
-                                .menuAnchor()
-                                .height(30.dp)
-                                .width(210.dp)
-                        )
-
-                        ExposedDropdownMenu(
-                            expanded = expanded,
-                            onDismissRequest = { expanded = false }
-                        ) {
-                            opcoes.forEach { opcao ->
-                                DropdownMenuItem(
-                                    text = { Text(opcao) },
-                                    onClick = {
-                                        selecionada = opcao
-                                        expanded = false
-                                    }
-                                )
-                            }
-                        }
-                    }
-                }
-
-                Spacer(Modifier.height(10.dp))
-
-                Row {
-                    Text(
                         "Questões:",
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Bold,
@@ -2532,80 +2264,22 @@ fun CompeticaoCriar(navController: NavController) {
 
                 Spacer(Modifier.height(30.dp))
 
-                Column(
-                    Modifier
-                        .fillMaxSize()
-                        .padding(start = 30.dp, end = 30.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
+                Button(
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFF3E0D1)),
+                    shape = RoundedCornerShape(10.dp),
+                    border = BorderStroke(1.dp, Vinho),
+                    onClick = { navController.navigate("") },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 100.dp)
+                        .height(38.dp)
                 ) {
                     Text(
-                        text = "Você ainda não está competindo com ninguém. Convide alguém do mesmo nível para apostar questões.",
-                        fontSize = 14.sp,
-                        lineHeight = 18.sp,
+                        text = "Competir",
                         color = Vinho,
-                        modifier = Modifier.fillMaxWidth(),
-                        textAlign = TextAlign.Center
+                        fontSize = 17.sp,
+                        fontWeight = FontWeight.Bold
                     )
-
-                    Spacer(modifier = Modifier.height(15.dp))
-
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text(
-                            text = "Usuário para competir",
-                            fontSize = 17.sp,
-                            fontWeight = FontWeight.Bold,
-                            modifier = Modifier.widthIn(max = 80.dp)
-                        )
-
-                        var nomeUsuario by remember { mutableStateOf("") }
-
-                        BasicTextField(
-                            value = nomeUsuario,
-                            onValueChange = { nomeUsuario = it },
-                            modifier = Modifier
-                                .width(240.dp)
-                                .height(40.dp)
-                                .background(Color(0xFFE0E0E0))
-                                .padding(vertical = 8.dp),
-                            textStyle = TextStyle(
-                                fontSize = 16.sp,
-                                color = Black
-                            ),
-                            decorationBox = { innerTextField ->
-                                if (nomeUsuario.isEmpty()) {
-                                    Text(
-                                        text = "Nome do usuário",
-                                        style = TextStyle(
-                                            fontSize = 16.sp,
-                                            color = Color.Gray
-                                        ),
-                                        modifier = Modifier.align(Alignment.CenterVertically)
-                                    )
-                                }
-                                innerTextField()
-                            }
-                        )
-                    }
-
-                    Spacer(Modifier.height(10.dp))
-
-                    Button(
-                        colors = ButtonDefaults.buttonColors(containerColor = Rosinha),
-                        onClick = { navController.navigate("") },
-                        modifier = Modifier
-                            .width(190.dp)
-                            .height(40.dp)
-                    ) {
-                        Text(
-                            text = "Convidar",
-                            color = White,
-                            fontSize = 18.sp
-                        )
-                    }
                 }
             }
             Footer(navController)
@@ -2625,7 +2299,7 @@ fun CompeticaoMomento(navController: NavController){
                 verticalArrangement = Arrangement.SpaceBetween,
                 horizontalAlignment = Alignment.CenterHorizontally
             ){
-                ChallengeHeader()
+                CompeticaoHeader()
 
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -2637,7 +2311,7 @@ fun CompeticaoMomento(navController: NavController){
                         contentDescription = "Competindo",
                         modifier = Modifier.size(32.dp)
                     )
-                    Spacer(modifier = Modifier.width(8.dp))
+                    Spacer(modifier = Modifier.width(8.dp) .height(100.dp))
                     Text(
                         text = "Responda corretamente as\nquestões antes do seu parceiro.",
                         color = White,
@@ -2645,7 +2319,7 @@ fun CompeticaoMomento(navController: NavController){
                     )
                 }
 
-                Spacer(modifier = Modifier.height(24.dp))
+                Spacer(modifier = Modifier.height(20.dp))
 
                 // Conteúdo principal scrollável (incluindo os botões)
                 Column(
@@ -2665,7 +2339,7 @@ fun CompeticaoMomento(navController: NavController){
                             .background(Nude, shape = RoundedCornerShape(16.dp))
                             .padding(14.dp)
                     ) {
-                        Text("dsmfkjnfkjhasbdhsvhfbaskdbas nbvjhdbgjhe jbfuhev jhgdjfg ")
+                        Text("Qual figura de linguagem anima um ser inanimado?")
                     }
 
 
@@ -2720,7 +2394,7 @@ fun CompeticaoMomento(navController: NavController){
                         colors = ButtonDefaults.buttonColors(Nude),
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(horizontal = 120.dp)
+                            .padding(horizontal = 100.dp)
                             .align(Alignment.CenterHorizontally)
                     ) {
                         Text(
@@ -2733,26 +2407,303 @@ fun CompeticaoMomento(navController: NavController){
 
                     Spacer(modifier = Modifier.height(16.dp))
                 }
+            }
+        }
+    }
+}
 
-                // Temporizador
+@Composable
+fun CompeticaoRelatorio(navController: NavController) {
+    @Composable
+    fun PlayerCard(questoesText: String) {
+        Card(
+            border = BorderStroke(width = 2.dp, color = Color(0xFFBFC8CD)),
+            modifier = Modifier
+                .width(170.dp)
+                .height(120.dp)
+                .padding(vertical = 10.dp)
+        ) {
+            Column(
+                modifier = Modifier
+                    .background(color = Color(0xFFAFE5FF))
+                    .padding(vertical = 6.dp)
+                    .fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+
                 Box(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .background(Nude)
-                        .padding(vertical = 24.dp),
+                        .weight(1f)
+                        .clip(CircleShape),
                     contentAlignment = Center
                 ) {
+                    Icon(
+                        modifier = Modifier.size(80.dp),
+                        painter = painterResource(R.drawable.fotouser1),
+                        contentDescription = null,
+                        tint = Color.Unspecified,
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(4.dp))
+
+                Text(
+                    text = questoesText,
+                    fontSize = 16.sp,
+                    color = Color(0xFF3E6B88),
+                    textAlign = TextAlign.Center
+                )
+            }
+        }
+    }
+
+    @Composable
+    fun CorrectQuestionsCard() {
+        Card(
+            modifier = Modifier
+                .fillMaxWidth(0.95f).shadow(5.dp),
+            colors = CardDefaults.cardColors(containerColor = Color(0xFFF3E0D1)),
+        ) {
+            Column(
+                horizontalAlignment = Alignment.Start,
+                verticalArrangement = Arrangement.spacedBy(15.dp),
+                modifier = Modifier.padding(16.dp)
+            ) {
+                Text(
+                    text = "Questões corretas",
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.SemiBold
+                )
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(16.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
                     Text(
-                        text = "45:00",
-                        color = Vinho,
-                        fontSize = 36.sp,
-                        fontWeight = FontWeight.Bold
+                        text = "Nome 1",
+                        fontSize = 15.sp,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                    Box(
+                        modifier = Modifier
+                            .height(30.dp)
+                            .fillMaxWidth(0.5f)
+                            .background(Color(0xFF4A90E2))
+                    )
+                }
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(16.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "Nome 2",
+                        fontSize = 15.sp,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                    Box(
+                        modifier = Modifier
+                            .height(30.dp)
+                            .fillMaxWidth(0.8f)
+                            .background(Color(0xFFD32F2F))
                     )
                 }
             }
         }
     }
+
+    @Composable
+    fun ProgressionCard() {
+        @Composable
+        fun MultiColorProgressBar(progress1: Float, progress2: Float) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(40.dp)
+                    .background(White)
+            ) {
+                Row(modifier = Modifier.fillMaxSize().border(width = 5.dp, color = White)) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxHeight()
+                            .fillMaxWidth(progress1)
+                            .background(Color(0xFF4A90E2))
+                    )
+                    Box(
+                        modifier = Modifier
+                            .fillMaxHeight()
+                            .fillMaxWidth(progress2)
+                            .background(Color(0xFFD32F2F))
+                    )
+                }
+            }
+        }
+
+        Card(
+            modifier = Modifier
+                .fillMaxWidth(0.95f).shadow(5.dp),
+            colors = CardDefaults.cardColors(containerColor = Color(0xFFF3E0D1)),
+        ) {
+            Column(
+                horizontalAlignment = Alignment.Start,
+                modifier = Modifier
+                    .padding(horizontal = 15.dp)
+            ) {
+                Row(
+                    modifier = Modifier
+                        .padding(vertical = 15.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(85.dp)
+                ) {
+                    Text(
+                        "Desafio",
+                        fontSize = 38.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Black
+                    )
+
+                    Text("7 dias restantes", fontSize = 16.sp, color = Color.Gray)
+                }
+
+                Text("Resolver 100 questões", fontSize = 18.sp, color = Black)
+
+                Spacer(modifier = Modifier.height(25.dp))
+
+                MultiColorProgressBar(0.5f, 0.5f)
+
+                Row(
+                    horizontalArrangement = Arrangement.Center,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    PlayerCard("34 questões")
+
+                    Spacer(modifier = Modifier.width(6.dp))
+
+                    PlayerCard("25 questões")
+                }
+            }
+        }
+    }
+
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = Color(0xFFBB8C8C))
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize(),
+            verticalArrangement = Arrangement.SpaceBetween,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+
+            CompeticaoHeader()
+
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                ProgressionCard()
+
+                Spacer(modifier = Modifier.height(21.dp))
+
+                CorrectQuestionsCard()
+            }
+        }
+    }
+
+    Footer(rememberNavController())
 }
+
+@Composable
+fun CompeticaoHeader() {
+    @Composable
+    fun HeaderUserProfile(color: Color, name: String) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center,
+        ) {
+            Box(
+                modifier = Modifier
+                    .padding(vertical = 6.dp)
+                    .weight(1f)
+                    .clip(CircleShape),
+                contentAlignment = Center
+            ) {
+                Icon(
+                    modifier = Modifier.size(80.dp),
+                    painter = painterResource(R.drawable.fotouser2),
+                    contentDescription = null,
+                    tint = Color.Unspecified,
+                )
+            }
+
+            Text(
+                text = name,
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold,
+                color = color,
+                modifier = Modifier
+                    .padding(vertical = 6.dp)
+            )
+        }
+    }
+
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(100.dp)
+            .clip(RoundedCornerShape(bottomStart = 12.dp, bottomEnd = 12.dp))
+            .background(Color(0xFFF3E0D1)),
+        contentAlignment = Center
+    ) {
+        Image(
+            painter = painterResource(R.drawable.em_cima_versus__1___1_),
+            contentDescription = "Imagem de fundo",
+            contentScale = ContentScale.Crop,
+            modifier = Modifier.matchParentSize()
+        )
+
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(65.dp),
+        ) {
+
+            HeaderUserProfile(color = Color(0xFF741C28), "Nome 1")
+
+            Text(
+                text = buildAnnotatedString {
+                    withStyle(
+                        style = SpanStyle(
+                            color = Color(0xFF741C28),
+                            fontFamily = FontFamily.Serif
+                        )
+                    ) {
+                        append("V")
+                    }
+                    withStyle(
+                        style = SpanStyle(
+                            color = Color(0xFFFFF1E7),
+                            fontFamily = FontFamily.Serif
+                        )
+                    ) {
+                        append("S")
+                    }
+                },
+                fontSize = 50.sp,
+                fontStyle = FontStyle.Italic,
+                fontWeight = FontWeight.SemiBold,
+                modifier = Modifier.offset(x = (-7).dp)
+            )
+
+            HeaderUserProfile(color = Color(0xFFFFF1E7), name = "Nome 2")
+        }
+    }
+}
+
+
 @Composable
 fun Estatisticas(navController: NavController){
     UnimindTheme {
@@ -2903,8 +2854,171 @@ fun Estatisticas(navController: NavController){
     }
 }
 
+
 @Composable
 fun Calendario(navController: NavController) {
+    @Composable
+    fun CalendarView() {
+        val calendar = remember { Calendar.getInstance() }
+        val currentMonth = remember { mutableStateOf(calendar.get(Calendar.MONTH)) }
+        val currentYear = remember { mutableStateOf(calendar.get(Calendar.YEAR)) }
+
+        val daysInMonth = remember(currentMonth.value, currentYear.value) {
+            Calendar.getInstance().apply {
+                set(Calendar.YEAR, currentYear.value)
+                set(Calendar.MONTH, currentMonth.value)
+            }.getActualMaximum(Calendar.DAY_OF_MONTH)
+        }
+
+        val firstDayOfWeek = remember(currentMonth.value, currentYear.value) {
+            Calendar.getInstance().apply {
+                set(Calendar.YEAR, currentYear.value)
+                set(Calendar.MONTH, currentMonth.value)
+                set(Calendar.DAY_OF_MONTH, 1)
+            }.get(Calendar.DAY_OF_WEEK) - 1 // Adjust to start from Sunday (0)
+        }
+
+        val monthName = remember(currentMonth.value) {
+            DateFormatSymbols().months[currentMonth.value]
+        }
+
+        Column(
+            modifier = Modifier
+                .clip(RoundedCornerShape(8.dp))
+                .background(White)
+                .padding(16.dp)
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(
+                    imageVector = Icons.Rounded.ArrowBack,
+                    contentDescription = "Previous Month",
+                    tint = Vinho,
+                    modifier = Modifier.clickable {
+                        if (currentMonth.value > 0) {
+                            currentMonth.value--
+                        } else {
+                            currentMonth.value = 11
+                            currentYear.value--
+                        }
+                    }
+                )
+                Text(
+                    text = "$monthName ${currentYear.value}",
+                    fontWeight = FontWeight.Bold,
+                    color = Vinho,
+                    fontSize = 18.sp
+                )
+                Icon(
+                    imageVector = Icons.Rounded.ArrowForward,
+                    contentDescription = "Next Month",
+                    tint = Vinho,
+                    modifier = Modifier.clickable {
+                        if (currentMonth.value < 11) {
+                            currentMonth.value++
+                        } else {
+                            currentMonth.value = 0
+                            currentYear.value++
+                        }
+                    }
+                )
+            }
+            Spacer(modifier = Modifier.height(8.dp))
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceAround
+            ) {
+                Text("Sun", color = Color.Gray, fontSize = 12.sp)
+                Text("Mon", color = Color.Gray, fontSize = 12.sp)
+                Text("Tue", color = Color.Gray, fontSize = 12.sp)
+                Text("Wed", color = Color.Gray, fontSize = 12.sp)
+                Text("Thu", color = Color.Gray, fontSize = 12.sp)
+                Text("Fri", color = Color.Gray, fontSize = 12.sp)
+                Text("Sat", color = Color.Gray, fontSize = 12.sp)
+            }
+            Spacer(modifier = Modifier.height(4.dp))
+            for (week in 0..((daysInMonth + firstDayOfWeek - 1) / 7)) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceAround
+                ) {
+                    for (dayOfWeek in 0..6) {
+                        val day = week * 7 + dayOfWeek - firstDayOfWeek + 1
+                        if (day in 1..daysInMonth) {
+                            val isToday = day == Calendar.getInstance()
+                                .get(Calendar.DAY_OF_MONTH) &&
+                                    currentMonth.value == Calendar.getInstance()
+                                .get(Calendar.MONTH) &&
+                                    currentYear.value == Calendar.getInstance()
+                                .get(Calendar.YEAR)
+                            Text(
+                                text = day.toString(),
+                                color = if (isToday) Color(0xFFE91E63) else Black,
+                                fontWeight = if (isToday) FontWeight.Bold else FontWeight.Normal,
+                                modifier = Modifier
+                                    .size(32.dp)
+                                    .wrapContentWidth(Alignment.CenterHorizontally)
+                                    .wrapContentHeight(Alignment.CenterVertically)
+                                    .clip(CircleShape)
+                                    .background(
+                                        if (isToday) Color(0xFFE91E63).copy(
+                                            alpha = 0.2f
+                                        ) else Color.Transparent
+                                    )
+                                    .padding(4.dp)
+                            )
+                        } else {
+                            Text("", modifier = Modifier.size(32.dp))
+                        }
+                    }
+                }
+            }
+            Spacer(modifier = Modifier.height(8.dp))
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text("Ends", color = Color.Gray, fontSize = 14.sp)
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Box(
+                        modifier = Modifier
+                            .border(1.dp, Color.Gray, RoundedCornerShape(4.dp))
+                            .padding(horizontal = 8.dp, vertical = 4.dp)
+                    ) {
+                        Text("8:00", color = Black, fontSize = 14.sp)
+                    }
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Box(
+                        modifier = Modifier
+                            .border(
+                                1.dp,
+                                if (isSystemInDarkTheme()) Color.LightGray else Color.DarkGray,
+                                RoundedCornerShape(4.dp)
+                            )
+                            .background(if (isSystemInDarkTheme()) Color.DarkGray else Color.LightGray)
+                            .padding(horizontal = 8.dp, vertical = 4.dp)
+                            .clickable { /* Handle AM/PM selection */ }
+                    ) {
+                        Text("AM", color = White, fontSize = 14.sp)
+                    }
+                    Spacer(modifier = Modifier.width(4.dp))
+                    Box(
+                        modifier = Modifier
+                            .border(1.dp, Color.Gray, RoundedCornerShape(4.dp))
+                            .padding(horizontal = 8.dp, vertical = 4.dp)
+                            .clickable { /* Handle AM/PM selection */ }
+                    ) {
+                        Text("PM", color = Black, fontSize = 14.sp)
+                    }
+                }
+            }
+        }
+    }
+
     UnimindTheme {
         Surface(
             modifier = Modifier.fillMaxSize(),
@@ -2991,486 +3105,10 @@ fun Calendario(navController: NavController) {
     }
 }
 
-@Composable
-fun CalendarView() {
-    val calendar = remember { Calendar.getInstance() }
-    val currentMonth = remember { mutableStateOf(calendar.get(Calendar.MONTH)) }
-    val currentYear = remember { mutableStateOf(calendar.get(Calendar.YEAR)) }
 
-    val daysInMonth = remember(currentMonth.value, currentYear.value) {
-        Calendar.getInstance().apply {
-            set(Calendar.YEAR, currentYear.value)
-            set(Calendar.MONTH, currentMonth.value)
-        }.getActualMaximum(Calendar.DAY_OF_MONTH)
-    }
-
-    val firstDayOfWeek = remember(currentMonth.value, currentYear.value) {
-        Calendar.getInstance().apply {
-            set(Calendar.YEAR, currentYear.value)
-            set(Calendar.MONTH, currentMonth.value)
-            set(Calendar.DAY_OF_MONTH, 1)
-        }.get(Calendar.DAY_OF_WEEK) - 1 // Adjust to start from Sunday (0)
-    }
-
-    val monthName = remember(currentMonth.value) {
-        DateFormatSymbols().months[currentMonth.value]
-    }
-
-    Column(
-        modifier = Modifier
-            .clip(RoundedCornerShape(8.dp))
-            .background(White)
-            .padding(16.dp)
-    ) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Icon(
-                imageVector = Icons.Rounded.ArrowBack,
-                contentDescription = "Previous Month",
-                tint = Vinho,
-                modifier = Modifier.clickable {
-                    if (currentMonth.value > 0) {
-                        currentMonth.value--
-                    } else {
-                        currentMonth.value = 11
-                        currentYear.value--
-                    }
-                }
-            )
-            Text(
-                text = "$monthName ${currentYear.value}",
-                fontWeight = FontWeight.Bold,
-                color = Vinho,
-                fontSize = 18.sp
-            )
-            Icon(
-                imageVector = Icons.Rounded.ArrowForward,
-                contentDescription = "Next Month",
-                tint = Vinho,
-                modifier = Modifier.clickable {
-                    if (currentMonth.value < 11) {
-                        currentMonth.value++
-                    } else {
-                        currentMonth.value = 0
-                        currentYear.value++
-                    }
-                }
-            )
-        }
-        Spacer(modifier = Modifier.height(8.dp))
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceAround
-        ) {
-            Text("Sun", color = Color.Gray, fontSize = 12.sp)
-            Text("Mon", color = Color.Gray, fontSize = 12.sp)
-            Text("Tue", color = Color.Gray, fontSize = 12.sp)
-            Text("Wed", color = Color.Gray, fontSize = 12.sp)
-            Text("Thu", color = Color.Gray, fontSize = 12.sp)
-            Text("Fri", color = Color.Gray, fontSize = 12.sp)
-            Text("Sat", color = Color.Gray, fontSize = 12.sp)
-        }
-        Spacer(modifier = Modifier.height(4.dp))
-        for (week in 0..((daysInMonth + firstDayOfWeek - 1) / 7)) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceAround
-            ) {
-                for (dayOfWeek in 0..6) {
-                    val day = week * 7 + dayOfWeek - firstDayOfWeek + 1
-                    if (day in 1..daysInMonth) {
-                        val isToday = day == Calendar.getInstance()
-                            .get(Calendar.DAY_OF_MONTH) &&
-                                currentMonth.value == Calendar.getInstance()
-                            .get(Calendar.MONTH) &&
-                                currentYear.value == Calendar.getInstance()
-                            .get(Calendar.YEAR)
-                        Text(
-                            text = day.toString(),
-                            color = if (isToday) Color(0xFFE91E63) else Black,
-                            fontWeight = if (isToday) FontWeight.Bold else FontWeight.Normal,
-                            modifier = Modifier
-                                .size(32.dp)
-                                .wrapContentWidth(Alignment.CenterHorizontally)
-                                .wrapContentHeight(Alignment.CenterVertically)
-                                .clip(CircleShape)
-                                .background(
-                                    if (isToday) Color(0xFFE91E63).copy(
-                                        alpha = 0.2f
-                                    ) else Color.Transparent
-                                )
-                                .padding(4.dp)
-                        )
-                    } else {
-                        Text("", modifier = Modifier.size(32.dp))
-                    }
-                }
-            }
-        }
-        Spacer(modifier = Modifier.height(8.dp))
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text("Ends", color = Color.Gray, fontSize = 14.sp)
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Box(
-                    modifier = Modifier
-                        .border(1.dp, Color.Gray, RoundedCornerShape(4.dp))
-                        .padding(horizontal = 8.dp, vertical = 4.dp)
-                ) {
-                    Text("8:00", color = Black, fontSize = 14.sp)
-                }
-                Spacer(modifier = Modifier.width(8.dp))
-                Box(
-                    modifier = Modifier
-                        .border(
-                            1.dp,
-                            if (isSystemInDarkTheme()) Color.LightGray else Color.DarkGray,
-                            RoundedCornerShape(4.dp)
-                        )
-                        .background(if (isSystemInDarkTheme()) Color.DarkGray else Color.LightGray)
-                        .padding(horizontal = 8.dp, vertical = 4.dp)
-                        .clickable { /* Handle AM/PM selection */ }
-                ) {
-                    Text("AM", color = White, fontSize = 14.sp)
-                }
-                Spacer(modifier = Modifier.width(4.dp))
-                Box(
-                    modifier = Modifier
-                        .border(1.dp, Color.Gray, RoundedCornerShape(4.dp))
-                        .padding(horizontal = 8.dp, vertical = 4.dp)
-                        .clickable { /* Handle AM/PM selection */ }
-                ) {
-                    Text("PM", color = Black, fontSize = 14.sp)
-                }
-            }
-        }
-    }
-}
-
-@Composable
-fun MultiColorProgressBar(progress1: Float, progress2: Float) {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(40.dp)
-            .background(White)
-    ) {
-        Row(modifier = Modifier.fillMaxSize().border(width = 5.dp, color = White)) {
-            Box(
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .fillMaxWidth(progress1)
-                    .background(Color(0xFF4A90E2))
-            )
-            Box(
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .fillMaxWidth(progress2)
-                    .background(Color(0xFFD32F2F))
-            )
-        }
-    }
-}
-
-
-@Composable
-fun PlayerCard(questoesText: String) {
-    Card(
-        border = BorderStroke(width = 2.dp, color = Color(0xFFBFC8CD)),
-        modifier = Modifier
-            .width(170.dp)
-            .height(120.dp)
-            .padding(vertical = 10.dp)
-    ) {
-        Column(
-            modifier = Modifier
-                .background(color = Color(0xFFAFE5FF))
-                .padding(vertical = 6.dp)
-                .fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-
-            Box(
-                modifier = Modifier
-                    .weight(1f)
-                    .clip(CircleShape),
-                contentAlignment = Center
-            ) {
-                Icon(
-                    modifier = Modifier.size(80.dp),
-                    painter = painterResource(R.drawable.fotouser1),
-                    contentDescription = null,
-                    tint = Color.Unspecified,
-                )
-            }
-
-            Spacer(modifier = Modifier.height(4.dp))
-
-            Text(
-                text = questoesText,
-                fontSize = 16.sp,
-                color = Color(0xFF3E6B88),
-                textAlign = TextAlign.Center
-            )
-        }
-    }
-}
-
-@Composable
-fun ProgressionCard() {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth(0.95f).shadow(5.dp),
-        colors = CardDefaults.cardColors(containerColor = Color(0xFFF3E0D1)),
-    ) {
-        Column(
-            horizontalAlignment = Alignment.Start,
-            modifier = Modifier
-                .padding(horizontal = 15.dp)
-        ) {
-            Row(
-                modifier = Modifier
-                    .padding(vertical = 15.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(85.dp)
-            ) {
-                Text(
-                    "Desafio",
-                    fontSize = 38.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Black
-                )
-
-                Text("7 dias restantes", fontSize = 16.sp, color = Color.Gray)
-            }
-
-            Text("Resolver 100 questões", fontSize = 18.sp, color = Black)
-
-            Spacer(modifier = Modifier.height(25.dp))
-
-            MultiColorProgressBar(0.5f, 0.5f)
-
-            Row(
-                horizontalArrangement = Arrangement.Center,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                PlayerCard("34 questões")
-
-                Spacer(modifier = Modifier.width(6.dp))
-
-                PlayerCard("25 questões")
-            }
-        }
-    }
-}
-
-
-@Composable
-fun CorrectQuestionsCard() {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth(0.95f).shadow(5.dp),
-        colors = CardDefaults.cardColors(containerColor = Color(0xFFF3E0D1)),
-    ) {
-        Column(
-            horizontalAlignment = Alignment.Start,
-            verticalArrangement = Arrangement.spacedBy(15.dp),
-            modifier = Modifier.padding(16.dp)
-        ) {
-            Text(
-                text = "Questões corretas",
-                fontSize = 20.sp,
-                fontWeight = FontWeight.SemiBold
-            )
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(16.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = "Nome 1",
-                    fontSize = 15.sp,
-                    fontWeight = FontWeight.SemiBold
-                )
-                Box(
-                    modifier = Modifier
-                        .height(30.dp)
-                        .fillMaxWidth(0.5f)
-                        .background(Color(0xFF4A90E2))
-                )
-            }
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(16.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = "Nome 2",
-                    fontSize = 15.sp,
-                    fontWeight = FontWeight.SemiBold
-                )
-                Box(
-                    modifier = Modifier
-                        .height(30.dp)
-                        .fillMaxWidth(0.8f)
-                        .background(Color(0xFFD32F2F))
-                )
-            }
-        }
-    }
-}
-
-@Composable
-fun BottomBar() {
-    BottomAppBar(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp)),
-        containerColor = Color(0xFFF3E0D1)
-    ) {
-        Row(
-            horizontalArrangement = Arrangement.End,
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Icon(
-                painter = painterResource(R.drawable.bichinho),
-                contentDescription = "Porco Espinho",
-                modifier = Modifier.size(48.dp),
-                tint = Color.Unspecified,
-            )
-        }
-    }
-}
-
-@Composable
-fun HeaderUserProfile(color: Color, name: String) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
-    ) {
-        Box(
-            modifier = Modifier
-                .padding(vertical = 6.dp)
-                .weight(1f)
-                .clip(CircleShape),
-            contentAlignment = Center
-        ) {
-            Icon(
-                modifier = Modifier.size(80.dp),
-                painter = painterResource(R.drawable.fotouser2),
-                contentDescription = null,
-                tint = Color.Unspecified,
-            )
-        }
-
-        Text(
-            text = name,
-            fontSize = 16.sp,
-            fontWeight = FontWeight.Bold,
-            color = color,
-            modifier = Modifier
-                .padding(vertical = 6.dp)
-        )
-    }
-}
-
-@Composable
-fun ChallengeScreen(navController: NavController) {
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(color = Color(0xFFBB8C8C))
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize(),
-            verticalArrangement = Arrangement.SpaceBetween,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-
-            ChallengeHeader()
-
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1f),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                ProgressionCard()
-
-                Spacer(modifier = Modifier.height(21.dp))
-
-                CorrectQuestionsCard()
-            }
-
-            BottomBar()
-        }
-    }
-}
-
-@Composable
-fun ChallengeHeader() {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(100.dp)
-            .clip(RoundedCornerShape(bottomStart = 12.dp, bottomEnd = 12.dp))
-            .background(Color(0xFFF3E0D1)),
-        contentAlignment = Center
-    ) {
-        Image(
-            painter = painterResource(R.drawable.em_cima_versus__1___1_),
-            contentDescription = "Imagem de fundo",
-            contentScale = ContentScale.Crop,
-            modifier = Modifier.matchParentSize()
-        )
-
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(65.dp),
-        ) {
-
-            HeaderUserProfile(color = Color(0xFF741C28), "Nome 1")
-
-            Text(
-                text = buildAnnotatedString {
-                    withStyle(
-                        style = SpanStyle(
-                            color = Color(0xFF741C28),
-                            fontFamily = FontFamily.Serif
-                        )
-                    ) {
-                        append("V")
-                    }
-                    withStyle(
-                        style = SpanStyle(
-                            color = Color(0xFFFFF1E7),
-                            fontFamily = FontFamily.Serif
-                        )
-                    ) {
-                        append("S")
-                    }
-                },
-                fontSize = 50.sp,
-                fontStyle = FontStyle.Italic,
-                fontWeight = FontWeight.SemiBold,
-                modifier = Modifier.offset(x = (-7).dp)
-            )
-
-            HeaderUserProfile(color = Color(0xFFFFF1E7), name = "Nome 2")
-        }
-    }
-}
 
 @Preview(showSystemUi = true)
 @Composable
 fun AppPreview() {
-    Calendario(rememberNavController())
+    Estatisticas(rememberNavController())
 }

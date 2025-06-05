@@ -338,6 +338,9 @@ fun Bloqueio(navController: NavController){
 
 @Composable
 fun Cadastro(navController: NavController) {
+    val viewModel: UsuarioViewModel = viewModel()
+    val mensagem by viewModel.mensagem.observeAsState()
+
     val inter = FontFamily(
         Font(R.font.inter)
     )
@@ -451,12 +454,31 @@ fun Cadastro(navController: NavController) {
                         )
                         Spacer(modifier = Modifier.height(20.dp))
                         OutlinedButton(
-                            onClick = {navController.navigate("telaInicial")}, //fazer a verificação aq
+                            onClick = {
+                                if (senha == senhaDnv){
+                                    if (senha != senhaDnv) {
+                                        // Exibe erro se as senhas não baterem
+                                        viewModel.setMensagem("As senhas não coincidem")
+                                    } else if (nome.isBlank() || email.isBlank() || senha.isBlank()) {
+                                        viewModel.setMensagem("Preencha todos os campos")
+                                    } else {
+                                        viewModel.criarUsuario(nome, email, senha)
+                                    }
+                                }
+                                else{
+
+                                }
+                            },
                             border = BorderStroke(2.dp, Vinho),
                             modifier = Modifier.width(280.dp)
                         ) {
                             Text(text = "Cadastrar", color = Vinho, fontSize = 20.sp)
                         }
+                        mensagem?.let {
+                            Spacer(modifier = Modifier.height(16.dp))
+                            Text(text = it, color = Color.Red)
+                        }
+
                     }
                 }
                 Box(contentAlignment = Alignment.TopCenter,

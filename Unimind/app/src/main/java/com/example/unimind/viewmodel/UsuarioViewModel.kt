@@ -84,9 +84,14 @@ class UsuarioViewModel : ViewModel() {
         _loginStatus.value = LoginResult.Nenhum
     }
 
-    fun criarUsuario(usuario: Usuario) {
+    fun setMensagem(msg: String) {
+        _mensagem.value = msg
+    }
+
+    fun criarUsuario(nome: String, email: String, senha: String) {
         coroutineScope.launch {
             try {
+                val usuario = Usuario(nome = nome, email = email, senha = senha)        //como q vai passar id sendo q o id é identity???
                 val novoUsuario = RetrofitUsuario.instance.criarUsuario(usuario)
                 _usuarios.value = _usuarios.value + novoUsuario
                 _mensagem.value = "Usuário criado com ID ${novoUsuario.idUsuario}"
@@ -95,6 +100,7 @@ class UsuarioViewModel : ViewModel() {
             }
         }
     }
+
 
     fun atualizarUsuario(id: Int, usuarioAtualizado: Usuario) {
         coroutineScope.launch {

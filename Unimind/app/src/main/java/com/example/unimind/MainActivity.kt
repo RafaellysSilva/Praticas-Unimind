@@ -791,6 +791,10 @@ fun verificarLogin(user: String, password: String, context : Context) {
 
 }
 
+fun fazerCadastro(){
+
+}
+
 //@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -2290,10 +2294,10 @@ fun ListaPersonalizadaCriar(navController: NavController) {
 
               }
             Footer(navController)
+            }
         }
     }
 }
-
 
 //@OptIn(ExperimentalMaterial3Api::class)
 @OptIn(ExperimentalMaterial3Api::class)
@@ -2609,42 +2613,41 @@ fun CompeticaoCriar(navController: NavController) {
     }
 }
 
-
 @Composable
 fun CompeticaoMomento(navController: NavController){
     UnimindTheme{
-    	Surface(
+        Surface(
             modifier = Modifier.fillMaxSize(),
-	        color = Rosinha
+            color = Rosinha
         ){
-           Column(
-	   	modifier = Modifier.fillMaxSize(),
-		verticalArrangement = Arrangement.SpaceBetween,
-		horizontalAlignment = Alignment.CenterHorizontally
-	   ){
-		ChallengeHeader()
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.SpaceBetween,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ){
+                ChallengeHeader()
 
-		Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.correndo),
-                contentDescription = "Competindo",
-                modifier = Modifier.size(32.dp)
-            )
-            Spacer(modifier = Modifier.width(8.dp))
-            Text(
-                text = "Responda corretamente as\nquestões antes do seu parceiro.",
-                color = White,
-                textAlign = TextAlign.Center
-            )
-        }
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.correndo),
+                        contentDescription = "Competindo",
+                        modifier = Modifier.size(32.dp)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(
+                        text = "Responda corretamente as\nquestões antes do seu parceiro.",
+                        color = White,
+                        textAlign = TextAlign.Center
+                    )
+                }
 
-        Spacer(modifier = Modifier.height(24.dp))
+                Spacer(modifier = Modifier.height(24.dp))
 
-		 // Conteúdo principal scrollável (incluindo os botões)
+                // Conteúdo principal scrollável (incluindo os botões)
                 Column(
                     modifier = Modifier
                         .weight(1f)
@@ -2711,7 +2714,7 @@ fun CompeticaoMomento(navController: NavController){
                     Spacer(modifier = Modifier.height(32.dp))
 
 
-                    // Botão Responder 
+                    // Botão Responder
                     Button(
                         onClick = { /* Responder */ },
                         colors = ButtonDefaults.buttonColors(Nude),
@@ -2730,8 +2733,8 @@ fun CompeticaoMomento(navController: NavController){
 
                     Spacer(modifier = Modifier.height(16.dp))
                 }
-		
-		 // Temporizador
+
+                // Temporizador
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -2750,7 +2753,6 @@ fun CompeticaoMomento(navController: NavController){
         }
     }
 }
-
 @Composable
 fun Estatisticas(navController: NavController){
     UnimindTheme {
@@ -2763,17 +2765,17 @@ fun Estatisticas(navController: NavController){
             Card(modifier = Modifier
                 .fillMaxWidth(0.95f).shadow(6.dp)
                 .padding(top = 250.dp),
-                colors = CardDefaults.cardColors(containerColor = Nude),){
+                colors = CardDefaults.cardColors(containerColor = Nude),) {
                 Column(
                     horizontalAlignment = Alignment.Start,
                     verticalArrangement = Arrangement.spacedBy(15.dp),
                     modifier = Modifier.padding(16.dp)
-                ){
+                ) {
                     Text(text = "Questões", fontSize = 20.sp, fontWeight = FontWeight.SemiBold)
                     Row(
                         horizontalArrangement = Arrangement.spacedBy(16.dp),
                         verticalAlignment = Alignment.CenterVertically
-                    ){
+                    ) {
                         Text(text = "Corretas", fontSize = 15.sp, fontWeight = FontWeight.SemiBold)
                         Box(
                             modifier = Modifier
@@ -2785,8 +2787,12 @@ fun Estatisticas(navController: NavController){
                     Row(
                         horizontalArrangement = Arrangement.spacedBy(16.dp),
                         verticalAlignment = Alignment.CenterVertically
-                    ){
-                        Text(text = "Incorretas", fontSize = 15.sp, fontWeight = FontWeight.SemiBold)
+                    ) {
+                        Text(
+                            text = "Incorretas",
+                            fontSize = 15.sp,
+                            fontWeight = FontWeight.SemiBold
+                        )
                         Box(
                             modifier = Modifier
                                 .height(30.dp)
@@ -2797,25 +2803,35 @@ fun Estatisticas(navController: NavController){
                     Row(
                         horizontalArrangement = Arrangement.spacedBy(16.dp),
                         verticalAlignment = Alignment.CenterVertically
-                    ){
+                    ) {
                         Text(text = "Total:50", fontSize = 15.sp, fontWeight = FontWeight.SemiBold)
                     }
 
-                    Card(modifier = Modifier
-                        .fillMaxWidth(0.95f).shadow(6.dp)
-                        .padding(top = 300.dp),
-                        colors = CardDefaults.cardColors(containerColor = Nude),){
+                    Card(
+                        modifier = Modifier
+                            .fillMaxWidth(0.95f).shadow(6.dp)
+                            .padding(top = 300.dp),
+                        colors = CardDefaults.cardColors(containerColor = Nude),
+                    ) {
                         Column(
                             horizontalAlignment = Alignment.Start,
                             verticalArrangement = Arrangement.spacedBy(15.dp),
                             modifier = Modifier.padding(16.dp)
-                        ){
-                            Text(text = "Tempo de estudo", fontSize = 20.sp, fontWeight = FontWeight.SemiBold)
+                        ) {
+                            Text(
+                                text = "Tempo de estudo",
+                                fontSize = 20.sp,
+                                fontWeight = FontWeight.SemiBold
+                            )
                             Row(
                                 horizontalArrangement = Arrangement.spacedBy(16.dp),
                                 verticalAlignment = Alignment.CenterVertically
-                            ){
-                                Text(text = "Tempo", fontSize = 15.sp, fontWeight = FontWeight.SemiBold)
+                            ) {
+                                Text(
+                                    text = "Tempo",
+                                    fontSize = 15.sp,
+                                    fontWeight = FontWeight.SemiBold
+                                )
                                 Box(
                                     modifier = Modifier
                                         .height(30.dp)
@@ -2826,25 +2842,39 @@ fun Estatisticas(navController: NavController){
                             Row(
                                 horizontalArrangement = Arrangement.spacedBy(16.dp),
                                 verticalAlignment = Alignment.CenterVertically
-                            ){
-                                Text(text = "Total:50 minutos", fontSize = 15.sp, fontWeight = FontWeight.SemiBold)
+                            ) {
+                                Text(
+                                    text = "Total:50 minutos",
+                                    fontSize = 15.sp,
+                                    fontWeight = FontWeight.SemiBold
+                                )
                             }
 
-                            Card(modifier = Modifier
-                                .fillMaxWidth(0.95f).shadow(6.dp)
-                                .padding(top = 300.dp),
-                                colors = CardDefaults.cardColors(containerColor = Nude),){
+                            Card(
+                                modifier = Modifier
+                                    .fillMaxWidth(0.95f).shadow(6.dp)
+                                    .padding(top = 300.dp),
+                                colors = CardDefaults.cardColors(containerColor = Nude),
+                            ) {
                                 Column(
                                     horizontalAlignment = Alignment.Start,
                                     verticalArrangement = Arrangement.spacedBy(15.dp),
                                     modifier = Modifier.padding(16.dp)
-                                ){
-                                    Text(text = "Competições realizadas", fontSize = 20.sp, fontWeight = FontWeight.SemiBold)
+                                ) {
+                                    Text(
+                                        text = "Competições realizadas",
+                                        fontSize = 20.sp,
+                                        fontWeight = FontWeight.SemiBold
+                                    )
                                     Row(
                                         horizontalArrangement = Arrangement.spacedBy(16.dp),
                                         verticalAlignment = Alignment.CenterVertically
-                                    ){
-                                        Text(text = "Competições", fontSize = 15.sp, fontWeight = FontWeight.SemiBold)
+                                    ) {
+                                        Text(
+                                            text = "Competições",
+                                            fontSize = 15.sp,
+                                            fontWeight = FontWeight.SemiBold
+                                        )
                                         Box(
                                             modifier = Modifier
                                                 .height(30.dp)
@@ -2855,18 +2885,26 @@ fun Estatisticas(navController: NavController){
                                     Row(
                                         horizontalArrangement = Arrangement.spacedBy(16.dp),
                                         verticalAlignment = Alignment.CenterVertically
-                                    ){
-                                        Text(text = "Total:50", fontSize = 15.sp, fontWeight = FontWeight.SemiBold)
+                                    ) {
+                                        Text(
+                                            text = "Total:50",
+                                            fontSize = 15.sp,
+                                            fontWeight = FontWeight.SemiBold
+                                        )
                                     }
+                                }
+                            }
+                            Footer(rememberNavController())
+                        }
+                    }
                 }
             }
-            Footer(rememberNavController())
         }
     }
 }
 
 @Composable
-fun Calendario(navController: NavController){
+fun Calendario(navController: NavController) {
     UnimindTheme {
         Surface(
             modifier = Modifier.fillMaxSize(),
@@ -3023,7 +3061,10 @@ fun CalendarView() {
             )
         }
         Spacer(modifier = Modifier.height(8.dp))
-        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceAround) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceAround
+        ) {
             Text("Sun", color = Color.Gray, fontSize = 12.sp)
             Text("Mon", color = Color.Gray, fontSize = 12.sp)
             Text("Tue", color = Color.Gray, fontSize = 12.sp)
@@ -3034,13 +3075,19 @@ fun CalendarView() {
         }
         Spacer(modifier = Modifier.height(4.dp))
         for (week in 0..((daysInMonth + firstDayOfWeek - 1) / 7)) {
-            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceAround) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceAround
+            ) {
                 for (dayOfWeek in 0..6) {
                     val day = week * 7 + dayOfWeek - firstDayOfWeek + 1
                     if (day in 1..daysInMonth) {
-                        val isToday = day == Calendar.getInstance().get(Calendar.DAY_OF_MONTH) &&
-                                currentMonth.value == Calendar.getInstance().get(Calendar.MONTH) &&
-                                currentYear.value == Calendar.getInstance().get(Calendar.YEAR)
+                        val isToday = day == Calendar.getInstance()
+                            .get(Calendar.DAY_OF_MONTH) &&
+                                currentMonth.value == Calendar.getInstance()
+                            .get(Calendar.MONTH) &&
+                                currentYear.value == Calendar.getInstance()
+                            .get(Calendar.YEAR)
                         Text(
                             text = day.toString(),
                             color = if (isToday) Color(0xFFE91E63) else Black,
@@ -3050,7 +3097,11 @@ fun CalendarView() {
                                 .wrapContentWidth(Alignment.CenterHorizontally)
                                 .wrapContentHeight(Alignment.CenterVertically)
                                 .clip(CircleShape)
-                                .background(if (isToday) Color(0xFFE91E63).copy(alpha = 0.2f) else Color.Transparent)
+                                .background(
+                                    if (isToday) Color(0xFFE91E63).copy(
+                                        alpha = 0.2f
+                                    ) else Color.Transparent
+                                )
                                 .padding(4.dp)
                         )
                     } else {
@@ -3077,7 +3128,11 @@ fun CalendarView() {
                 Spacer(modifier = Modifier.width(8.dp))
                 Box(
                     modifier = Modifier
-                        .border(1.dp, if (isSystemInDarkTheme()) Color.LightGray else Color.DarkGray, RoundedCornerShape(4.dp))
+                        .border(
+                            1.dp,
+                            if (isSystemInDarkTheme()) Color.LightGray else Color.DarkGray,
+                            RoundedCornerShape(4.dp)
+                        )
                         .background(if (isSystemInDarkTheme()) Color.DarkGray else Color.LightGray)
                         .padding(horizontal = 8.dp, vertical = 4.dp)
                         .clickable { /* Handle AM/PM selection */ }
@@ -3094,11 +3149,9 @@ fun CalendarView() {
                     Text("PM", color = Black, fontSize = 14.sp)
                 }
             }
-            }
         }
     }
-
-
+}
 
 @Composable
 fun MultiColorProgressBar(progress1: Float, progress2: Float) {
@@ -3127,7 +3180,7 @@ fun MultiColorProgressBar(progress1: Float, progress2: Float) {
 
 
 @Composable
-fun PlayerCard(questoesText : String){
+fun PlayerCard(questoesText: String) {
     Card(
         border = BorderStroke(width = 2.dp, color = Color(0xFFBFC8CD)),
         modifier = Modifier
@@ -3160,14 +3213,18 @@ fun PlayerCard(questoesText : String){
 
             Spacer(modifier = Modifier.height(4.dp))
 
-            Text(text = questoesText, fontSize = 16.sp, color = Color(0xFF3E6B88), textAlign = TextAlign.Center)
+            Text(
+                text = questoesText,
+                fontSize = 16.sp,
+                color = Color(0xFF3E6B88),
+                textAlign = TextAlign.Center
+            )
         }
     }
 }
 
-
 @Composable
-fun ProgressionCard(){
+fun ProgressionCard() {
     Card(
         modifier = Modifier
             .fillMaxWidth(0.95f).shadow(5.dp),
@@ -3184,7 +3241,12 @@ fun ProgressionCard(){
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(85.dp)
             ) {
-                Text("Desafio", fontSize = 38.sp, fontWeight = FontWeight.Bold, color = Black)
+                Text(
+                    "Desafio",
+                    fontSize = 38.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Black
+                )
 
                 Text("7 dias restantes", fontSize = 16.sp, color = Color.Gray)
             }
@@ -3211,21 +3273,31 @@ fun ProgressionCard(){
 
 
 @Composable
-fun CorrectQuestionsCard(){
-    Card(modifier = Modifier
-        .fillMaxWidth(0.95f).shadow(5.dp),
-        colors = CardDefaults.cardColors(containerColor = Color(0xFFF3E0D1)),){
+fun CorrectQuestionsCard() {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth(0.95f).shadow(5.dp),
+        colors = CardDefaults.cardColors(containerColor = Color(0xFFF3E0D1)),
+    ) {
         Column(
             horizontalAlignment = Alignment.Start,
             verticalArrangement = Arrangement.spacedBy(15.dp),
             modifier = Modifier.padding(16.dp)
-        ){
-            Text(text = "Questões corretas", fontSize = 20.sp, fontWeight = FontWeight.SemiBold)
+        ) {
+            Text(
+                text = "Questões corretas",
+                fontSize = 20.sp,
+                fontWeight = FontWeight.SemiBold
+            )
             Row(
                 horizontalArrangement = Arrangement.spacedBy(16.dp),
                 verticalAlignment = Alignment.CenterVertically
-            ){
-                Text(text = "Nome 1", fontSize = 15.sp, fontWeight = FontWeight.SemiBold)
+            ) {
+                Text(
+                    text = "Nome 1",
+                    fontSize = 15.sp,
+                    fontWeight = FontWeight.SemiBold
+                )
                 Box(
                     modifier = Modifier
                         .height(30.dp)
@@ -3236,8 +3308,12 @@ fun CorrectQuestionsCard(){
             Row(
                 horizontalArrangement = Arrangement.spacedBy(16.dp),
                 verticalAlignment = Alignment.CenterVertically
-            ){
-                Text(text = "Nome 2", fontSize = 15.sp, fontWeight = FontWeight.SemiBold)
+            ) {
+                Text(
+                    text = "Nome 2",
+                    fontSize = 15.sp,
+                    fontWeight = FontWeight.SemiBold
+                )
                 Box(
                     modifier = Modifier
                         .height(30.dp)
@@ -3249,9 +3325,8 @@ fun CorrectQuestionsCard(){
     }
 }
 
-
 @Composable
-fun BottomBar(){
+fun BottomBar() {
     BottomAppBar(
         modifier = Modifier
             .fillMaxWidth()
@@ -3262,7 +3337,7 @@ fun BottomBar(){
             horizontalArrangement = Arrangement.End,
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.fillMaxWidth()
-        ){
+        ) {
             Icon(
                 painter = painterResource(R.drawable.bichinho),
                 contentDescription = "Porco Espinho",
@@ -3273,13 +3348,12 @@ fun BottomBar(){
     }
 }
 
-
 @Composable
-fun HeaderUserProfile(color : Color, name : String){
+fun HeaderUserProfile(color: Color, name: String) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
-    ){
+    ) {
         Box(
             modifier = Modifier
                 .padding(vertical = 6.dp)
@@ -3295,62 +3369,16 @@ fun HeaderUserProfile(color : Color, name : String){
             )
         }
 
-        Text(text = name, fontSize = 16.sp, fontWeight = FontWeight.Bold, color = color,
+        Text(
+            text = name,
+            fontSize = 16.sp,
+            fontWeight = FontWeight.Bold,
+            color = color,
             modifier = Modifier
-                .padding(vertical = 6.dp))
-    }
-}
-
-
-@Composable
-fun ChallengeHeader(){
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(100.dp)
-            .clip(RoundedCornerShape(bottomStart = 12.dp, bottomEnd = 12.dp))
-            .background(Color(0xFFF3E0D1)),
-        contentAlignment = Center
-    ) {
-        Image(
-            painter = painterResource(R.drawable.em_cima_versus__1___1_),
-            contentDescription = "Imagem de fundo",
-            contentScale = ContentScale.Crop,
-            modifier = Modifier.matchParentSize()
+                .padding(vertical = 6.dp)
         )
-
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(65.dp),
-        ){
-
-            HeaderUserProfile(color = Color(0xFF741C28), "Nome 1")
-
-            Text(
-                text = buildAnnotatedString {
-                    withStyle(style = SpanStyle(color = Color(0xFF741C28),
-                        fontFamily = FontFamily.Serif)
-                    ) {
-                        append("V")
-                    }
-                    withStyle(style = SpanStyle(color = Color(0xFFFFF1E7),
-                        fontFamily = FontFamily.Serif)
-                    ) {
-                        append("S")
-                    }
-                },
-                fontSize = 50.sp,
-                fontStyle = FontStyle.Italic,
-                fontWeight = FontWeight.SemiBold,
-                modifier = Modifier.offset(x = (-7).dp)
-            )
-
-            HeaderUserProfile(color = Color(0xFFFFF1E7), name = "Nome 2")
-        }
     }
-
 }
-
 
 @Composable
 fun ChallengeScreen(navController: NavController) {
@@ -3387,8 +3415,62 @@ fun ChallengeScreen(navController: NavController) {
     }
 }
 
+@Composable
+fun ChallengeHeader() {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(100.dp)
+            .clip(RoundedCornerShape(bottomStart = 12.dp, bottomEnd = 12.dp))
+            .background(Color(0xFFF3E0D1)),
+        contentAlignment = Center
+    ) {
+        Image(
+            painter = painterResource(R.drawable.em_cima_versus__1___1_),
+            contentDescription = "Imagem de fundo",
+            contentScale = ContentScale.Crop,
+            modifier = Modifier.matchParentSize()
+        )
+
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(65.dp),
+        ) {
+
+            HeaderUserProfile(color = Color(0xFF741C28), "Nome 1")
+
+            Text(
+                text = buildAnnotatedString {
+                    withStyle(
+                        style = SpanStyle(
+                            color = Color(0xFF741C28),
+                            fontFamily = FontFamily.Serif
+                        )
+                    ) {
+                        append("V")
+                    }
+                    withStyle(
+                        style = SpanStyle(
+                            color = Color(0xFFFFF1E7),
+                            fontFamily = FontFamily.Serif
+                        )
+                    ) {
+                        append("S")
+                    }
+                },
+                fontSize = 50.sp,
+                fontStyle = FontStyle.Italic,
+                fontWeight = FontWeight.SemiBold,
+                modifier = Modifier.offset(x = (-7).dp)
+            )
+
+            HeaderUserProfile(color = Color(0xFFFFF1E7), name = "Nome 2")
+        }
+    }
+}
 
 @Preview(showSystemUi = true)
 @Composable
 fun AppPreview() {
-    Calendario(rememberNavController())}
+    Calendario(rememberNavController())
+}

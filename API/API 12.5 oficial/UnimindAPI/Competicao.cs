@@ -11,7 +11,7 @@ public class Competicao
     public int IdCompeticao { get; set; }
 
     [Column("data")]
-    public Date Data { get; set; }
+    public DateOnly Data { get; set; }
 
     [Column("idUsuario1")]
     public int IdUsuario1 { get; set; }

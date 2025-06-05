@@ -16,8 +16,8 @@ public class ListaPersonalizada
     public int IdCategoria { get; set; }
 
     [Column("idFonte")]
-    public int IdFonte { get; set; }
+    public int? IdFonte { get; set; }
 
     [Column("ano")]
-    public int Ano { get; set; }
+    public int? Ano { get; set; }
 }

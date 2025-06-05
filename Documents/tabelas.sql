@@ -21,10 +21,8 @@ CREATE TABLE unimind.NivelEstudo (
     tipo VARCHAR(50) NOT NULL
 );
 
-
 INSERT INTO unimind.NivelEstudo (tipo)
 VALUES ('Cotuca');
-
 
 
 CREATE TABLE unimind.Usuario (
@@ -40,7 +38,6 @@ CREATE TABLE unimind.Usuario (
     FOREIGN KEY (idNivel) REFERENCES unimind.NivelEstudo(idNivel)
 );
 
-
 INSERT INTO unimind.Usuario (nome, email, senha, idNivel)
 VALUES ('marietti', 'marietti@gmail.com', 'marietti123', 1);
 
@@ -52,10 +49,28 @@ CREATE TABLE unimind.Fonte (
     nome VARCHAR(100) NOT NULL
 );
 
+INSERT INTO unimind.Fonte (nome)
+VALUES ('ENEM'),
+       ('FUVEST'),
+       ('UNICAMP'),
+       ('ITA');
+
+
 CREATE TABLE unimind.Categoria (
     idCategoria INT IDENTITY(1,1) PRIMARY KEY,
     nome VARCHAR(100) NOT NULL
 );
+
+INSERT INTO unimind.Categoria (nome)
+VALUES ('Matemática'),
+       ('Física'),
+       ('Química'),
+       ('Biologia'),
+       ('História'),
+       ('Geografia'),
+       ('Inglês'),
+       ('Português');
+
 
 CREATE TABLE unimind.Prova (
     idProva INT IDENTITY(1,1) PRIMARY KEY,
@@ -66,6 +81,13 @@ CREATE TABLE unimind.Prova (
     FOREIGN KEY (idFonte) REFERENCES unimind.Fonte(idFonte)
 );
 
+INSERT INTO unimind.Prova (idFonte, ano, qntdQuestoes, fase)
+VALUES (1, 2022, 90, NULL),
+       (2, 2021, 60, '1ª fase'),
+       (3, 2020, 72, '2ª fase'),
+       (4, 2023, 50, NULL);
+
+
 CREATE TABLE unimind.Questao (
     idQuestao INT IDENTITY(1,1) PRIMARY KEY,
     idProva INT,
@@ -75,6 +97,18 @@ CREATE TABLE unimind.Questao (
     FOREIGN KEY (idProva) REFERENCES unimind.Prova(idProva),
     FOREIGN KEY (idCategoria) REFERENCES unimind.Categoria(idCategoria)
 );
+
+INSERT INTO unimind.Questao (idProva, idCategoria, questao, resposta)
+VALUES 
+(1, 1, 'Qual é o valor de x na equação 2x + 3 = 7?', 'x = 2'),
+(1, 2, 'O que é aceleração?', 'Variação da velocidade no tempo'),
+(2, 3, 'Qual é o número atômico do oxigênio?', '8'),
+(2, 4, 'O que é fotossíntese?', 'Processo de produção de glicose pelas plantas'),
+(3, 5, 'Quem foi o primeiro presidente do Brasil?', 'Deodoro da Fonseca'),
+(3, 6, 'O que é longitude?', 'Distância em graus a leste ou oeste do meridiano de Greenwich'),
+(4, 7, 'Traduza: "She is reading a book."', 'Ela está lendo um livro.'),
+(4, 8, 'O que é uma oração subordinada?', 'É uma oração que exerce uma função sintática dentro de outra.');
+
 
 CREATE TABLE unimind.ListaPersonalizada (
     idLista INT IDENTITY(1,1) PRIMARY KEY,
@@ -87,6 +121,14 @@ CREATE TABLE unimind.ListaPersonalizada (
     FOREIGN KEY (idFonte) REFERENCES unimind.Fonte(idFonte)
 );
 
+INSERT INTO unimind.ListaPersonalizada (idUsuario, idCategoria, idFonte, ano)
+VALUES 
+(3, 1, 1, 2022),
+(11, 2, 2, 2021),
+(11, 3, 3, 2020),
+(3, 4, NULL, NULL);
+
+
 CREATE TABLE unimind.Flashcard (
     idFlashcard INT IDENTITY(1,1) PRIMARY KEY,
     idUsuario INT,
@@ -94,6 +136,14 @@ CREATE TABLE unimind.Flashcard (
     respostaUsuario TEXT NOT NULL,
     FOREIGN KEY (idUsuario) REFERENCES unimind.Usuario(idUsuario)
 );
+
+INSERT INTO unimind.Flashcard (idUsuario, perguntaUsuario, respostaUsuario)
+VALUES 
+(11, 'O que é força?', 'É uma interação capaz de alterar o movimento de um corpo.'),
+(3, 'Qual é a fórmula da velocidade média?', 'Vm = ?s/?t'),
+(3, 'Traduza: "Good morning"', 'Bom dia'),
+(11, 'O que é uma célula?', 'Unidade estrutural e funcional dos seres vivos.');
+
 
 CREATE TABLE unimind.Competicao (
     idCompeticao INT IDENTITY(1,1) PRIMARY KEY,
@@ -105,3 +155,9 @@ CREATE TABLE unimind.Competicao (
     FOREIGN KEY (idUsuario2) REFERENCES unimind.Usuario(idUsuario),
     FOREIGN KEY (idNivel) REFERENCES unimind.NivelEstudo(idNivel)
 );
+
+INSERT INTO unimind.Competicao (data, idUsuario1, idUsuario2, idNivel)
+VALUES 
+('2024-05-20', 11, 3, 1),
+('2024-05-21', 3, 11, 1);
+

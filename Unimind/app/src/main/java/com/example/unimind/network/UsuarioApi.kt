@@ -20,7 +20,7 @@ interface UsuarioApi {
         @Path("password") senha: String
     ): Usuario?
 
-    @POST("/usuarios")
+    @POST("/usuarios/add")
     suspend fun criarUsuario(@Body usuario: Usuario): Usuario
 
     @PUT("/usuarios/{id}")

@@ -336,6 +336,7 @@ fun Bloqueio(navController: NavController){
 }
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Cadastro(navController: NavController) {
     val viewModel: UsuarioViewModel = viewModel()
@@ -431,41 +432,70 @@ fun Cadastro(navController: NavController) {
                             /*modifier = Modifier. padding(0.dp, 40.dp, 0.dp, 0.dp)*/)
                         OutlinedTextField(
                             value = nome,
-                            onValueChange = { nome = it }
+                            onValueChange = { nome = it },
+                            colors = TextFieldDefaults.outlinedTextFieldColors(
+                                focusedTextColor = Color.Black, // Cor do texto quando em foco
+                                unfocusedTextColor = Color.Black,  // Cor do texto quando não está em foco
+                                focusedBorderColor = Color.Black,
+                                unfocusedBorderColor = Color.Black,
+                                cursorColor = Color.Black
+                            )
                         )
                         Spacer(modifier = Modifier.height(10.dp))
                         Text(text = "Digite seu email:", fontSize = 20.sp)
                         OutlinedTextField(
                             value = email,
-                            onValueChange = { email = it }
+                            onValueChange = { email = it },
+                            colors = TextFieldDefaults.outlinedTextFieldColors(
+                                focusedTextColor = Color.Black, // Cor do texto quando em foco
+                                unfocusedTextColor = Color.Black,  // Cor do texto quando não está em foco
+                                focusedBorderColor = Color.Black,
+                                unfocusedBorderColor = Color.Black,
+                                cursorColor = Color.Black
+                            )
                         )
                         Spacer(modifier = Modifier.height(10.dp))
                         Text(text = "Digite sua senha:", fontSize = 20.sp)
                         OutlinedTextField(
                             value = senha,
-                            onValueChange = { senha = it }
+                            onValueChange = { senha = it },
+                            colors = TextFieldDefaults.outlinedTextFieldColors(
+                                focusedTextColor = Color.Black, // Cor do texto quando em foco
+                                unfocusedTextColor = Color.Black,  // Cor do texto quando não está em foco
+                                focusedBorderColor = Color.Black,
+                                unfocusedBorderColor = Color.Black,
+                                cursorColor = Color.Black
+                            )
                         )
                         Spacer(modifier = Modifier.height(10.dp))
                         Text(text = "Digite sua senha:", fontSize = 20.sp)
                         OutlinedTextField(
                             value = senhaDnv,
-                            onValueChange = { senhaDnv = it }
-                            //fazer um if p se senha!=senhaDnv n deixar cadastrar
+                            onValueChange = { senhaDnv = it },
+                            colors = TextFieldDefaults.outlinedTextFieldColors(
+                            focusedTextColor = Color.Black, // Cor do texto quando em foco
+                            unfocusedTextColor = Color.Black,  // Cor do texto quando não está em foco
+                            focusedBorderColor = Color.Black,
+                            unfocusedBorderColor = Color.Black,
+                            cursorColor = Color.Black
+                        )
+
                         )
                         Spacer(modifier = Modifier.height(20.dp))
                         OutlinedButton(
                             onClick = {
                                 if (senha == senhaDnv){
-                                    if (senha != senhaDnv) {
-                                        // Exibe erro se as senhas não baterem
-                                        viewModel.setMensagem("As senhas não coincidem")
-                                    } else if (nome.isBlank() || email.isBlank() || senha.isBlank()) {
+                                    if (nome.isBlank() || email.isBlank() || senha.isBlank() || senhaDnv.isBlank()) {
                                         viewModel.setMensagem("Preencha todos os campos")
-                                    } else {
-                                        /*viewModel.criarUsuario(nome, email, senha)*/
+                                        //avisar por um pop-up
+                                    }
+                                    else {
+                                        viewModel.criarUsuario(nome, email, senha)
                                     }
                                 }
                                 else{
+                                    //as senhas não coincidem
+                                    viewModel.setMensagem("As senhas não coincidem")
 
                                 }
                             },
@@ -707,6 +737,7 @@ fun Entrar(navController: NavController, viewModel: UsuarioViewModel = viewModel
                             }
 
                             is LoginResult.Erro -> {
+                                viewModel.setMensagem("O usuário e/ou a senha está(ão) incorreto(s) ")
                                 AlertDialog(
                                     onDismissRequest = { viewModel.limparLoginStatus() },
                                     title = { Text("Erro") },

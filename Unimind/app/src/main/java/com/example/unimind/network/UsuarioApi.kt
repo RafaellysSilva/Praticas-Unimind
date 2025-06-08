@@ -20,8 +20,8 @@ interface UsuarioApi {
         @Path("password") senha: String
     ): Usuario?
 
-    /*@POST("/usuarios")
-    suspend fun criarUsuario(@Body usuario: Usuario): Usuario*/
+    @POST("/usuarios/add")
+    suspend fun criarUsuario(@Body usuario: Usuario): Usuario
 
     @PUT("/usuarios/{id}")
     suspend fun atualizarUsuario(@Path("id") id: Int, @Body usuario: Usuario): retrofit2.Response<Unit>

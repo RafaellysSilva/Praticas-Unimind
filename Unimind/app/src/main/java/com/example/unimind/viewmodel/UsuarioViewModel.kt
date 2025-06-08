@@ -88,7 +88,7 @@ class UsuarioViewModel : ViewModel() {
         _mensagem.value = msg
     }
 
-    /*fun criarUsuario(nome: String, email: String, senha: String) {
+    fun criarUsuario(nome: String, email: String, senha: String) {
         coroutineScope.launch {
             try {
                 val usuario = Usuario(nome = nome, email = email, senha = senha)        //como q vai passar id sendo q o id é identity???
@@ -99,7 +99,7 @@ class UsuarioViewModel : ViewModel() {
                 _mensagem.value = "Erro ao criar usuário: ${e.message}"
             }
         }
-    }*/
+    }
 
 
     fun atualizarUsuario(id: Int, usuarioAtualizado: Usuario) {

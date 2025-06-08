@@ -490,7 +490,11 @@ fun Cadastro(navController: NavController) {
                                         //avisar por um pop-up
                                     }
                                     else {
-                                        viewModel.criarUsuario(nome, email, senha)
+                                        viewModel.criarUsuario(nome, email, senha) {
+                                            navController.navigate("telaInicial") {
+                                                popUpTo("telaCadastro") { inclusive = true }
+                                            }
+                                        }
                                     }
                                 }
                                 else{
@@ -783,35 +787,6 @@ fun Entrar(navController: NavController, viewModel: UsuarioViewModel = viewModel
         }
     }
 }
-
-//@SuppressLint("ViewModelConstructorInComposable")
-//@Composable
-/*fun verificarLogin(user: String, password: String, context : Context) {
-    //acho q vai ter q pegar o user e o password e verificar
-    val usuarioViewModel = UsuarioViewModel()
-
-    usuarioViewModel.buscarUsuario(user.toString(), password.toString()) { encontrado ->
-        if (encontrado) {
-
-            // Usuário encontrado
-            //avisar que o login foi bem sucedido e levar a pessoa para a pagina inicial
-            AlertDialog.Builder(context)
-                .setTitle("titulo")
-                .setMessage("Login feito com sucesso!")
-                .setPositiveButton("OK") { dialog, _ ->
-                    dialog.dismiss()
-                }
-                .show()
-        } else {
-            // Usuário não encontrado
-            //avisar que ou o usuário ou a senha estavam incorretos e ficar na mesma pagina
-
-        }
-    }
-}
-*/
-
-fun fazerCadastro(){}
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -3163,5 +3138,5 @@ fun Calendario(navController: NavController) {
 @Preview(showSystemUi = true)
 @Composable
 fun AppPreview() {
-    Estatisticas(rememberNavController())
+    Bloqueio(rememberNavController())
 }

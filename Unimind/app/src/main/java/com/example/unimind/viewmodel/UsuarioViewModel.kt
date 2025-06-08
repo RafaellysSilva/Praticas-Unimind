@@ -1,6 +1,7 @@
 package com.example.usuarioapp.viewmodel
 //import com.example.usuarioapp.LoginResult // substitui com o nome certo do seu pacote
 //package com.example.unimind.viewmodel
+import UsuarioCadastro
 import com.example.unimind.viewmodel.LoginResult
 
 
@@ -88,13 +89,14 @@ class UsuarioViewModel : ViewModel() {
         _mensagem.value = msg
     }
 
-    fun criarUsuario(nome: String, email: String, senha: String) {
+    fun criarUsuario(nome: String, email: String, senha: String, onSucesso: () -> Unit) {
         coroutineScope.launch {
             try {
-                val usuario = Usuario(nome = nome, email = email, senha = senha)        //como q vai passar id sendo q o id é identity???
+                val usuario = UsuarioCadastro(nome = nome, email = email, senha = senha)        //como q vai passar id sendo q o id é identity???
                 val novoUsuario = RetrofitUsuario.instance.criarUsuario(usuario)
                 _usuarios.value = _usuarios.value + novoUsuario
                 _mensagem.value = "Usuário criado com ID ${novoUsuario.idUsuario}"
+                onSucesso()
             } catch (e: Exception) {
                 _mensagem.value = "Erro ao criar usuário: ${e.message}"
             }

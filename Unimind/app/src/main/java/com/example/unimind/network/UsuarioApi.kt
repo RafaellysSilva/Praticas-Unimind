@@ -1,5 +1,6 @@
 package com.example.unimind.network
 
+import UsuarioCadastro
 import com.example.unimind.data.Usuario
 
 import retrofit2.http.GET
@@ -21,7 +22,7 @@ interface UsuarioApi {
     ): Usuario?
 
     @POST("/usuarios/add")
-    suspend fun criarUsuario(@Body usuario: Usuario): Usuario
+    suspend fun criarUsuario(@Body usuario: UsuarioCadastro): Usuario
 
     @PUT("/usuarios/{id}")
     suspend fun atualizarUsuario(@Path("id") id: Int, @Body usuario: Usuario): retrofit2.Response<Unit>

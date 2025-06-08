@@ -27,6 +27,6 @@ interface UsuarioApi {
     @PUT("/usuarios/{id}")
     suspend fun atualizarUsuario(@Path("id") id: Int, @Body usuario: Usuario): retrofit2.Response<Unit>
 
-    @DELETE("/usuarios/{id}")
+    @DELETE("/usuarios/del/{id}")
     suspend fun deletarUsuario(@Path("id") id: Int): retrofit2.Response<Unit>
 }

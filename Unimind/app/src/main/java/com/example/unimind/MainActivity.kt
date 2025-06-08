@@ -87,6 +87,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.ui.platform.LocalContext
 import com.example.unimind.data.Usuario
 import com.example.unimind.data.UsuarioConfig
@@ -752,7 +753,7 @@ fun Entrar(navController: NavController, viewModel: UsuarioViewModel = viewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Configuracoes(navController: NavController) {
+fun Configuracoes(navController: NavController, viewModel: UsuarioViewModel = viewModel()) {
     var user by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var senha by remember { mutableStateOf("") }
@@ -857,7 +858,14 @@ fun Configuracoes(navController: NavController) {
                                 modifier = Modifier
                                     .width(280.dp)
                                     .height(10.dp)
-                                    .padding(start = 20.dp, top = 10.dp)
+                                    .padding(start = 20.dp, top = 10.dp),
+                                colors = TextFieldDefaults.outlinedTextFieldColors(
+                                    focusedTextColor = Color.Black, // Cor do texto quando em foco
+                                    unfocusedTextColor = Color.Black,  // Cor do texto quando não está em foco
+                                    focusedBorderColor = Color.Black,
+                                    unfocusedBorderColor = Color.Black,
+                                    cursorColor = Color.Black
+                                )
                             )
                         }
 
@@ -874,7 +882,14 @@ fun Configuracoes(navController: NavController) {
                                 modifier = Modifier
                                     .width(280.dp)
                                     .height(10.dp)
-                                    .padding(start = 20.dp, top = 10.dp)
+                                    .padding(start = 20.dp, top = 10.dp),
+                                colors = TextFieldDefaults.outlinedTextFieldColors(
+                                    focusedTextColor = Color.Black, // Cor do texto quando em foco
+                                    unfocusedTextColor = Color.Black,  // Cor do texto quando não está em foco
+                                    focusedBorderColor = Color.Black,
+                                    unfocusedBorderColor = Color.Black,
+                                    cursorColor = Color.Black
+                                )
                             )
                         }
 
@@ -891,7 +906,14 @@ fun Configuracoes(navController: NavController) {
                                 modifier = Modifier
                                     .width(280.dp)
                                     .height(10.dp)
-                                    .padding(start = 20.dp, top = 10.dp)
+                                    .padding(start = 20.dp, top = 10.dp),
+                                colors = TextFieldDefaults.outlinedTextFieldColors(
+                                    focusedTextColor = Color.Black, // Cor do texto quando em foco
+                                    unfocusedTextColor = Color.Black,  // Cor do texto quando não está em foco
+                                    focusedBorderColor = Color.Black,
+                                    unfocusedBorderColor = Color.Black,
+                                    cursorColor = Color.Black
+                                )
                             )
                         }
 
@@ -904,12 +926,18 @@ fun Configuracoes(navController: NavController) {
                             )
                             OutlinedTextField(
                                 value = nivel,
-                                readOnly = true,
                                 onValueChange = {nivel = it},
                                 modifier = Modifier
                                     .width(280.dp)
                                     .height(10.dp)
-                                    .padding(start = 20.dp, top = 10.dp)
+                                    .padding(start = 20.dp, top = 10.dp),
+                                colors = TextFieldDefaults.outlinedTextFieldColors(
+                                    focusedTextColor = Color.Black, // Cor do texto quando em foco
+                                    unfocusedTextColor = Color.Black,  // Cor do texto quando não está em foco
+                                    focusedBorderColor = Color.Black,
+                                    unfocusedBorderColor = Color.Black,
+                                    cursorColor = Color.Black
+                                )
                             )
                         }
 
@@ -930,8 +958,13 @@ fun Configuracoes(navController: NavController) {
                                     .padding(start = 10.dp, end = 23.dp, top = 8.dp)
                             )
                             OutlinedButton (
-                                onClick = { viewModel.deletarUsuario(user) },
-                                //border = BorderStroke(2.dp, Vinho),
+                                onClick = {
+                                    viewModel.usuarioDetalhe.value?.idUsuario?.let {
+                                        viewModel.deletarUsuario(it)
+                                    }
+                                },
+
+                                        //border = BorderStroke(2.dp, Vinho),
                                 modifier = Modifier
                                     .width(200.dp)
                                     .height(40.dp)
@@ -968,7 +1001,7 @@ fun Configuracoes(navController: NavController) {
                                         senha = senha,
                                         nivel = nivel.toIntOrNull() ?: 0
                                     )
-                                    viewModel.atualizarUsuario(user, email, senha, nivel.toIntOrNull() ?: 0, usuarioAtualizado)
+                                    viewModel.atualizarUsuario(user, email, senha, nivel.toIntOrNull() ?: 0)
                                 }
                             ) {
                                 Text(text = "Salvar alterações", color = Black)

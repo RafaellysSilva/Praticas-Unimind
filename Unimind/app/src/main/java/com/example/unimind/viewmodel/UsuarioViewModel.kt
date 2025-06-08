@@ -26,6 +26,9 @@ class UsuarioViewModel : ViewModel() {
     private val _mensagem = mutableStateOf("")
     val mensagem: State<String> = _mensagem
 
+    private val _usuarioLogado = mutableStateOf("")
+    val usuarioLogado: State<String> = _usuarioLogado
+
     private val coroutineScope = CoroutineScope(Dispatchers.Main.immediate)
 
     fun listarUsuarios() {
@@ -38,6 +41,7 @@ class UsuarioViewModel : ViewModel() {
             }
         }
     }
+
 
     //tem q fzr pelo nome
     /*
@@ -67,6 +71,7 @@ class UsuarioViewModel : ViewModel() {
         }
     }
 
+
     private val _loginStatus = mutableStateOf<LoginResult>(LoginResult.Nenhum)
     val loginStatus: State<LoginResult> = _loginStatus
 
@@ -74,7 +79,11 @@ class UsuarioViewModel : ViewModel() {
         coroutineScope.launch {
             try {
                 val usuario = RetrofitUsuario.instance.buscarUsuario(nome, senha)
-                _loginStatus.value = if (usuario != null) LoginResult.Sucesso
+                if (usuario != null) {
+                    _usuarioLogado.value = nome // Aqui salva o nome de quem logou
+                    _usuarioDetalhe.value = usuario
+                    _loginStatus.value = LoginResult.Sucesso
+                }
                 else LoginResult.Erro("Usuário ou senha inválidos")
             } catch (e: Exception) {
                 _loginStatus.value = LoginResult.Erro("Erro ao conectar: ${e.message}")
@@ -89,6 +98,7 @@ class UsuarioViewModel : ViewModel() {
     fun setMensagem(msg: String) {
         _mensagem.value = msg
     }
+
 
     fun criarUsuario(nome: String, email: String, senha: String, onSucesso: () -> Unit) {
         coroutineScope.launch {
@@ -105,8 +115,15 @@ class UsuarioViewModel : ViewModel() {
     }
 
 
-    fun atualizarUsuario(id: Int, nome: String, email: String, senha: String, nivel: Int) {
+    fun atualizarUsuario(nome: String, email: String, senha: String, nivel: Int) {
+        val id = _usuarioDetalhe.value?.idUsuario
+        if (id == null) {
+            _mensagem.value = "Nenhum usuário selecionado para atualização."
+            return
+        }
+
         val usuarioAtualizado = Usuario(idUsuario = id, nome = nome, email = email, senha = senha, nivel = nivel)
+
         coroutineScope.launch {
             try {
                 val response = RetrofitUsuario.instance.atualizarUsuario(id, usuarioAtualizado)
@@ -126,29 +143,20 @@ class UsuarioViewModel : ViewModel() {
     }
 
 
-    fun deletarUsuario(nome: String) {
+    fun deletarUsuario(id: Int) {
         coroutineScope.launch {
             try {
-                val usuario = _usuarios.value.find { it.nome == nome }
-                if (usuario != null) {
-                    val id: Int? = usuario.idUsuario
-                    val response = id?.let { RetrofitUsuario.instance.deletarUsuario(it) }
-                    if (response != null) {
-                        if (response.isSuccessful) {
-                            _usuarios.value = _usuarios.value.filter { it.idUsuario != id }
-                            _usuarioDetalhe.value = null
-                            _mensagem.value = "Usuário $id deletado."
-                        } else {
-                            _mensagem.value = "Erro ao deletar usuário: ${response.code()}"
-                        }
-                    }
+                val response = RetrofitUsuario.instance.deletarUsuario(id)
+                if (response.isSuccessful) {
+                    _mensagem.value = "Usuário deletado com sucesso"
                 } else {
-                    _mensagem.value = "Usuário com nome \"$nome\" não encontrado."
+                    _mensagem.value = "Erro ao deletar usuário: ${response.code()}"
                 }
             } catch (e: Exception) {
-                _mensagem.value = "Erro ao deletar usuário: ${e.message}"
+                _mensagem.value = "Erro: ${e.message}"
             }
         }
     }
+
 
 }

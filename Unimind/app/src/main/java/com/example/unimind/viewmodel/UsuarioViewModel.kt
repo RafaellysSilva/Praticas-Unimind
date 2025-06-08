@@ -2,6 +2,7 @@ package com.example.usuarioapp.viewmodel
 //import com.example.usuarioapp.LoginResult // substitui com o nome certo do seu pacote
 //package com.example.unimind.viewmodel
 import UsuarioCadastro
+import android.util.Log
 import com.example.unimind.viewmodel.LoginResult
 
 
@@ -138,6 +139,7 @@ class UsuarioViewModel : ViewModel() {
                 }
             } catch (e: Exception) {
                 _mensagem.value = "Erro ao atualizar usuário: ${e.message}"
+                Log.d("VIEWMODEL", "Erro: ${e.stackTraceToString()}") // <-- veja no logcat
             }
         }
     }
@@ -145,6 +147,7 @@ class UsuarioViewModel : ViewModel() {
 
     fun deletarUsuario(id: Int) {
         coroutineScope.launch {
+            Log.d("DELETAR", "Chamando API para deletar $id")
             try {
                 val response = RetrofitUsuario.instance.deletarUsuario(id)
                 if (response.isSuccessful) {

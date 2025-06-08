@@ -759,12 +759,19 @@ fun Configuracoes(navController: NavController, viewModel: UsuarioViewModel = vi
     var senha by remember { mutableStateOf("") }
     var nivel by remember { mutableStateOf("") }
 
-    val viewModel: UsuarioViewModel = viewModel()
-
+    LaunchedEffect(viewModel.usuarioDetalhe.value) {
+        viewModel.usuarioDetalhe.value?.let { usuario ->
+            user = usuario.nome
+            email = usuario.email
+            senha = usuario.senha
+            nivel = usuario.nivel?.toString() ?: ""
+        }
+    }
 
     val inter = FontFamily(
         Font(R.font.inter)
     )
+
     UnimindTheme {
         //É o cabeçário da página
         Surface(
@@ -855,10 +862,10 @@ fun Configuracoes(navController: NavController, viewModel: UsuarioViewModel = vi
                             OutlinedTextField(
                                 value = user,
                                 onValueChange = {user = it},
-                                modifier = Modifier
-                                    .width(280.dp)
-                                    .height(10.dp)
-                                    .padding(start = 20.dp, top = 10.dp),
+                                //modifier = Modifier
+                                    //.width(280.dp)
+                                    //.height(10.dp)
+                                    //.padding(start = 20.dp, top = 10.dp),
                                 colors = TextFieldDefaults.outlinedTextFieldColors(
                                     focusedTextColor = Color.Black, // Cor do texto quando em foco
                                     unfocusedTextColor = Color.Black,  // Cor do texto quando não está em foco
@@ -879,10 +886,10 @@ fun Configuracoes(navController: NavController, viewModel: UsuarioViewModel = vi
                             OutlinedTextField(
                                 value = email,
                                 onValueChange = {email = it},
-                                modifier = Modifier
-                                    .width(280.dp)
-                                    .height(10.dp)
-                                    .padding(start = 20.dp, top = 10.dp),
+                                //modifier = Modifier
+                                  //  .width(280.dp)
+                                    //.height(10.dp)
+                                    //.padding(start = 20.dp, top = 10.dp),
                                 colors = TextFieldDefaults.outlinedTextFieldColors(
                                     focusedTextColor = Color.Black, // Cor do texto quando em foco
                                     unfocusedTextColor = Color.Black,  // Cor do texto quando não está em foco
@@ -903,10 +910,10 @@ fun Configuracoes(navController: NavController, viewModel: UsuarioViewModel = vi
                             OutlinedTextField(
                                 value = senha,
                                 onValueChange = {senha = it},
-                                modifier = Modifier
-                                    .width(280.dp)
-                                    .height(10.dp)
-                                    .padding(start = 20.dp, top = 10.dp),
+                                //modifier = Modifier
+                                  //  .width(280.dp)
+                                    //.height(10.dp)
+                                    //.padding(start = 20.dp, top = 10.dp),
                                 colors = TextFieldDefaults.outlinedTextFieldColors(
                                     focusedTextColor = Color.Black, // Cor do texto quando em foco
                                     unfocusedTextColor = Color.Black,  // Cor do texto quando não está em foco
@@ -927,10 +934,10 @@ fun Configuracoes(navController: NavController, viewModel: UsuarioViewModel = vi
                             OutlinedTextField(
                                 value = nivel,
                                 onValueChange = {nivel = it},
-                                modifier = Modifier
-                                    .width(280.dp)
-                                    .height(10.dp)
-                                    .padding(start = 20.dp, top = 10.dp),
+                                //modifier = Modifier
+                                  //  .width(280.dp)
+                                    //.height(10.dp)
+                                    //.padding(start = 20.dp, top = 10.dp),
                                 colors = TextFieldDefaults.outlinedTextFieldColors(
                                     focusedTextColor = Color.Black, // Cor do texto quando em foco
                                     unfocusedTextColor = Color.Black,  // Cor do texto quando não está em foco

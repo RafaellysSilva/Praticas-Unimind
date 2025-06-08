@@ -339,7 +339,7 @@ fun Bloqueio(navController: NavController){
 @Composable
 fun Cadastro(navController: NavController) {
     val viewModel: UsuarioViewModel = viewModel()
-    val mensagem by viewModel.mensagem.observeAsState()
+    val mensagem by viewModel.mensagem
 
     val inter = FontFamily(
         Font(R.font.inter)
@@ -462,7 +462,7 @@ fun Cadastro(navController: NavController) {
                                     } else if (nome.isBlank() || email.isBlank() || senha.isBlank()) {
                                         viewModel.setMensagem("Preencha todos os campos")
                                     } else {
-                                        viewModel.criarUsuario(nome, email, senha)
+                                        /*viewModel.criarUsuario(nome, email, senha)*/
                                     }
                                 }
                                 else{

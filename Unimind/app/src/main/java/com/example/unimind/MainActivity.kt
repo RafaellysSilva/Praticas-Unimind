@@ -547,47 +547,6 @@ fun Entrar(navController: NavController, viewModel: UsuarioViewModel = viewModel
 
     var user by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-    /*var erroLogin by remember { mutableStateOf("") }
-
-    val usuarios by viewModel.usuarios
-    var novoNome by remember { mutableStateOf("") }
-    var usuarioIdBusca by remember { mutableStateOf("") }
-    var usuarioIdAtualizar by remember { mutableStateOf("") }
-    var novoNomeAtualizar by remember { mutableStateOf("") }
-    var usuarioIdDeletar by remember { mutableStateOf("") }
-    val usuarioDetalhe by viewModel.usuarioDetalhe
-    */
-
-
-//    fun verificarLogin(nome: String, senha: String, onSuccess: () -> Unit, onError: () -> Unit) {
-//        val url = "http://10.0.2.2:5000/login/$nome/$senha" // use 10.0.2.2 no emulador Android
-//        //val url = "http://localhost:5133/usuarios"
-//
-//        val client = OkHttpClient()
-//        val request = Request.Builder().url(url).build()
-//
-//        CoroutineScope(Dispatchers.IO).launch {
-//            try {
-//                val response = client.newCall(request).execute()
-//                val body = response.body?.string()
-//
-//
-//                if (response.isSuccessful && body?.contains("Login válido") == true) {
-//                    withContext(Dispatchers.Main) {
-//                        onSuccess()
-//                    }
-//                } else {
-//                    withContext(Dispatchers.Main) {
-//                        onError()
-//                    }
-//                }
-//            } catch (e: Exception) {
-//                withContext(Dispatchers.Main) {
-//                    onError()
-//                }
-//            }
-//        }
-//    }
 
     val cuteFont = FontFamily(
         Font(R.font.cute_letters) // Nome do arquivo sem a extensão .ttf ou .otf
@@ -1016,10 +975,9 @@ fun Inicial(navController: NavController){
     ) {
         Column(
             Modifier
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState()),
-            verticalArrangement = Arrangement.Top,
-            //horizontalAlignment = Alignment.CenterHorizontally
+                .fillMaxSize(),
+                //.verticalScroll(rememberScrollState()),
+            verticalArrangement = Arrangement.Top
         ) {
             Box(
                 //mexer no alinhamento do texto e da imagem
@@ -1058,35 +1016,59 @@ fun Inicial(navController: NavController){
                     )
                 }
             }
+
             //corpo
-            Box(contentAlignment = Center
-            ){
+
+            Box(
+                //modifier = Modifier.weight(1f)
+                contentAlignment = Center
+            ) {
                 Column(
-                    verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier.fillMaxSize()
-                ){
-                    Row(modifier = Modifier.padding(top = 55.dp)){
-                        Box(modifier = Modifier
-                            .clickable(onClick = { navController.navigate("telaConfiguracoes") })
+                    verticalArrangement = Arrangement.Center,
+                    modifier = Modifier.fillMaxSize() .padding(top = 100.dp)
+                ) {
+                    Row(
+                        modifier = Modifier
                             .background(Color(0xFFBB8C94))
                             .padding(top = 24.dp, bottom = 24.dp, start = 10.dp, end = 10.dp)
-                        )
-                        {
-                            Image(painterResource(id = R.drawable.config), contentDescription = null,
+                    )
+                    {
+                        OutlinedButton(
+                            onClick = {
+                                navController.navigate("telaConfiguracoes")
+                            },
+                            border = null
+                        ) {
+                            Image(
+                                painterResource(id = R.drawable.config), contentDescription = null,
                                 modifier = Modifier
                                     .width(20.dp)
                                     .height(20.dp)
                             )
-                            Text("Configurações", color = White, modifier = Modifier.padding(start = 25.dp))
+                            Text(
+                                "Configurações",
+                                color = White,
+                                modifier = Modifier.padding(start = 25.dp)
+                            )
                         }
-                        Spacer(Modifier.width(15.dp))
-                        Box(modifier = Modifier
-                            .clickable(onClick = { navController.navigate("telaCalendario")})
+                    }
+
+                    Spacer(Modifier.height(15.dp))
+
+                    Row(
+                        modifier = Modifier
                             .background(Color(0xFFBB8C94))
-                            .padding(top = 24.dp, bottom = 24.dp, start = 22.dp, end = 22.dp)) {
+                            .padding(top = 24.dp, bottom = 24.dp, start = 22.dp, end = 22.dp)
+                    )
+                    {
+                        OutlinedButton(
+                            onClick = { navController.navigate("telaCalendario") },
+                            border = null
+                        ) {
                             Image(
-                                painterResource(id = R.drawable.calendario), contentDescription = null,
+                                painterResource(id = R.drawable.calendario),
+                                contentDescription = null,
                                 modifier = Modifier
                                     .width(20.dp)
                                     .height(20.dp)
@@ -1099,84 +1081,14 @@ fun Inicial(navController: NavController){
                             )
                         }
                     }
-                    Row(modifier = Modifier
-                        .padding(top = 60.dp)
-                        .clickable(onClick = {navController.navigate("telaFlashcardsArea")})){
-                        Box(modifier = Modifier
-                            .background(Color(0xFFBB8C94))
-                            .padding(top = 20.dp, bottom = 20.dp, start = 24.dp, end = 50.dp)){
-                            Image(painterResource(id = R.drawable.cards), contentDescription = null,
-                                modifier = Modifier
-                                    .width(40.dp)
-                                    .height(40.dp)
-                            )}
-                        Box(modifier = Modifier
-                            .background(Color(0xFFBB8C94))
-                            .padding(top = 30.dp, bottom = 33.5.dp, end = 75.dp)){
-                            Text("FlashCards", color = White, modifier = Modifier.padding(start = 25.dp))
-                        }
-                    }
-                    Row(modifier = Modifier
-                        .padding(top = 40.dp)
-                        .clickable(onClick = {navController.navigate("telaListasProvasArea")})
-                    ){
-                        Box(modifier = Modifier
-                            .background(Color(0xFFBB8C94))
-                            .padding(top = 20.dp, bottom = 20.dp, start = 23.dp, end = 50.dp)){
-                            Image(painterResource(id = R.drawable.tempo), contentDescription = null,
-                                modifier = Modifier
-                                    .width(40.dp)
-                                    .height(40.dp)
-                            )}
-
-                        Box(modifier = Modifier
-                            .background(Color(0xFFBB8C94))
-                            .padding(top = 30.dp, bottom = 33.5.dp, end = 53.dp)){
-                            Text("Listas e provas", color = White, modifier = Modifier.padding(start = 28.dp))
-                        }
-                    }
-                    Row(modifier = Modifier
-                        .padding(top = 40.dp)
-                        .clickable(onClick = {navController.navigate("telaCompeticaoCriar")})
-                    ){
-                        Box(modifier = Modifier
-                            .background(Color(0xFFBB8C94))
-                            .padding(top = 20.dp, bottom = 20.dp, start = 22.dp, end = 50.dp)){
-                            Image(painterResource(id = R.drawable.competdois), contentDescription = null,
-                                modifier = Modifier
-                                    .width(40.dp)
-                                    .height(40.dp)
-                            )}
-
-                        Box(modifier = Modifier
-                            .background(Color(0xFFBB8C94))
-                            .padding(top = 30.dp, bottom = 33.5.dp, end = 72.dp, start = 2.dp)){
-                            Text("Competição", color = White, modifier = Modifier.padding(start = 25.dp))
-                        }
-                    }
-                    Row(modifier = Modifier
-                        .padding(top = 40.dp)
-                        .clickable(onClick = {navController.navigate("telaEstatisticas")})
-                    ){
-                        Box(modifier = Modifier
-                            .background(Color(0xFFBB8C94))
-                            .padding(top = 20.dp, bottom = 20.dp, start = 24.dp, end = 55.dp)){
-                            Image(painterResource(id = R.drawable.estadois), contentDescription = null,
-                                modifier = Modifier
-                                    .width(40.dp)
-                                    .height(40.dp)
-                            )}
-
-                        Box(modifier = Modifier
-                            .background(Color(0xFFBB8C94))
-                            .padding(top = 30.dp, bottom = 33.5.dp, end = 67.dp, start = 2.dp)){
-                            Text("Estatísticas", color = White, modifier = Modifier.padding(start = 27.dp))
-                        }
-                    }
+                    Footer(navController)
                 }
+                //Footer(navController)
             }
+
+            //Footer(navController)
         }
-        Footer(navController)
+        //Footer(navController)
     }
 }
 
@@ -2873,11 +2785,12 @@ fun Estatisticas(navController: NavController){
                                     }
                                 }
                             }
-                            Footer(rememberNavController())
                         }
                     }
                 }
             }
+
+            Footer(rememberNavController())
         }
     }
 }

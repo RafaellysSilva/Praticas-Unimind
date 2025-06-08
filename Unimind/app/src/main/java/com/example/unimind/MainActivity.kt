@@ -87,7 +87,10 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.ui.platform.LocalContext
+import com.example.unimind.data.Usuario
+import com.example.unimind.data.UsuarioConfig
 
 //import com.example.usuarioapp.viewmodel.LoginResult
 //import kotlin.coroutines.jvm.internal.CompletedContinuation.context
@@ -490,7 +493,11 @@ fun Cadastro(navController: NavController) {
                                         //avisar por um pop-up
                                     }
                                     else {
-                                        viewModel.criarUsuario(nome, email, senha)
+                                        viewModel.criarUsuario(nome, email, senha) {
+                                            navController.navigate("telaInicial") {
+                                                popUpTo("telaCadastro") { inclusive = true }
+                                            }
+                                        }
                                     }
                                 }
                                 else{
@@ -543,47 +550,6 @@ fun Entrar(navController: NavController, viewModel: UsuarioViewModel = viewModel
 
     var user by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-    /*var erroLogin by remember { mutableStateOf("") }
-
-    val usuarios by viewModel.usuarios
-    var novoNome by remember { mutableStateOf("") }
-    var usuarioIdBusca by remember { mutableStateOf("") }
-    var usuarioIdAtualizar by remember { mutableStateOf("") }
-    var novoNomeAtualizar by remember { mutableStateOf("") }
-    var usuarioIdDeletar by remember { mutableStateOf("") }
-    val usuarioDetalhe by viewModel.usuarioDetalhe
-    */
-
-
-//    fun verificarLogin(nome: String, senha: String, onSuccess: () -> Unit, onError: () -> Unit) {
-//        val url = "http://10.0.2.2:5000/login/$nome/$senha" // use 10.0.2.2 no emulador Android
-//        //val url = "http://localhost:5133/usuarios"
-//
-//        val client = OkHttpClient()
-//        val request = Request.Builder().url(url).build()
-//
-//        CoroutineScope(Dispatchers.IO).launch {
-//            try {
-//                val response = client.newCall(request).execute()
-//                val body = response.body?.string()
-//
-//
-//                if (response.isSuccessful && body?.contains("Login válido") == true) {
-//                    withContext(Dispatchers.Main) {
-//                        onSuccess()
-//                    }
-//                } else {
-//                    withContext(Dispatchers.Main) {
-//                        onError()
-//                    }
-//                }
-//            } catch (e: Exception) {
-//                withContext(Dispatchers.Main) {
-//                    onError()
-//                }
-//            }
-//        }
-//    }
 
     val cuteFont = FontFamily(
         Font(R.font.cute_letters) // Nome do arquivo sem a extensão .ttf ou .otf
@@ -784,42 +750,28 @@ fun Entrar(navController: NavController, viewModel: UsuarioViewModel = viewModel
     }
 }
 
-//@SuppressLint("ViewModelConstructorInComposable")
-//@Composable
-/*fun verificarLogin(user: String, password: String, context : Context) {
-    //acho q vai ter q pegar o user e o password e verificar
-    val usuarioViewModel = UsuarioViewModel()
-
-    usuarioViewModel.buscarUsuario(user.toString(), password.toString()) { encontrado ->
-        if (encontrado) {
-
-            // Usuário encontrado
-            //avisar que o login foi bem sucedido e levar a pessoa para a pagina inicial
-            AlertDialog.Builder(context)
-                .setTitle("titulo")
-                .setMessage("Login feito com sucesso!")
-                .setPositiveButton("OK") { dialog, _ ->
-                    dialog.dismiss()
-                }
-                .show()
-        } else {
-            // Usuário não encontrado
-            //avisar que ou o usuário ou a senha estavam incorretos e ficar na mesma pagina
-
-        }
-    }
-}
-*/
-
-fun fazerCadastro(){}
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Configuracoes(navController: NavController) {
+fun Configuracoes(navController: NavController, viewModel: UsuarioViewModel = viewModel()) {
+    var user by remember { mutableStateOf("") }
+    var email by remember { mutableStateOf("") }
+    var senha by remember { mutableStateOf("") }
+    var nivel by remember { mutableStateOf("") }
+
+    LaunchedEffect(viewModel.usuarioDetalhe.value) {
+        viewModel.usuarioDetalhe.value?.let { usuario ->
+            user = usuario.nome
+            email = usuario.email
+            senha = usuario.senha
+            nivel = usuario.nivel?.toString() ?: ""
+        }
+    }
+
     val inter = FontFamily(
         Font(R.font.inter)
     )
+
     UnimindTheme {
         //É o cabeçário da página
         Surface(
@@ -903,7 +855,6 @@ fun Configuracoes(navController: NavController) {
                         Spacer(Modifier.height(15.dp))
 
                         Row{
-                            var user by remember { mutableStateOf("") }
                             Text("Usuário:", fontSize = 20.sp, fontWeight = FontWeight.Bold,
                                 modifier = Modifier
                                     .padding(start = 10.dp)
@@ -911,17 +862,23 @@ fun Configuracoes(navController: NavController) {
                             OutlinedTextField(
                                 value = user,
                                 onValueChange = {user = it},
-                                modifier = Modifier
-                                    .width(280.dp)
-                                    .height(10.dp)
-                                    .padding(start = 20.dp, top = 10.dp)
+                                //modifier = Modifier
+                                    //.width(280.dp)
+                                    //.height(10.dp)
+                                    //.padding(start = 20.dp, top = 10.dp),
+                                colors = TextFieldDefaults.outlinedTextFieldColors(
+                                    focusedTextColor = Color.Black, // Cor do texto quando em foco
+                                    unfocusedTextColor = Color.Black,  // Cor do texto quando não está em foco
+                                    focusedBorderColor = Color.Black,
+                                    unfocusedBorderColor = Color.Black,
+                                    cursorColor = Color.Black
+                                )
                             )
                         }
 
                         Spacer(Modifier.height(15.dp))
 
                         Row{
-                            var email by remember { mutableStateOf("") }
                             Text("E-mail:", fontSize = 20.sp, fontWeight = FontWeight.Bold,
                                 modifier = Modifier
                                     .padding(start = 10.dp, end = 12.dp)
@@ -929,17 +886,23 @@ fun Configuracoes(navController: NavController) {
                             OutlinedTextField(
                                 value = email,
                                 onValueChange = {email = it},
-                                modifier = Modifier
-                                    .width(280.dp)
-                                    .height(10.dp)
-                                    .padding(start = 20.dp, top = 10.dp)
+                                //modifier = Modifier
+                                  //  .width(280.dp)
+                                    //.height(10.dp)
+                                    //.padding(start = 20.dp, top = 10.dp),
+                                colors = TextFieldDefaults.outlinedTextFieldColors(
+                                    focusedTextColor = Color.Black, // Cor do texto quando em foco
+                                    unfocusedTextColor = Color.Black,  // Cor do texto quando não está em foco
+                                    focusedBorderColor = Color.Black,
+                                    unfocusedBorderColor = Color.Black,
+                                    cursorColor = Color.Black
+                                )
                             )
                         }
 
                         Spacer(Modifier.height(15.dp))
 
                         Row{
-                            var senha by remember { mutableStateOf("") }
                             Text("Senha:", fontSize = 20.sp, fontWeight = FontWeight.Bold,
                                 modifier = Modifier
                                     .padding(start = 10.dp, end = 14.dp)
@@ -947,29 +910,41 @@ fun Configuracoes(navController: NavController) {
                             OutlinedTextField(
                                 value = senha,
                                 onValueChange = {senha = it},
-                                modifier = Modifier
-                                    .width(280.dp)
-                                    .height(10.dp)
-                                    .padding(start = 20.dp, top = 10.dp)
+                                //modifier = Modifier
+                                  //  .width(280.dp)
+                                    //.height(10.dp)
+                                    //.padding(start = 20.dp, top = 10.dp),
+                                colors = TextFieldDefaults.outlinedTextFieldColors(
+                                    focusedTextColor = Color.Black, // Cor do texto quando em foco
+                                    unfocusedTextColor = Color.Black,  // Cor do texto quando não está em foco
+                                    focusedBorderColor = Color.Black,
+                                    unfocusedBorderColor = Color.Black,
+                                    cursorColor = Color.Black
+                                )
                             )
                         }
 
                         Spacer(Modifier.height(15.dp))
 
                         Row{
-                            var nivel by remember { mutableStateOf("") }
                             Text("Nível:", fontSize = 20.sp, fontWeight = FontWeight.Bold,
                                 modifier = Modifier
                                     .padding(start = 10.dp, end = 24.dp)
                             )
                             OutlinedTextField(
                                 value = nivel,
-                                readOnly = true,
                                 onValueChange = {nivel = it},
-                                modifier = Modifier
-                                    .width(280.dp)
-                                    .height(10.dp)
-                                    .padding(start = 20.dp, top = 10.dp)
+                                //modifier = Modifier
+                                  //  .width(280.dp)
+                                    //.height(10.dp)
+                                    //.padding(start = 20.dp, top = 10.dp),
+                                colors = TextFieldDefaults.outlinedTextFieldColors(
+                                    focusedTextColor = Color.Black, // Cor do texto quando em foco
+                                    unfocusedTextColor = Color.Black,  // Cor do texto quando não está em foco
+                                    focusedBorderColor = Color.Black,
+                                    unfocusedBorderColor = Color.Black,
+                                    cursorColor = Color.Black
+                                )
                             )
                         }
 
@@ -990,8 +965,13 @@ fun Configuracoes(navController: NavController) {
                                     .padding(start = 10.dp, end = 23.dp, top = 8.dp)
                             )
                             OutlinedButton (
-                                onClick = { print("Clicou no excluir") },
-                                //border = BorderStroke(2.dp, Vinho),
+                                onClick = {
+                                    viewModel.usuarioDetalhe.value?.idUsuario?.let {
+                                        viewModel.deletarUsuario(it)
+                                    }
+                                },
+
+                                        //border = BorderStroke(2.dp, Vinho),
                                 modifier = Modifier
                                     .width(200.dp)
                                     .height(40.dp)
@@ -1020,7 +1000,16 @@ fun Configuracoes(navController: NavController) {
                             Modifier.padding(start = 120.dp)
                         ){
                             OutlinedButton(
-                                onClick = {}
+                                onClick = {
+                                    val usuarioAtualizado = Usuario(
+                                        idUsuario = viewModel.usuarioDetalhe.value?.idUsuario ?: 0,
+                                        nome = user,
+                                        email = email,
+                                        senha = senha,
+                                        nivel = nivel.toIntOrNull() ?: 0
+                                    )
+                                    viewModel.atualizarUsuario(user, email, senha, nivel.toIntOrNull() ?: 0)
+                                }
                             ) {
                                 Text(text = "Salvar alterações", color = Black)
                             }
@@ -1041,10 +1030,9 @@ fun Inicial(navController: NavController){
     ) {
         Column(
             Modifier
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState()),
-            verticalArrangement = Arrangement.Top,
-            //horizontalAlignment = Alignment.CenterHorizontally
+                .fillMaxSize(),
+                //.verticalScroll(rememberScrollState()),
+            verticalArrangement = Arrangement.Top
         ) {
             Box(
                 //mexer no alinhamento do texto e da imagem
@@ -1083,35 +1071,59 @@ fun Inicial(navController: NavController){
                     )
                 }
             }
+
             //corpo
-            Box(contentAlignment = Center
-            ){
+
+            Box(
+                //modifier = Modifier.weight(1f)
+                contentAlignment = Center
+            ) {
                 Column(
-                    verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier.fillMaxSize()
-                ){
-                    Row(modifier = Modifier.padding(top = 55.dp)){
-                        Box(modifier = Modifier
-                            .clickable(onClick = { navController.navigate("telaConfiguracoes") })
+                    verticalArrangement = Arrangement.Center,
+                    modifier = Modifier.fillMaxSize() .padding(top = 100.dp)
+                ) {
+                    Row(
+                        modifier = Modifier
                             .background(Color(0xFFBB8C94))
                             .padding(top = 24.dp, bottom = 24.dp, start = 10.dp, end = 10.dp)
-                        )
-                        {
-                            Image(painterResource(id = R.drawable.config), contentDescription = null,
+                    )
+                    {
+                        OutlinedButton(
+                            onClick = {
+                                navController.navigate("telaConfiguracoes")
+                            },
+                            border = null
+                        ) {
+                            Image(
+                                painterResource(id = R.drawable.config), contentDescription = null,
                                 modifier = Modifier
                                     .width(20.dp)
                                     .height(20.dp)
                             )
-                            Text("Configurações", color = White, modifier = Modifier.padding(start = 25.dp))
+                            Text(
+                                "Configurações",
+                                color = White,
+                                modifier = Modifier.padding(start = 25.dp)
+                            )
                         }
-                        Spacer(Modifier.width(15.dp))
-                        Box(modifier = Modifier
-                            .clickable(onClick = { navController.navigate("telaCalendario")})
+                    }
+
+                    Spacer(Modifier.height(15.dp))
+
+                    Row(
+                        modifier = Modifier
                             .background(Color(0xFFBB8C94))
-                            .padding(top = 24.dp, bottom = 24.dp, start = 22.dp, end = 22.dp)) {
+                            .padding(top = 24.dp, bottom = 24.dp, start = 22.dp, end = 22.dp)
+                    )
+                    {
+                        OutlinedButton(
+                            onClick = { navController.navigate("telaCalendario") },
+                            border = null
+                        ) {
                             Image(
-                                painterResource(id = R.drawable.calendario), contentDescription = null,
+                                painterResource(id = R.drawable.calendario),
+                                contentDescription = null,
                                 modifier = Modifier
                                     .width(20.dp)
                                     .height(20.dp)
@@ -1124,84 +1136,14 @@ fun Inicial(navController: NavController){
                             )
                         }
                     }
-                    Row(modifier = Modifier
-                        .padding(top = 60.dp)
-                        .clickable(onClick = {navController.navigate("telaFlashcardsArea")})){
-                        Box(modifier = Modifier
-                            .background(Color(0xFFBB8C94))
-                            .padding(top = 20.dp, bottom = 20.dp, start = 24.dp, end = 50.dp)){
-                            Image(painterResource(id = R.drawable.cards), contentDescription = null,
-                                modifier = Modifier
-                                    .width(40.dp)
-                                    .height(40.dp)
-                            )}
-                        Box(modifier = Modifier
-                            .background(Color(0xFFBB8C94))
-                            .padding(top = 30.dp, bottom = 33.5.dp, end = 75.dp)){
-                            Text("FlashCards", color = White, modifier = Modifier.padding(start = 25.dp))
-                        }
-                    }
-                    Row(modifier = Modifier
-                        .padding(top = 40.dp)
-                        .clickable(onClick = {navController.navigate("telaListasProvasArea")})
-                    ){
-                        Box(modifier = Modifier
-                            .background(Color(0xFFBB8C94))
-                            .padding(top = 20.dp, bottom = 20.dp, start = 23.dp, end = 50.dp)){
-                            Image(painterResource(id = R.drawable.tempo), contentDescription = null,
-                                modifier = Modifier
-                                    .width(40.dp)
-                                    .height(40.dp)
-                            )}
-
-                        Box(modifier = Modifier
-                            .background(Color(0xFFBB8C94))
-                            .padding(top = 30.dp, bottom = 33.5.dp, end = 53.dp)){
-                            Text("Listas e provas", color = White, modifier = Modifier.padding(start = 28.dp))
-                        }
-                    }
-                    Row(modifier = Modifier
-                        .padding(top = 40.dp)
-                        .clickable(onClick = {navController.navigate("telaCompeticaoCriar")})
-                    ){
-                        Box(modifier = Modifier
-                            .background(Color(0xFFBB8C94))
-                            .padding(top = 20.dp, bottom = 20.dp, start = 22.dp, end = 50.dp)){
-                            Image(painterResource(id = R.drawable.competdois), contentDescription = null,
-                                modifier = Modifier
-                                    .width(40.dp)
-                                    .height(40.dp)
-                            )}
-
-                        Box(modifier = Modifier
-                            .background(Color(0xFFBB8C94))
-                            .padding(top = 30.dp, bottom = 33.5.dp, end = 72.dp, start = 2.dp)){
-                            Text("Competição", color = White, modifier = Modifier.padding(start = 25.dp))
-                        }
-                    }
-                    Row(modifier = Modifier
-                        .padding(top = 40.dp)
-                        .clickable(onClick = {navController.navigate("telaEstatisticas")})
-                    ){
-                        Box(modifier = Modifier
-                            .background(Color(0xFFBB8C94))
-                            .padding(top = 20.dp, bottom = 20.dp, start = 24.dp, end = 55.dp)){
-                            Image(painterResource(id = R.drawable.estadois), contentDescription = null,
-                                modifier = Modifier
-                                    .width(40.dp)
-                                    .height(40.dp)
-                            )}
-
-                        Box(modifier = Modifier
-                            .background(Color(0xFFBB8C94))
-                            .padding(top = 30.dp, bottom = 33.5.dp, end = 67.dp, start = 2.dp)){
-                            Text("Estatísticas", color = White, modifier = Modifier.padding(start = 27.dp))
-                        }
-                    }
+                    Footer(navController)
                 }
+                //Footer(navController)
             }
+
+            //Footer(navController)
         }
-        Footer(navController)
+        //Footer(navController)
     }
 }
 
@@ -2898,11 +2840,12 @@ fun Estatisticas(navController: NavController){
                                     }
                                 }
                             }
-                            Footer(rememberNavController())
                         }
                     }
                 }
             }
+
+            Footer(rememberNavController())
         }
     }
 }
@@ -3163,5 +3106,5 @@ fun Calendario(navController: NavController) {
 @Preview(showSystemUi = true)
 @Composable
 fun AppPreview() {
-    Estatisticas(rememberNavController())
+    Bloqueio(rememberNavController())
 }

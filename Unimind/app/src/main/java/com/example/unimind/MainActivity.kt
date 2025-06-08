@@ -91,6 +91,7 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.ui.platform.LocalContext
 import com.example.unimind.data.Usuario
 import com.example.unimind.data.UsuarioConfig
+import com.example.unimind.network.RetrofitUsuario
 
 //import com.example.usuarioapp.viewmodel.LoginResult
 //import kotlin.coroutines.jvm.internal.CompletedContinuation.context
@@ -98,16 +99,24 @@ import com.example.unimind.data.UsuarioConfig
 
 
 class MainActivity : ComponentActivity() {
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
         setContent {
             val navController = rememberNavController()
+
             UnimindTheme {
                 AppNavigation(navController)
             }
         }
     }
+}
+
+object Compartilhado {
+    var idUserLogado: Int? = null
 }
 
 @Composable
@@ -695,6 +704,9 @@ fun Entrar(navController: NavController, viewModel: UsuarioViewModel = viewModel
                         when (val status = viewModel.loginStatus.value) {
                             is LoginResult.Sucesso -> {
                                 LaunchedEffect(Unit) {
+                                    //id = id do usuario
+                                    val userProv = RetrofitUsuario.instance.buscarUsuario(user, password)
+                                    Compartilhado.idUserLogado = userProv?.idUsuario
                                     viewModel.limparLoginStatus()
                                     navController.navigate("telaInicial") {
                                         popUpTo("telaLogin") { inclusive = true }
@@ -967,7 +979,8 @@ fun Configuracoes(navController: NavController, viewModel: UsuarioViewModel = vi
                             OutlinedButton (
                                 onClick = {
                                     viewModel.usuarioDetalhe.value?.idUsuario?.let {
-                                        viewModel.deletarUsuario(it)
+                                        var plmdsVai = Compartilhado.idUserLogado
+                                        plmdsVai?.let { it1 -> viewModel.deletarUsuario(it1) }
                                     }
                                 },
 
@@ -990,7 +1003,7 @@ fun Configuracoes(navController: NavController, viewModel: UsuarioViewModel = vi
                                 modifier = Modifier
                                     .padding(start = 10.dp, end = 23.dp, top = 8.dp)
                             )
-                            Text(text = "email@example.com", fontSize = 20.sp, modifier = Modifier
+                            Text(text = "unimind@gmail.com", fontSize = 20.sp, modifier = Modifier
                                 .padding(top = 7.dp))
                         }
 

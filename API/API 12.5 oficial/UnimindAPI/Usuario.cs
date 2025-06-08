@@ -19,17 +19,17 @@ public class Usuario
     public string Senha { get; set; }
 
     [Column("idNivel")]
-    public int IdNivel { get; set; }
+    public int? IdNivel { get; set; }
 
     [Column("acertosQuestoes")]
-    public int AcertosQuestoes { get; set; }
+    public int? AcertosQuestoes { get; set; }
 
     [Column("errosQuestoes")]
-    public int ErrosQuestoes { get; set; }
+    public int? ErrosQuestoes { get; set; }
 
     [Column("tempoEstudo")]
-    public int TempoEstudo { get; set; }
+    public int? TempoEstudo { get; set; }
 
     [Column("competicoesRealizadas")]
-    public int CompeticoesRealizadas { get; set; }
+    public int? CompeticoesRealizadas { get; set; }
 }

@@ -741,7 +741,7 @@ fun Entrar(navController: NavController, viewModel: UsuarioViewModel = viewModel
                                 AlertDialog(
                                     onDismissRequest = { viewModel.limparLoginStatus() },
                                     title = { Text("Erro") },
-                                    text = { Text(status.mensagem) },
+                                    text = { Text(status.mensagem + "\nUsuário e/ou senha incorreto(s)") },
                                     confirmButton = {
                                         TextButton(onClick = { viewModel.limparLoginStatus() }) {
                                             Text("OK")

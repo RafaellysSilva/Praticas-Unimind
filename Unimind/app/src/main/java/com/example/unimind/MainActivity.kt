@@ -88,6 +88,8 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.ui.platform.LocalContext
+import com.example.unimind.data.Usuario
+import com.example.unimind.data.UsuarioConfig
 
 //import com.example.usuarioapp.viewmodel.LoginResult
 //import kotlin.coroutines.jvm.internal.CompletedContinuation.context
@@ -751,6 +753,14 @@ fun Entrar(navController: NavController, viewModel: UsuarioViewModel = viewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Configuracoes(navController: NavController) {
+    var user by remember { mutableStateOf("") }
+    var email by remember { mutableStateOf("") }
+    var senha by remember { mutableStateOf("") }
+    var nivel by remember { mutableStateOf("") }
+
+    val viewModel: UsuarioViewModel = viewModel()
+
+
     val inter = FontFamily(
         Font(R.font.inter)
     )
@@ -837,7 +847,6 @@ fun Configuracoes(navController: NavController) {
                         Spacer(Modifier.height(15.dp))
 
                         Row{
-                            var user by remember { mutableStateOf("") }
                             Text("Usuário:", fontSize = 20.sp, fontWeight = FontWeight.Bold,
                                 modifier = Modifier
                                     .padding(start = 10.dp)
@@ -855,7 +864,6 @@ fun Configuracoes(navController: NavController) {
                         Spacer(Modifier.height(15.dp))
 
                         Row{
-                            var email by remember { mutableStateOf("") }
                             Text("E-mail:", fontSize = 20.sp, fontWeight = FontWeight.Bold,
                                 modifier = Modifier
                                     .padding(start = 10.dp, end = 12.dp)
@@ -873,7 +881,6 @@ fun Configuracoes(navController: NavController) {
                         Spacer(Modifier.height(15.dp))
 
                         Row{
-                            var senha by remember { mutableStateOf("") }
                             Text("Senha:", fontSize = 20.sp, fontWeight = FontWeight.Bold,
                                 modifier = Modifier
                                     .padding(start = 10.dp, end = 14.dp)
@@ -891,7 +898,6 @@ fun Configuracoes(navController: NavController) {
                         Spacer(Modifier.height(15.dp))
 
                         Row{
-                            var nivel by remember { mutableStateOf("") }
                             Text("Nível:", fontSize = 20.sp, fontWeight = FontWeight.Bold,
                                 modifier = Modifier
                                     .padding(start = 10.dp, end = 24.dp)
@@ -924,7 +930,7 @@ fun Configuracoes(navController: NavController) {
                                     .padding(start = 10.dp, end = 23.dp, top = 8.dp)
                             )
                             OutlinedButton (
-                                onClick = { print("Clicou no excluir") },
+                                onClick = { viewModel.deletarUsuario(user) },
                                 //border = BorderStroke(2.dp, Vinho),
                                 modifier = Modifier
                                     .width(200.dp)
@@ -954,7 +960,16 @@ fun Configuracoes(navController: NavController) {
                             Modifier.padding(start = 120.dp)
                         ){
                             OutlinedButton(
-                                onClick = {}
+                                onClick = {
+                                    val usuarioAtualizado = Usuario(
+                                        idUsuario = viewModel.usuarioDetalhe.value?.idUsuario ?: 0,
+                                        nome = user,
+                                        email = email,
+                                        senha = senha,
+                                        nivel = nivel.toIntOrNull() ?: 0
+                                    )
+                                    viewModel.atualizarUsuario(user, email, senha, nivel.toIntOrNull() ?: 0, usuarioAtualizado)
+                                }
                             ) {
                                 Text(text = "Salvar alterações", color = Black)
                             }

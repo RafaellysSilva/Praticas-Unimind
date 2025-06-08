@@ -11,6 +11,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.example.unimind.network.RetrofitUsuario
 import com.example.unimind.data.Usuario
+import com.example.unimind.data.UsuarioConfig
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -104,7 +105,8 @@ class UsuarioViewModel : ViewModel() {
     }
 
 
-    fun atualizarUsuario(id: Int, usuarioAtualizado: Usuario) {
+    fun atualizarUsuario(id: Int, nome: String, email: String, senha: String, nivel: Int) {
+        val usuarioAtualizado = Usuario(idUsuario = id, nome = nome, email = email, senha = senha, nivel = nivel)
         coroutineScope.launch {
             try {
                 val response = RetrofitUsuario.instance.atualizarUsuario(id, usuarioAtualizado)
@@ -123,20 +125,30 @@ class UsuarioViewModel : ViewModel() {
         }
     }
 
-    fun deletarUsuario(id: Int) {
+
+    fun deletarUsuario(nome: String) {
         coroutineScope.launch {
             try {
-                val response = RetrofitUsuario.instance.deletarUsuario(id)
-                if (response.isSuccessful) {
-                    _usuarios.value = _usuarios.value.filter { it.idUsuario != id }
-                    _usuarioDetalhe.value = null
-                    _mensagem.value = "Usuário $id deletado."
+                val usuario = _usuarios.value.find { it.nome == nome }
+                if (usuario != null) {
+                    val id: Int? = usuario.idUsuario
+                    val response = id?.let { RetrofitUsuario.instance.deletarUsuario(it) }
+                    if (response != null) {
+                        if (response.isSuccessful) {
+                            _usuarios.value = _usuarios.value.filter { it.idUsuario != id }
+                            _usuarioDetalhe.value = null
+                            _mensagem.value = "Usuário $id deletado."
+                        } else {
+                            _mensagem.value = "Erro ao deletar usuário: ${response.code()}"
+                        }
+                    }
                 } else {
-                    _mensagem.value = "Erro ao deletar usuário: ${response.code()}"
+                    _mensagem.value = "Usuário com nome \"$nome\" não encontrado."
                 }
             } catch (e: Exception) {
                 _mensagem.value = "Erro ao deletar usuário: ${e.message}"
             }
         }
     }
+
 }

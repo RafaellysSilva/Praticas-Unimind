@@ -1,9 +1,9 @@
 package com.example.unimind.data
 
-data class Usuario(
+data class UsuarioConfig(
     val nome: String,
     val email: String,
     val senha: String,
-    val idUsuario: Int? = null,
-    val nivel: Int? = null
+    val nivel: Int? = null,
+    val idUsuario: Int? = null
 )

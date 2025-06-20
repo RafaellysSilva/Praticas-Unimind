@@ -5,7 +5,26 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5b6a1cd4-091a-4f13-b932-7bbe8f10afae" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Unimind/app/src/main/java/com/example/unimind/Bloqueio.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Unimind/app/src/main/java/com/example/unimind/Cadastro.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Unimind/app/src/main/java/com/example/unimind/Calendario.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Unimind/app/src/main/java/com/example/unimind/CompeticaoCriar.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Unimind/app/src/main/java/com/example/unimind/CompeticaoMomento.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Unimind/app/src/main/java/com/example/unimind/CompeticaoRelatorio.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Unimind/app/src/main/java/com/example/unimind/Configuracoes.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Unimind/app/src/main/java/com/example/unimind/Entrar.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Unimind/app/src/main/java/com/example/unimind/Estatisticas.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Unimind/app/src/main/java/com/example/unimind/FlashcardsArea.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Unimind/app/src/main/java/com/example/unimind/FlashcardsPergunta.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Unimind/app/src/main/java/com/example/unimind/FlashcardsResposta.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Unimind/app/src/main/java/com/example/unimind/Inicial.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Unimind/app/src/main/java/com/example/unimind/ListaPersonalizadaCriar.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Unimind/app/src/main/java/com/example/unimind/ListasProvasArea.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Unimind/app/src/main/java/com/example/unimind/ListasProvasResolucao.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Unimind/app/src/main/java/com/example/unimind/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Unimind/app/src/main/java/com/example/unimind/MainActivity.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,18 +38,18 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "lorrayne-argenton"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;lorrayne-argenton&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/RafaellysSilva/Praticas-Unimind.git",
-    "accountId": "faaacdfc-9791-492e-bb0a-f81683da4c0c"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/RafaellysSilva/Praticas-Unimind.git&quot;,
+    &quot;accountId&quot;: &quot;a71381cb-7e7b-484f-819e-4b306b799b08&quot;
   }
-}]]></component>
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 4
 }</component>
@@ -48,14 +67,20 @@
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
     "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/Luciano/Documents/GitHub/Praticas-Unimind/Unimind",
+    "last_opened_file_path": "C:/Users/joaov/OneDrive/Documentos/GitHub/Praticas-Unimind",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.0",
     "settings.editor.selected.configurable": "editor.preferences.tabs"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\joaov\OneDrive\Documentos\GitHub\Praticas-Unimind\Unimind\app\src\main\java\com\example\unimind" />
+    </key>
+  </component>
   <component name="RunManager" selected="Android App.app">
     <configuration name="app" type="AndroidRunConfigurationType" factoryName="Android App" activateToolWindowBeforeRun="false">
       <option name="ANDROID_RUN_CONFIGURATION_SCHEMA_VERSION" value="1" />
@@ -73,7 +98,6 @@
       <option name="MODE" value="default_activity" />
       <option name="RESTORE_ENABLED" value="false" />
       <option name="RESTORE_FILE" value="" />
-      <option name="RESTORE_FRESH_INSTALL_ONLY" value="false" />
       <option name="CLEAR_LOGCAT" value="false" />
       <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
       <option name="TARGET_SELECTION_MODE" value="DEVICE_AND_SNAPSHOT_COMBO_BOX" />
@@ -142,7 +166,6 @@
       <option name="MODE" value="default_activity" />
       <option name="RESTORE_ENABLED" value="false" />
       <option name="RESTORE_FILE" value="" />
-      <option name="RESTORE_FRESH_INSTALL_ONLY" value="false" />
       <option name="CLEAR_LOGCAT" value="false" />
       <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
       <option name="TARGET_SELECTION_MODE" value="DEVICE_AND_SNAPSHOT_COMBO_BOX" />

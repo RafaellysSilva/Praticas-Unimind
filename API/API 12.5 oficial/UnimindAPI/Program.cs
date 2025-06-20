@@ -68,7 +68,7 @@ app.MapPut("/usuarios/{id}", async (int id, Usuario usuarioAtualizado, UsuarioDb
     var usuario = await db.Usuarios.FindAsync(id);
     if (usuario is null) return Results.NotFound();
 
-     if (usuarioAtualizado.Nome != null) 
+    if (usuarioAtualizado.Nome != null) 
         usuario.Nome = usuarioAtualizado.Nome;
 
     if (usuarioAtualizado.Email != null) 
@@ -96,7 +96,6 @@ app.MapPut("/usuarios/{id}", async (int id, Usuario usuarioAtualizado, UsuarioDb
     return Results.NoContent();
 });
 
-
 // DELETE: /usuarios/{id} (Excluir um usuario)
 app.MapDelete("/usuarios/del/{id}", async (int id, UsuarioDbContext db) =>
 {
@@ -106,7 +105,6 @@ app.MapDelete("/usuarios/del/{id}", async (int id, UsuarioDbContext db) =>
     await db.SaveChangesAsync();
     return Results.NoContent();
 });
-
 
 // PROVAS
 
@@ -118,7 +116,6 @@ app.MapGet("/provas", async (ProvaDbContext db) =>
 app.MapGet("/provas/{id}", async (int id, ProvaDbContext db) =>
     await db.Provas.FindAsync(id) is Prova prova ? Results.Ok(prova) : Results.NotFound());
 
-
 // POST: /usuarios (Criar um novo usuario)
 app.MapPost("/provas/add", async (Prova prova, ProvaDbContext db) =>
 {
@@ -126,7 +123,6 @@ app.MapPost("/provas/add", async (Prova prova, ProvaDbContext db) =>
     await db.SaveChangesAsync();
     return Results.Created($"/provas/{prova.IdProva}", prova);
 });
-
 
 // PUT: /usuarios/{id} (Atualizar um usuario existente)
 app.MapPut("/provas/{id}", async (int id, Prova provaAtualizado, ProvaDbContext db) =>
@@ -150,7 +146,6 @@ app.MapPut("/provas/{id}", async (int id, Prova provaAtualizado, ProvaDbContext 
     return Results.NoContent();
 });
 
-
 // DELETE: /usuarios/{id} (Excluir um usuario)
 app.MapDelete("/provas/del/{id}", async (int id, ProvaDbContext db) =>
 {
@@ -160,7 +155,6 @@ app.MapDelete("/provas/del/{id}", async (int id, ProvaDbContext db) =>
     await db.SaveChangesAsync();
     return Results.NoContent();
 });
-
 
 // QUESTOES
 
@@ -375,4 +369,3 @@ app.MapDelete("/competicoes/del/{id}", async (int id, CompeticaoDbContext db) =>
 });
 
 app.Run("http://0.0.0.0:5133");
-    

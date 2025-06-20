@@ -113,7 +113,7 @@ fun Configuracoes(navController: NavController, viewModel: UsuarioViewModel = vi
     val inter = FontFamily(
         Font(R.font.inter)
     )
-    x
+
     UnimindTheme {
         //É o cabeçário da página
         Surface(

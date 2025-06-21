@@ -2,24 +2,9 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Adiciona o contexto do banco de dados
-builder.Services.AddDbContext<UsuarioDbContext>(options =>
-options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
-
-builder.Services.AddDbContext<ProvaDbContext>(options =>
-options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
-
-builder.Services.AddDbContext<QuestaoDbContext>(options =>
-options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
-
-builder.Services.AddDbContext<ListaPersonalizadaDbContext>(options =>
-options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
-
-builder.Services.AddDbContext<FlashcardDbContext>(options =>
-options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
-
-builder.Services.AddDbContext<CompeticaoDbContext>(options =>
-options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+// Adiciona o contexto do banco de dados unificado
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Adiciona o suporte para endpoints da API e Swagger. Opcional.
 builder.Services.AddEndpointsApiExplorer();
@@ -40,64 +25,64 @@ app.UseHttpsRedirection();
 // USUARIOS
 
 // GET: /usuarios (Listar todos os usuarios)
-app.MapGet("/usuarios", async (UsuarioDbContext db) =>
+app.MapGet("/usuarios", async (ApplicationDbContext db) =>
     await db.Usuarios.ToListAsync());
 
 // GET: /usuarios/{id} (Buscar um usuario por ID)
-app.MapGet("/usuarios/{id}", async (int id, UsuarioDbContext db) =>
+app.MapGet("/usuarios/{id}", async (int id, ApplicationDbContext db) =>
     await db.Usuarios.FindAsync(id) is Usuario usuario ? Results.Ok(usuario) : Results.NotFound());
 
-app.MapGet("/login/{user}/{password}", async (string user, string password, UsuarioDbContext db) =>
+app.MapGet("/login/{user}/{password}", async (string user, string password, ApplicationDbContext db) =>
 {
     var usuario = await db.Usuarios.FirstOrDefaultAsync(u => u.Nome == user && u.Senha == password);
     return usuario is not null ? Results.Ok(usuario) : Results.NotFound();
 });
 
 // POST: /usuarios (Criar um novo usuario)
-app.MapPost("/usuarios/add", async (Usuario usuario, UsuarioDbContext db) =>
+app.MapPost("/usuarios/add", async (Usuario usuario, ApplicationDbContext db) =>
 {
-    db.Usuarios.Add(usuario);    
+    db.Usuarios.Add(usuario);
     await db.SaveChangesAsync();
     return Results.Created($"/usuarios/{usuario.IdUsuario}", usuario);
 });
 
 
 // PUT: /usuarios/{id} (Atualizar um usuario existente)
-app.MapPut("/usuarios/{id}", async (int id, Usuario usuarioAtualizado, UsuarioDbContext db) =>
+app.MapPut("/usuarios/{id}", async (int id, Usuario usuarioAtualizado, ApplicationDbContext db) =>
 {
     var usuario = await db.Usuarios.FindAsync(id);
     if (usuario is null) return Results.NotFound();
 
-    if (usuarioAtualizado.Nome != null) 
+    if (usuarioAtualizado.Nome != null)
         usuario.Nome = usuarioAtualizado.Nome;
 
-    if (usuarioAtualizado.Email != null) 
+    if (usuarioAtualizado.Email != null)
         usuario.Email = usuarioAtualizado.Email;
 
-    if (usuarioAtualizado.Senha != null) 
+    if (usuarioAtualizado.Senha != null)
         usuario.Senha = usuarioAtualizado.Senha;
 
-    if (usuarioAtualizado.IdNivel != null) 
+    if (usuarioAtualizado.IdNivel != null)
         usuario.IdNivel = usuarioAtualizado.IdNivel;
 
-    if (usuarioAtualizado.AcertosQuestoes != null) 
+    if (usuarioAtualizado.AcertosQuestoes != null)
         usuario.AcertosQuestoes = usuarioAtualizado.AcertosQuestoes;
 
-    if (usuarioAtualizado.ErrosQuestoes != null) 
+    if (usuarioAtualizado.ErrosQuestoes != null)
         usuario.ErrosQuestoes = usuarioAtualizado.ErrosQuestoes;
 
-    if (usuarioAtualizado.TempoEstudo != null) 
+    if (usuarioAtualizado.TempoEstudo != null)
         usuario.TempoEstudo = usuarioAtualizado.TempoEstudo;
 
-    if (usuarioAtualizado.CompeticoesRealizadas != null) 
+    if (usuarioAtualizado.CompeticoesRealizadas != null)
         usuario.CompeticoesRealizadas = usuarioAtualizado.CompeticoesRealizadas;
-    
+
     await db.SaveChangesAsync();
     return Results.NoContent();
 });
 
 // DELETE: /usuarios/{id} (Excluir um usuario)
-app.MapDelete("/usuarios/del/{id}", async (int id, UsuarioDbContext db) =>
+app.MapDelete("/usuarios/del/{id}", async (int id, ApplicationDbContext db) =>
 {
     var usuario = await db.Usuarios.FindAsync(id);
     if (usuario is null) return Results.NotFound();
@@ -109,37 +94,37 @@ app.MapDelete("/usuarios/del/{id}", async (int id, UsuarioDbContext db) =>
 // PROVAS
 
 // GET: /usuarios (Listar todos os usuarios)
-app.MapGet("/provas", async (ProvaDbContext db) =>
+app.MapGet("/provas", async (ApplicationDbContext db) =>
     await db.Provas.ToListAsync());
 
 // GET: /usuarios/{id} (Buscar um usuario por ID)
-app.MapGet("/provas/{id}", async (int id, ProvaDbContext db) =>
+app.MapGet("/provas/{id}", async (int id, ApplicationDbContext db) =>
     await db.Provas.FindAsync(id) is Prova prova ? Results.Ok(prova) : Results.NotFound());
 
 // POST: /usuarios (Criar um novo usuario)
-app.MapPost("/provas/add", async (Prova prova, ProvaDbContext db) =>
+app.MapPost("/provas/add", async (Prova prova, ApplicationDbContext db) =>
 {
-    db.Provas.Add(prova);    
+    db.Provas.Add(prova);
     await db.SaveChangesAsync();
     return Results.Created($"/provas/{prova.IdProva}", prova);
 });
 
 // PUT: /usuarios/{id} (Atualizar um usuario existente)
-app.MapPut("/provas/{id}", async (int id, Prova provaAtualizado, ProvaDbContext db) =>
+app.MapPut("/provas/{id}", async (int id, Prova provaAtualizado, ApplicationDbContext db) =>
 {
     var prova = await db.Provas.FindAsync(id);
     if (prova is null) return Results.NotFound();
 
-    if (provaAtualizado.IdFonte != null) 
+    if (provaAtualizado.IdFonte != null)
         prova.IdFonte = provaAtualizado.IdFonte;
 
-    if (provaAtualizado.Ano != null) 
+    if (provaAtualizado.Ano != null)
         prova.Ano = provaAtualizado.Ano;
 
-    if (provaAtualizado.QntdQuestoes != null) 
+    if (provaAtualizado.QntdQuestoes != null)
         prova.QntdQuestoes = provaAtualizado.QntdQuestoes;
 
-    if (provaAtualizado.Fase != null) 
+    if (provaAtualizado.Fase != null)
         prova.Fase = provaAtualizado.Fase;
 
     await db.SaveChangesAsync();
@@ -147,7 +132,7 @@ app.MapPut("/provas/{id}", async (int id, Prova provaAtualizado, ProvaDbContext 
 });
 
 // DELETE: /usuarios/{id} (Excluir um usuario)
-app.MapDelete("/provas/del/{id}", async (int id, ProvaDbContext db) =>
+app.MapDelete("/provas/del/{id}", async (int id, ApplicationDbContext db) =>
 {
     var prova = await db.Provas.FindAsync(id);
     if (prova is null) return Results.NotFound();
@@ -159,39 +144,39 @@ app.MapDelete("/provas/del/{id}", async (int id, ProvaDbContext db) =>
 // QUESTOES
 
 // GET: /usuarios (Listar todos os usuarios)
-app.MapGet("/questoes", async (QuestaoDbContext db) =>
+app.MapGet("/questoes", async (ApplicationDbContext db) =>
     await db.Questoes.ToListAsync());
 
 // GET: /usuarios/{id} (Buscar um usuario por ID)
-app.MapGet("/questoes/{id}", async (int id, QuestaoDbContext db) =>
+app.MapGet("/questoes/{id}", async (int id, ApplicationDbContext db) =>
     await db.Questoes.FindAsync(id) is Questao questao ? Results.Ok(questao) : Results.NotFound());
 
 
 // POST: /usuarios (Criar um novo usuario)
-app.MapPost("/questoes/add", async (Questao questao, QuestaoDbContext db) =>
+app.MapPost("/questoes/add", async (Questao questao, ApplicationDbContext db) =>
 {
-    db.Questoes.Add(questao);    
+    db.Questoes.Add(questao);
     await db.SaveChangesAsync();
     return Results.Created($"/questoes/{questao.IdQuestao}", questao);
 });
 
 
 // PUT: /usuarios/{id} (Atualizar um usuario existente)
-app.MapPut("/questoes/{id}", async (int id, Questao questaoAtualizado, QuestaoDbContext db) =>
+app.MapPut("/questoes/{id}", async (int id, Questao questaoAtualizado, ApplicationDbContext db) =>
 {
     var questao = await db.Questoes.FindAsync(id);
     if (questao is null) return Results.NotFound();
 
-    if (questaoAtualizado.IdProva != null) 
+    if (questaoAtualizado.IdProva != null)
         questao.IdProva = questaoAtualizado.IdProva;
 
-    if (questaoAtualizado.IdCategoria != null) 
+    if (questaoAtualizado.IdCategoria != null)
         questao.IdCategoria = questaoAtualizado.IdCategoria;
 
-    if (questaoAtualizado.Pergunta != null) 
+    if (questaoAtualizado.Pergunta != null)
         questao.Pergunta = questaoAtualizado.Pergunta;
 
-    if (questaoAtualizado.Resposta != null) 
+    if (questaoAtualizado.Resposta != null)
         questao.Resposta = questaoAtualizado.Resposta;
 
     await db.SaveChangesAsync();
@@ -200,7 +185,7 @@ app.MapPut("/questoes/{id}", async (int id, Questao questaoAtualizado, QuestaoDb
 
 
 // DELETE: /usuarios/{id} (Excluir um usuario)
-app.MapDelete("/questoes/del/{id}", async (int id, QuestaoDbContext db) =>
+app.MapDelete("/questoes/del/{id}", async (int id, ApplicationDbContext db) =>
 {
     var questao = await db.Questoes.FindAsync(id);
     if (questao is null) return Results.NotFound();
@@ -213,39 +198,39 @@ app.MapDelete("/questoes/del/{id}", async (int id, QuestaoDbContext db) =>
 // LISTAS PERSONALIZADAS
 
 // GET: /usuarios (Listar todos os usuarios)
-app.MapGet("/listas", async (ListaPersonalizadaDbContext db) =>
+app.MapGet("/listas", async (ApplicationDbContext db) =>
     await db.ListaPersonalizadas.ToListAsync());
 
 // GET: /usuarios/{id} (Buscar um usuario por ID)
-app.MapGet("/listas/{id}", async (int id, ListaPersonalizadaDbContext db) =>
+app.MapGet("/listas/{id}", async (int id, ApplicationDbContext db) =>
     await db.ListaPersonalizadas.FindAsync(id) is ListaPersonalizada listaPersonalizada ? Results.Ok(listaPersonalizada) : Results.NotFound());
 
 
 // POST: /usuarios (Criar um novo usuario)
-app.MapPost("/listas/add", async (ListaPersonalizada listaPersonalizada, ListaPersonalizadaDbContext db) =>
+app.MapPost("/listas/add", async (ListaPersonalizada listaPersonalizada, ApplicationDbContext db) =>
 {
-    db.ListaPersonalizadas.Add(listaPersonalizada);    
+    db.ListaPersonalizadas.Add(listaPersonalizada);
     await db.SaveChangesAsync();
     return Results.Created($"/listas/{listaPersonalizada.IdLista}", listaPersonalizada);
 });
 
 
 // PUT: /usuarios/{id} (Atualizar um usuario existente)
-app.MapPut("/listas/{id}", async (int id, ListaPersonalizada listaAtualizada, ListaPersonalizadaDbContext db) =>
+app.MapPut("/listas/{id}", async (int id, ListaPersonalizada listaAtualizada, ApplicationDbContext db) =>
 {
     var lista = await db.ListaPersonalizadas.FindAsync(id);
     if (lista is null) return Results.NotFound();
 
-    if (listaAtualizada.IdUsuario != null) 
+    if (listaAtualizada.IdUsuario != null)
         lista.IdUsuario = listaAtualizada.IdUsuario;
 
-    if (listaAtualizada.IdCategoria != null) 
+    if (listaAtualizada.IdCategoria != null)
         lista.IdCategoria = listaAtualizada.IdCategoria;
 
-    if (listaAtualizada.IdFonte != null) 
+    if (listaAtualizada.IdFonte != null)
         lista.IdFonte = listaAtualizada.IdFonte;
 
-    if (listaAtualizada.Ano != null) 
+    if (listaAtualizada.Ano != null)
         lista.Ano = listaAtualizada.Ano;
 
     await db.SaveChangesAsync();
@@ -254,7 +239,7 @@ app.MapPut("/listas/{id}", async (int id, ListaPersonalizada listaAtualizada, Li
 
 
 // DELETE: /usuarios/{id} (Excluir um usuario)
-app.MapDelete("/listas/del/{id}", async (int id, ListaPersonalizadaDbContext db) =>
+app.MapDelete("/listas/del/{id}", async (int id, ApplicationDbContext db) =>
 {
     var lista = await db.ListaPersonalizadas.FindAsync(id);
     if (lista is null) return Results.NotFound();
@@ -267,36 +252,36 @@ app.MapDelete("/listas/del/{id}", async (int id, ListaPersonalizadaDbContext db)
 // FLASHCARDS
 
 // GET: /usuarios (Listar todos os usuarios)
-app.MapGet("/flashcards", async (FlashcardDbContext db) =>
+app.MapGet("/flashcards", async (ApplicationDbContext db) =>
     await db.Flashcards.ToListAsync());
 
 // GET: /usuarios/{id} (Buscar um usuario por ID)
-app.MapGet("/flashcards/{id}", async (int id, FlashcardDbContext db) =>
+app.MapGet("/flashcards/{id}", async (int id, ApplicationDbContext db) =>
     await db.Flashcards.FindAsync(id) is Flashcard flashcard ? Results.Ok(flashcard) : Results.NotFound());
 
 
 // POST: /usuarios (Criar um novo usuario)
-app.MapPost("/flashcards/add", async (Flashcard flashcard, FlashcardDbContext db) =>
+app.MapPost("/flashcards/add", async (Flashcard flashcard, ApplicationDbContext db) =>
 {
-    db.Flashcards.Add(flashcard);    
+    db.Flashcards.Add(flashcard);
     await db.SaveChangesAsync();
     return Results.Created($"/flashcards/{flashcard.IdFlashcard}", flashcard);
 });
 
 
 // PUT: /usuarios/{id} (Atualizar um usuario existente)
-app.MapPut("/flashcards/{id}", async (int id, Flashcard flashcardAtualizada, FlashcardDbContext db) =>
+app.MapPut("/flashcards/{id}", async (int id, Flashcard flashcardAtualizada, ApplicationDbContext db) =>
 {
     var flashcard = await db.Flashcards.FindAsync(id);
     if (flashcard is null) return Results.NotFound();
 
-    if (flashcardAtualizada.IdUsuario != null) 
+    if (flashcardAtualizada.IdUsuario != null)
         flashcard.IdUsuario = flashcardAtualizada.IdUsuario;
 
-    if (flashcardAtualizada.PerguntaUsuario != null) 
+    if (flashcardAtualizada.PerguntaUsuario != null)
         flashcard.PerguntaUsuario = flashcardAtualizada.PerguntaUsuario;
 
-    if (flashcardAtualizada.RespostaUsuario != null) 
+    if (flashcardAtualizada.RespostaUsuario != null)
         flashcard.RespostaUsuario = flashcardAtualizada.RespostaUsuario;
 
     await db.SaveChangesAsync();
@@ -305,7 +290,7 @@ app.MapPut("/flashcards/{id}", async (int id, Flashcard flashcardAtualizada, Fla
 
 
 // DELETE: /usuarios/{id} (Excluir um usuario)
-app.MapDelete("/flashcards/del/{id}", async (int id, FlashcardDbContext db) =>
+app.MapDelete("/flashcards/del/{id}", async (int id, ApplicationDbContext db) =>
 {
     var flashcard = await db.Flashcards.FindAsync(id);
     if (flashcard is null) return Results.NotFound();
@@ -318,39 +303,39 @@ app.MapDelete("/flashcards/del/{id}", async (int id, FlashcardDbContext db) =>
 // COMPETICAO
 
 // GET: /usuarios (Listar todos os usuarios)
-app.MapGet("/competicoes", async (CompeticaoDbContext db) =>
+app.MapGet("/competicoes", async (ApplicationDbContext db) =>
     await db.Competicoes.ToListAsync());
 
 // GET: /usuarios/{id} (Buscar um usuario por ID)
-app.MapGet("/competicoes/{id}", async (int id, CompeticaoDbContext db) =>
+app.MapGet("/competicoes/{id}", async (int id, ApplicationDbContext db) =>
     await db.Competicoes.FindAsync(id) is Competicao competicao ? Results.Ok(competicao) : Results.NotFound());
 
 
 // POST: /usuarios (Criar um novo usuario)
-app.MapPost("/competicoes/add", async (Competicao competicao, CompeticaoDbContext db) =>
+app.MapPost("/competicoes/add", async (Competicao competicao, ApplicationDbContext db) =>
 {
-    db.Competicoes.Add(competicao);    
+    db.Competicoes.Add(competicao);
     await db.SaveChangesAsync();
     return Results.Created($"/competicoes/{competicao.IdCompeticao}", competicao);
 });
 
 
 // PUT: /usuarios/{id} (Atualizar um usuario existente)
-app.MapPut("/competicoes/{id}", async (int id, Competicao competicaoAtualizada, CompeticaoDbContext db) =>
+app.MapPut("/competicoes/{id}", async (int id, Competicao competicaoAtualizada, ApplicationDbContext db) =>
 {
     var competicao = await db.Competicoes.FindAsync(id);
     if (competicao is null) return Results.NotFound();
 
-    if (competicaoAtualizada.Data != null) 
+    if (competicaoAtualizada.Data != null)
         competicao.Data = competicaoAtualizada.Data;
 
-    if (competicaoAtualizada.IdUsuario1 != null) 
+    if (competicaoAtualizada.IdUsuario1 != null)
         competicao.IdUsuario1 = competicaoAtualizada.IdUsuario1;
 
-    if (competicaoAtualizada.IdUsuario2 != null) 
+    if (competicaoAtualizada.IdUsuario2 != null)
         competicao.IdUsuario2 = competicaoAtualizada.IdUsuario2;
 
-    if (competicaoAtualizada.IdNivel != null) 
+    if (competicaoAtualizada.IdNivel != null)
         competicao.IdNivel = competicaoAtualizada.IdNivel;
 
     await db.SaveChangesAsync();
@@ -359,7 +344,7 @@ app.MapPut("/competicoes/{id}", async (int id, Competicao competicaoAtualizada, 
 
 
 // DELETE: /usuarios/{id} (Excluir um usuario)
-app.MapDelete("/competicoes/del/{id}", async (int id, CompeticaoDbContext db) =>
+app.MapDelete("/competicoes/del/{id}", async (int id, ApplicationDbContext db) =>
 {
     var competicao = await db.Competicoes.FindAsync(id);
     if (competicao is null) return Results.NotFound();

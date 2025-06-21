@@ -83,149 +83,160 @@ import com.example.unimind.ui.theme.Azul
 fun Estatisticas(navController: NavController){
     UnimindTheme {
         Surface(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxSize(),
             color = Nude
         ){
             Header("Estatísticas")
 
-            Card(modifier = Modifier
-                .fillMaxWidth(0.95f).shadow(6.dp)
-                .padding(top = 250.dp),
-                colors = CardDefaults.cardColors(containerColor = Nude),) {
-                Column(
-                    horizontalAlignment = Alignment.Start,
-                    verticalArrangement = Arrangement.spacedBy(15.dp),
-                    modifier = Modifier.padding(16.dp)
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(top = 180.dp)
+                    .verticalScroll(rememberScrollState()),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                Card(
+                    modifier = Modifier
+                        .fillMaxWidth(0.9f)
+                        .shadow(6.dp),
+                    colors = CardDefaults.cardColors(containerColor = Nude),
                 ) {
-                    Text(text = "Questões", fontSize = 20.sp, fontWeight = FontWeight.SemiBold)
-                    Row(
-                        horizontalArrangement = Arrangement.spacedBy(16.dp),
-                        verticalAlignment = Alignment.CenterVertically
+                    Column(
+                        horizontalAlignment = Alignment.Start,
+                        verticalArrangement = Arrangement.spacedBy(15.dp),
+                        modifier = Modifier.padding(16.dp)
                     ) {
-                        Text(text = "Corretas", fontSize = 15.sp, fontWeight = FontWeight.SemiBold)
-                        Box(
-                            modifier = Modifier
-                                .height(30.dp)
-                                .fillMaxWidth(0.5f)
-                                .background(Vinho)
-                        )
-                    }
-                    Row(
-                        horizontalArrangement = Arrangement.spacedBy(16.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text(
-                            text = "Incorretas",
-                            fontSize = 15.sp,
-                            fontWeight = FontWeight.SemiBold
-                        )
-                        Box(
-                            modifier = Modifier
-                                .height(30.dp)
-                                .fillMaxWidth(0.8f)
-                                .background(Azul)
-                        )
-                    }
-                    Row(
-                        horizontalArrangement = Arrangement.spacedBy(16.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text(text = "Total:50", fontSize = 15.sp, fontWeight = FontWeight.SemiBold)
-                    }
-
-                    Card(
-                        modifier = Modifier
-                            .fillMaxWidth(0.95f).shadow(6.dp)
-                            .padding(top = 300.dp),
-                        colors = CardDefaults.cardColors(containerColor = Nude),
-                    ) {
-                        Column(
-                            horizontalAlignment = Alignment.Start,
-                            verticalArrangement = Arrangement.spacedBy(15.dp),
-                            modifier = Modifier.padding(16.dp)
+                        Text(text = "Questões", fontSize = 20.sp, fontWeight = FontWeight.SemiBold)
+                        Row(
+                            horizontalArrangement = Arrangement.spacedBy(16.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(text = "Corretas", fontSize = 15.sp, fontWeight = FontWeight.SemiBold)
+                            Box(
+                                modifier = Modifier
+                                    .height(30.dp)
+                                    .fillMaxWidth(0.5f)
+                                    .background(Vinho)
+                            )
+                        }
+                        Row(
+                            horizontalArrangement = Arrangement.spacedBy(16.dp),
+                            verticalAlignment = Alignment.CenterVertically
                         ) {
                             Text(
-                                text = "Tempo de estudo",
-                                fontSize = 20.sp,
+                                text = "Incorretas",
+                                fontSize = 15.sp,
                                 fontWeight = FontWeight.SemiBold
                             )
-                            Row(
-                                horizontalArrangement = Arrangement.spacedBy(16.dp),
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                Text(
-                                    text = "Tempo",
-                                    fontSize = 15.sp,
-                                    fontWeight = FontWeight.SemiBold
-                                )
-                                Box(
-                                    modifier = Modifier
-                                        .height(30.dp)
-                                        .fillMaxWidth(0.5f)
-                                        .background(Azul)
-                                )
-                            }
-                            Row(
-                                horizontalArrangement = Arrangement.spacedBy(16.dp),
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                Text(
-                                    text = "Total:50 minutos",
-                                    fontSize = 15.sp,
-                                    fontWeight = FontWeight.SemiBold
-                                )
-                            }
-
-                            Card(
+                            Box(
                                 modifier = Modifier
-                                    .fillMaxWidth(0.95f).shadow(6.dp)
-                                    .padding(top = 300.dp),
-                                colors = CardDefaults.cardColors(containerColor = Nude),
-                            ) {
-                                Column(
-                                    horizontalAlignment = Alignment.Start,
-                                    verticalArrangement = Arrangement.spacedBy(15.dp),
-                                    modifier = Modifier.padding(16.dp)
-                                ) {
-                                    Text(
-                                        text = "Competições realizadas",
-                                        fontSize = 20.sp,
-                                        fontWeight = FontWeight.SemiBold
-                                    )
-                                    Row(
-                                        horizontalArrangement = Arrangement.spacedBy(16.dp),
-                                        verticalAlignment = Alignment.CenterVertically
-                                    ) {
-                                        Text(
-                                            text = "Competições",
-                                            fontSize = 15.sp,
-                                            fontWeight = FontWeight.SemiBold
-                                        )
-                                        Box(
-                                            modifier = Modifier
-                                                .height(30.dp)
-                                                .fillMaxWidth(0.5f)
-                                                .background(Azul)
-                                        )
-                                    }
-                                    Row(
-                                        horizontalArrangement = Arrangement.spacedBy(16.dp),
-                                        verticalAlignment = Alignment.CenterVertically
-                                    ) {
-                                        Text(
-                                            text = "Total:50",
-                                            fontSize = 15.sp,
-                                            fontWeight = FontWeight.SemiBold
-                                        )
-                                    }
-                                }
-                            }
+                                    .height(30.dp)
+                                    .fillMaxWidth(0.8f)
+                                    .background(Azul)
+                            )
+                        }
+                        Row(
+                            horizontalArrangement = Arrangement.spacedBy(16.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(text = "Total:50", fontSize = 15.sp, fontWeight = FontWeight.SemiBold)
+                        }
+                    }
+                }
+
+                Card(
+                    modifier = Modifier
+                        .fillMaxWidth(0.9f)
+                        .shadow(6.dp),
+                    colors = CardDefaults.cardColors(containerColor = Nude),
+                ) {
+                    Column(
+                        horizontalAlignment = Alignment.Start,
+                        verticalArrangement = Arrangement.spacedBy(15.dp),
+                        modifier = Modifier.padding(16.dp)
+                    ) {
+                        Text(
+                            text = "Tempo de estudo",
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.SemiBold
+                        )
+                        Row(
+                            horizontalArrangement = Arrangement.spacedBy(16.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                text = "Tempo",
+                                fontSize = 15.sp,
+                                fontWeight = FontWeight.SemiBold
+                            )
+                            Box(
+                                modifier = Modifier
+                                    .height(30.dp)
+                                    .fillMaxWidth(0.5f)
+                                    .background(Azul)
+                            )
+                        }
+                        Row(
+                            horizontalArrangement = Arrangement.spacedBy(16.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                text = "Total:50 minutos",
+                                fontSize = 15.sp,
+                                fontWeight = FontWeight.SemiBold
+                            )
+                        }
+                    }
+                }
+
+                Card(
+                    modifier = Modifier
+                        .fillMaxWidth(0.9f)
+                        .shadow(6.dp),
+                    colors = CardDefaults.cardColors(containerColor = Nude),
+                ) {
+                    Column(
+                        horizontalAlignment = Alignment.Start,
+                        verticalArrangement = Arrangement.spacedBy(15.dp),
+                        modifier = Modifier.padding(16.dp)
+                    ) {
+                        Text(
+                            text = "Competições realizadas",
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.SemiBold
+                        )
+                        Row(
+                            horizontalArrangement = Arrangement.spacedBy(16.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                text = "Competições",
+                                fontSize = 15.sp,
+                                fontWeight = FontWeight.SemiBold
+                            )
+                            Box(
+                                modifier = Modifier
+                                    .height(30.dp)
+                                    .fillMaxWidth(0.5f)
+                                    .background(Azul)
+                            )
+                        }
+                        Row(
+                            horizontalArrangement = Arrangement.spacedBy(16.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                text = "Total:50",
+                                fontSize = 15.sp,
+                                fontWeight = FontWeight.SemiBold
+                            )
                         }
                     }
                 }
             }
 
-            Footer(rememberNavController())
+            Footer(navController)
         }
     }
 }

@@ -1,6 +1,15 @@
-*.dll
-API/API 12.5 oficial/UnimindAPI/bin/Debug/net9.0/UnimindAPI.dll
-*.exe
-*.pdb
-API/API 12.5 oficial/UnimindAPI/bin/Debug/net9.0/UnimindAPI.exe
-API/API 12.5 oficial/UnimindAPI/bin/Debug/net9.0/UnimindAPI.dll
+*.iml
+.gradle
+/local.properties
+/.idea/caches
+/.idea/libraries
+/.idea/modules.xml
+/.idea/workspace.xml
+/.idea/navEditor.xml
+/.idea/assetWizardSettings.xml
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+local.properties

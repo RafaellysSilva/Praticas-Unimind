@@ -36,6 +36,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
@@ -46,6 +47,7 @@ import com.example.unimind.ui.theme.Vinho
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.unimind.ui.theme.Rosinha
+import com.example.unimind.viewmodel.UsuarioViewModel
 
 //import com.example.usuarioapp.viewmodel.LoginResult
 //import kotlin.coroutines.jvm.internal.CompletedContinuation.context
@@ -60,26 +62,23 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             val navController = rememberNavController()
+            val usuarioViewModel: UsuarioViewModel = viewModel()
 
             UnimindTheme {
-                AppNavigation(navController)
+                AppNavigation(navController, usuarioViewModel)
             }
         }
     }
 }
 
-object Compartilhado {
-    var idUserLogado: Int? = null
-}
-
 @Composable
-fun AppNavigation(navController: NavHostController) {
+fun AppNavigation(navController: NavHostController, usuarioViewModel: UsuarioViewModel) {
     NavHost(navController = navController, startDestination = "telaBloqueio") {
         composable("telaBloqueio") { Bloqueio(navController) }
-        composable("telaCadastro") { Cadastro(navController) }
-        composable("telaEntrar") { Entrar(navController) }
-        composable("telaInicial") { Inicial(navController) }
-        composable("telaConfiguracoes") { Configuracoes(navController) }
+        composable("telaCadastro") { Cadastro(navController, usuarioViewModel) }
+        composable("telaEntrar") { Entrar(navController, usuarioViewModel) }
+        composable("telaInicial") { Inicial(navController, usuarioViewModel) }
+        composable("telaConfiguracoes") { Configuracoes(navController, usuarioViewModel) }
         composable("telaFlashcardsArea") { FlashcardsArea(navController) }
         composable("telaFlashcardsPergunta") { FlashcardsPergunta(navController) }
         composable("telaFlashcardsResposta") { FlashcardsResposta(navController) }
@@ -93,6 +92,7 @@ fun AppNavigation(navController: NavHostController) {
         composable("telaCalendario") { Calendario(navController) }
     }
 }
+
 
 //função para chamar (tem várias telas que tem a mesma parte como o footer, fica mais facil assim)
 @Composable

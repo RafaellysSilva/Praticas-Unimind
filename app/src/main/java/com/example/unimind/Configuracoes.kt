@@ -79,34 +79,33 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.unimind.ui.theme.Azul
 import com.example.unimind.ui.theme.Rosinha
-import com.example.usuarioapp.viewmodel.UsuarioViewModel
-import java.text.DateFormatSymbols
 import java.util.Calendar
 import android.util.Log
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.ui.platform.LocalContext
-import com.example.unimind.data.Usuario
-import com.example.unimind.data.UsuarioConfig
-import com.example.unimind.network.RetrofitUsuario
+import com.example.unimind.viewmodel.UsuarioViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Configuracoes(navController: NavController, viewModel: UsuarioViewModel = viewModel()) {
-    var user by remember { mutableStateOf("") }
-    var email by remember { mutableStateOf("") }
-    var senha by remember { mutableStateOf("") }
-    var nivel by remember { mutableStateOf("") }
+fun Configuracoes(navController: NavController, viewModel: UsuarioViewModel) {
+    val usuario by viewModel.usuarioDetalhe
+
+    var user by remember(usuario) { mutableStateOf(usuario?.nome ?: "") }
+    var email by remember(usuario) { mutableStateOf(usuario?.email ?: "") }
+    var senha by remember(usuario) { mutableStateOf("") }
+    var nivel by remember(usuario) { mutableStateOf(usuario?.idNivel?.toString() ?: "") }
 
     LaunchedEffect(viewModel.usuarioDetalhe.value) {
         viewModel.usuarioDetalhe.value?.let { usuario ->
             user = usuario.nome
             email = usuario.email
             senha = usuario.senha
-            nivel = usuario.nivel?.toString() ?: ""
+            nivel = usuario.idNivel.toString()
         }
     }
 
@@ -275,14 +274,10 @@ fun Configuracoes(navController: NavController, viewModel: UsuarioViewModel = vi
                             )
                             OutlinedTextField(
                                 value = nivel,
-                                onValueChange = {nivel = it},
-                                //modifier = Modifier
-                                //  .width(280.dp)
-                                //.height(10.dp)
-                                //.padding(start = 20.dp, top = 10.dp),
-                                colors = TextFieldDefaults.outlinedTextFieldColors(
-                                    focusedTextColor = Color.Black, // Cor do texto quando em foco
-                                    unfocusedTextColor = Color.Black,  // Cor do texto quando não está em foco
+                                onValueChange = { novoValor -> nivel = novoValor },
+                                colors = OutlinedTextFieldDefaults.colors(
+                                    focusedTextColor = Color.Black,
+                                    unfocusedTextColor = Color.Black,
                                     focusedBorderColor = Color.Black,
                                     unfocusedBorderColor = Color.Black,
                                     cursorColor = Color.Black
@@ -308,9 +303,12 @@ fun Configuracoes(navController: NavController, viewModel: UsuarioViewModel = vi
                             )
                             OutlinedButton (
                                 onClick = {
-                                    viewModel.usuarioDetalhe.value?.idUsuario?.let {
-                                        var plmdsVai = Compartilhado.idUserLogado
-                                        plmdsVai?.let { it1 -> viewModel.deletarUsuario(it1) }
+                                    viewModel.usuarioDetalhe.value?.idUsuario?.let { id ->
+                                        viewModel.deletarUsuario(id)
+                                        // Adicione a navegação para a tela de bloqueio após excluir
+                                        navController.navigate("telaBloqueio") {
+                                            popUpTo(0) // Limpa toda a pilha de navegação
+                                        }
                                     }
                                 },
 
@@ -344,14 +342,14 @@ fun Configuracoes(navController: NavController, viewModel: UsuarioViewModel = vi
                         ){
                             OutlinedButton(
                                 onClick = {
-                                    val usuarioAtualizado = Usuario(
-                                        idUsuario = viewModel.usuarioDetalhe.value?.idUsuario ?: 0,
-                                        nome = user,
-                                        email = email,
-                                        senha = senha,
-                                        nivel = nivel.toIntOrNull() ?: 0
-                                    )
-                                    viewModel.atualizarUsuario(user, email, senha, nivel.toIntOrNull() ?: 0)
+                                    viewModel.usuarioDetalhe.value?.let { currentUser ->
+                                        viewModel.atualizarUsuario(
+                                            user,
+                                            email,
+                                            senha, // Considere como gerenciar a atualização de senha
+                                            nivel.toInt() ?: currentUser.idNivel
+                                        )
+                                    }
                                 }
                             ) {
                                 Text(text = "Salvar alterações", color = Black)

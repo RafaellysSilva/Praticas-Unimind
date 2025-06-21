@@ -75,23 +75,6 @@ import com.example.unimind.ui.theme.Bege
 import com.example.unimind.ui.theme.Nude
 import com.example.unimind.ui.theme.UnimindTheme
 import com.example.unimind.ui.theme.Vinho
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import com.example.unimind.ui.theme.Azul
-import com.example.unimind.ui.theme.Rosinha
-import com.example.usuarioapp.viewmodel.UsuarioViewModel
-import java.text.DateFormatSymbols
-import java.util.Calendar
-import android.util.Log
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.TextButton
-import androidx.compose.material3.TextFieldDefaults
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.ui.platform.LocalContext
-import com.example.unimind.data.Usuario
-import com.example.unimind.data.UsuarioConfig
-import com.example.unimind.network.RetrofitUsuario
 
 @Composable
 fun FlashcardsResposta(navController: NavController) {

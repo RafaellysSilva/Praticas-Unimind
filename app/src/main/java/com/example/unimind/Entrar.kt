@@ -79,7 +79,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.unimind.ui.theme.Azul
 import com.example.unimind.ui.theme.Rosinha
-import com.example.usuarioapp.viewmodel.UsuarioViewModel
 import java.text.DateFormatSymbols
 import java.util.Calendar
 import android.util.Log
@@ -89,13 +88,12 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.ui.platform.LocalContext
-import com.example.unimind.data.Usuario
 import com.example.unimind.data.UsuarioConfig
-import com.example.unimind.network.RetrofitUsuario
+import com.example.unimind.viewmodel.UsuarioViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Entrar(navController: NavController, viewModel: UsuarioViewModel = viewModel()){
+fun Entrar(navController: NavController, viewModel: UsuarioViewModel){
 
     var user by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -227,7 +225,6 @@ fun Entrar(navController: NavController, viewModel: UsuarioViewModel = viewModel
                         OutlinedButton (
                             onClick = {
                                 if (user.isNotEmpty() && password.isNotEmpty()) {
-                                    Log.d("first step", "entrou no if de nao está vazio")
                                     viewModel.verificarLogin(user, password)
                                 }
                             },
@@ -244,12 +241,10 @@ fun Entrar(navController: NavController, viewModel: UsuarioViewModel = viewModel
                         when (val status = viewModel.loginStatus.value) {
                             is LoginResult.Sucesso -> {
                                 LaunchedEffect(Unit) {
-                                    //id = id do usuario
-                                    val userProv = RetrofitUsuario.instance.buscarUsuario(user, password)
-                                    Compartilhado.idUserLogado = userProv?.idUsuario
                                     viewModel.limparLoginStatus()
                                     navController.navigate("telaInicial") {
-                                        popUpTo("telaLogin") { inclusive = true }
+                                        popUpTo("telaEntrar") { inclusive = true }
+                                        popUpTo("telaBloqueio") { inclusive = true }
                                     }
                                 }
                             }

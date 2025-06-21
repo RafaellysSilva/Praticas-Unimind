@@ -20,9 +20,6 @@ class UsuarioViewModel : ViewModel() {
     private val _mensagem = mutableStateOf("")
     val mensagem: State<String> = _mensagem
 
-    private val _usuarioLogado = mutableStateOf("")
-    val usuarioLogado: State<String> = _usuarioLogado
-
     private val _loginStatus = mutableStateOf<LoginResult>(LoginResult.Nenhum)
     val loginStatus: State<LoginResult> = _loginStatus
 
@@ -56,7 +53,6 @@ class UsuarioViewModel : ViewModel() {
             _loginStatus.value = try {
                 val usuario = RetrofitClient.apiService.buscarUsuario(nome, senha)
                 if (usuario != null) {
-                    _usuarioLogado.value = nome
                     _usuarioDetalhe.value = usuario
                     LoginResult.Sucesso
                 } else {

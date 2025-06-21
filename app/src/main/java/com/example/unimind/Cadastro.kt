@@ -79,7 +79,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.unimind.ui.theme.Azul
 import com.example.unimind.ui.theme.Rosinha
-import com.example.usuarioapp.viewmodel.UsuarioViewModel
 import java.text.DateFormatSymbols
 import java.util.Calendar
 import android.util.Log
@@ -89,14 +88,11 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.ui.platform.LocalContext
-import com.example.unimind.data.Usuario
-import com.example.unimind.data.UsuarioConfig
-import com.example.unimind.network.RetrofitUsuario
+import com.example.unimind.viewmodel.UsuarioViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Cadastro(navController: NavController) {
-    val viewModel: UsuarioViewModel = viewModel()
+fun Cadastro(navController: NavController, viewModel: UsuarioViewModel) {
     val mensagem by viewModel.mensagem
 
     val inter = FontFamily(
@@ -241,23 +237,17 @@ fun Cadastro(navController: NavController) {
                         Spacer(modifier = Modifier.height(20.dp))
                         OutlinedButton(
                             onClick = {
-                                if (senha == senhaDnv){
-                                    if (nome.isBlank() || email.isBlank() || senha.isBlank() || senhaDnv.isBlank()) {
+                                if (senha == senhaDnv) {
+                                    if (nome.isBlank() || email.isBlank() || senha.isBlank()) {
                                         viewModel.setMensagem("Preencha todos os campos")
-                                        //avisar por um pop-up
-                                    }
-                                    else {
+                                    } else {
                                         viewModel.criarUsuario(nome, email, senha) {
-                                            navController.navigate("telaInicial") {
-                                                popUpTo("telaCadastro") { inclusive = true }
-                                            }
+                                            // Após o sucesso, o login é feito automaticamente
+                                            viewModel.verificarLogin(nome, senha)
                                         }
                                     }
-                                }
-                                else{
-                                    //as senhas não coincidem
+                                } else {
                                     viewModel.setMensagem("As senhas não coincidem")
-
                                 }
                             },
                             border = BorderStroke(2.dp, Vinho),
@@ -265,9 +255,17 @@ fun Cadastro(navController: NavController) {
                         ) {
                             Text(text = "Cadastrar", color = Vinho, fontSize = 20.sp)
                         }
-                        mensagem?.let {
-                            Spacer(modifier = Modifier.height(16.dp))
-                            Text(text = it, color = Color.Red)
+
+                        // Observa o status do login para navegar após o cadastro
+                        val loginStatus by viewModel.loginStatus
+                        if (loginStatus is LoginResult.Sucesso) {
+                            LaunchedEffect(Unit) {
+                                navController.navigate("telaInicial") {
+                                    popUpTo("telaCadastro") { inclusive = true }
+                                    popUpTo("telaBloqueio") { inclusive = true }
+                                }
+                                viewModel.limparLoginStatus()
+                            }
                         }
 
                     }

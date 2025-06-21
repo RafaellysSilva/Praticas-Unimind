@@ -123,53 +123,7 @@ fun ListaPersonalizadaCriar(navController: NavController) {
 
                     Row {
                         Text(
-                            "Nome:",
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Bold,
-                            modifier = Modifier
-                                .padding(start = 35.dp, end = 55.dp, top = 3.dp)
-                        )
-
-                        var expanded by remember { mutableStateOf(false) }
-                        var selecionada by remember { mutableStateOf("") }
-                        val opcoes = listOf("Opção 1", "Opção 2", "Opção 3")
-                        ExposedDropdownMenuBox(
-                            expanded = expanded,
-                            onExpandedChange = { expanded = !expanded }
-                        ) {
-                            OutlinedTextField(
-                                value = selecionada,
-                                onValueChange = {},
-                                readOnly = true,
-                                trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
-                                modifier = Modifier
-                                    .menuAnchor()
-                                    .height(30.dp)
-                                    .width(210.dp)
-                            )
-
-                            ExposedDropdownMenu(
-                                expanded = expanded,
-                                onDismissRequest = { expanded = false }
-                            ) {
-                                opcoes.forEach { opcao ->
-                                    DropdownMenuItem(
-                                        text = { Text(opcao) },
-                                        onClick = {
-                                            selecionada = opcao
-                                            expanded = false
-                                        }
-                                    )
-                                }
-                            }
-                        }
-                    }
-
-                    Spacer(Modifier.height(10.dp))
-
-                    Row {
-                        Text(
-                            "Categoria:",
+                            "Matéria:",
                             fontSize = 16.sp,
                             fontWeight = FontWeight.Bold,
                             modifier = Modifier
@@ -354,7 +308,7 @@ fun ListaPersonalizadaCriar(navController: NavController) {
                         colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFF3E0D1)),
                         shape = RoundedCornerShape(10.dp),
                         border = BorderStroke(1.dp, Vinho),
-                        onClick = { navController.navigate("") },
+                        onClick = { navController.navigate("telaListasProvasResolucao") },
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(horizontal = 100.dp)

@@ -52,6 +52,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.unimind.data.Flashcard
 import com.example.unimind.ui.theme.Rosinha
+import com.example.unimind.viewmodel.CompeticaoViewModel
 import com.example.unimind.viewmodel.FlashcardViewModel
 import com.example.unimind.viewmodel.UsuarioViewModel
 
@@ -68,16 +69,17 @@ class MainActivity : ComponentActivity() {
             val navController = rememberNavController()
             val usuarioViewModel: UsuarioViewModel = viewModel()
             val flashcardViewModel: FlashcardViewModel = viewModel()
+            val competicaoViewModel: CompeticaoViewModel = viewModel()
 
             UnimindTheme {
-                AppNavigation(navController, usuarioViewModel, flashcardViewModel)
+                AppNavigation(navController, usuarioViewModel, flashcardViewModel, competicaoViewModel)
             }
         }
     }
 }
 
 @Composable
-fun AppNavigation(navController: NavHostController, usuarioViewModel: UsuarioViewModel, flashcardViewModel: FlashcardViewModel) {
+fun AppNavigation(navController: NavHostController, usuarioViewModel: UsuarioViewModel, flashcardViewModel: FlashcardViewModel, competicaoViewModel: CompeticaoViewModel) {
     NavHost(navController = navController, startDestination = "telaBloqueio") {
         composable("telaBloqueio") { Bloqueio(navController) }
         composable("telaCadastro") { Cadastro(navController, usuarioViewModel) }
@@ -123,7 +125,7 @@ fun AppNavigation(navController: NavHostController, usuarioViewModel: UsuarioVie
         composable("telaListasProvasArea") { ListasProvasArea(navController) }
         composable("telaListasProvasResolucao") { ListasProvasResolucao(navController) }
         composable("telaListaPersonalizadaCriar") { ListaPersonalizadaCriar(navController) }
-        composable("telaCompeticaoCriar") { CompeticaoCriar(navController) }
+        composable("telaCompeticaoCriar") { CompeticaoCriar(navController, usuarioViewModel, competicaoViewModel) }
         composable("telaCompeticaoMomento") { CompeticaoMomento(navController) }
         composable("telaCompeticaoRelatorio") { CompeticaoRelatorio(navController) }
         composable("telaEstatisticas") { Estatisticas(navController) }

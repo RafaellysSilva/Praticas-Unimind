@@ -1,286 +1,207 @@
 package com.example.unimind
 
-import com.example.unimind.viewmodel.LoginResult
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
+import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ArrowBack
-import androidx.compose.material.icons.rounded.ArrowForward
-import androidx.compose.material.icons.rounded.Menu
-import androidx.compose.material.icons.rounded.Search
-import androidx.compose.material3.BottomAppBar
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExposedDropdownMenuBox
-import androidx.compose.material3.ExposedDropdownMenuDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Alignment.Companion.BottomCenter
-import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Color.Companion.Black
-import androidx.compose.ui.graphics.Color.Companion.Blue
-import androidx.compose.ui.graphics.Color.Companion.White
-import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.example.unimind.ui.theme.Bege
-import com.example.unimind.ui.theme.Nude
-import com.example.unimind.ui.theme.UnimindTheme
-import com.example.unimind.ui.theme.Vinho
+import com.example.unimind.data.Competicao
+import com.example.unimind.ui.theme.*
+import com.example.unimind.viewmodel.CompeticaoViewModel
+import com.example.unimind.viewmodel.UsuarioViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CompeticaoCriar(navController: NavController) {
-    UnimindTheme {
-        Surface(
-            modifier = Modifier.fillMaxSize(),
-            color = Nude
-        ) {
-            Header("Competição") // O Header agora é o primeiro elemento na Column principal
+fun CompeticaoCriar(
+    navController: NavController,
+    usuarioViewModel: UsuarioViewModel,
+    competicaoViewModel: CompeticaoViewModel
+) {
+    val context = LocalContext.current
+    val usuarioAtual by usuarioViewModel.usuarioDetalhe
 
-            Column(
+    // Estados para os campos de seleção
+    var categoriaSelecionada by remember { mutableStateOf("") }
+    var fonteSelecionada by remember { mutableStateOf("") }
+    var tempoSelecionado by remember { mutableStateOf("60 minutos") }
+    var questoesSelecionadas by remember { mutableStateOf("15 questões") }
+    var usuarioParaCompetir by remember { mutableStateOf("") }
+
+    // Opções para os dropdowns
+    val categorias = listOf("Exatas", "Humanas", "Biológicas", "Linguagens")
+    val fontes = listOf("Enem", "Fuvest", "Unicamp", "Outras")
+    val tempos = listOf("30 minutos", "60 minutos", "90 minutos")
+    val quantidadesQuestoes = listOf("10 questões", "15 questões", "20 questões")
+
+    UnimindTheme {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Nude)
+        ) {
+            Header("Competição")
+
+            // Ícone do usuário sobreposto
+            Box(
                 modifier = Modifier
-                    .fillMaxWidth() // A Column das preferências ocupa a largura total
-                    .padding(top = 250.dp)
+                    .fillMaxWidth()
+                    .padding(top = 185.dp, end = 24.dp),
+                contentAlignment = Alignment.TopEnd
             ) {
                 Box(
-                    Modifier.fillMaxWidth()
-                )
-                Text(
-                    text = "Preferências",
-                    fontSize = 18.sp,
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .background(Color(0xFFf3d1c2))
-                        .padding(start = 10.dp, top = 5.dp, bottom = 5.dp)
-                )
-
-                Spacer(Modifier.height(10.dp))
-
-                Row {
-                    Text(
-                        "Categoria:",
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Bold,
-                        modifier = Modifier
-                            .padding(start = 35.dp, end = 23.dp, top = 3.dp)
-                    )
-                    var expanded by remember { mutableStateOf(false) }
-                    var selecionada by remember { mutableStateOf("") }
-                    val opcoes = listOf("Opção 1", "Opção 2", "Opção 3")
-                    ExposedDropdownMenuBox(
-                        expanded = expanded,
-                        onExpandedChange = { expanded = !expanded }
-                    ) {
-                        OutlinedTextField(
-                            value = selecionada,
-                            onValueChange = {},
-                            readOnly = true,
-                            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
-                            modifier = Modifier
-                                .menuAnchor()
-                                .height(30.dp)
-                                .width(210.dp)
-                        )
-
-                        ExposedDropdownMenu(
-                            expanded = expanded,
-                            onDismissRequest = { expanded = false }
-                        ) {
-                            opcoes.forEach { opcao ->
-                                DropdownMenuItem(
-                                    text = { Text(opcao) },
-                                    onClick = {
-                                        selecionada = opcao
-                                        expanded = false
-                                    }
-                                )
-                            }
-                        }
-                    }
-                }
-
-                Spacer(Modifier.height(10.dp))
-
-                Row {
-                    Text(
-                        "Fonte:",
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Bold,
-                        modifier = Modifier
-                            .padding(start = 35.dp, end = 55.dp, top = 3.dp)
-                    )
-
-                    var expanded by remember { mutableStateOf(false) }
-                    var selecionada by remember { mutableStateOf("") }
-                    val opcoes = listOf("Opção 1", "Opção 2", "Opção 3")
-                    ExposedDropdownMenuBox(
-                        expanded = expanded,
-                        onExpandedChange = { expanded = !expanded }
-                    ) {
-                        OutlinedTextField(
-                            value = selecionada,
-                            onValueChange = {},
-                            readOnly = true,
-                            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
-                            modifier = Modifier
-                                .menuAnchor()
-                                .height(30.dp)
-                                .width(210.dp)
-                        )
-
-                        ExposedDropdownMenu(
-                            expanded = expanded,
-                            onDismissRequest = { expanded = false }
-                        ) {
-                            opcoes.forEach { opcao ->
-                                DropdownMenuItem(
-                                    text = { Text(opcao) },
-                                    onClick = {
-                                        selecionada = opcao
-                                        expanded = false
-                                    }
-                                )
-                            }
-                        }
-                    }
-                }
-
-                Spacer(Modifier.height(10.dp))
-
-                Row {
-                    Text(
-                        "Questões:",
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Bold,
-                        modifier = Modifier
-                            .padding(start = 35.dp, end = 25.dp, top = 3.dp)
-                    )
-
-                    var expanded by remember { mutableStateOf(false) }
-                    var selecionada by remember { mutableStateOf("") }
-                    val opcoes = listOf("Opção 1", "Opção 2", "Opção 3")
-                    ExposedDropdownMenuBox(
-                        expanded = expanded,
-                        onExpandedChange = { expanded = !expanded }
-                    ) {
-                        OutlinedTextField(
-                            value = selecionada,
-                            onValueChange = {},
-                            readOnly = true,
-                            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
-                            modifier = Modifier
-                                .menuAnchor()
-                                .height(30.dp)
-                                .width(210.dp)
-                        )
-
-                        ExposedDropdownMenu(
-                            expanded = expanded,
-                            onDismissRequest = { expanded = false }
-                        ) {
-                            opcoes.forEach { opcao ->
-                                DropdownMenuItem(
-                                    text = { Text(opcao) },
-                                    onClick = {
-                                        selecionada = opcao
-                                        expanded = false
-                                    }
-                                )
-                            }
-                        }
-                    }
-                }
-
-                Spacer(Modifier.height(30.dp))
-
-                Button(
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFF3E0D1)),
-                    shape = RoundedCornerShape(10.dp),
-                    border = BorderStroke(1.dp, Vinho),
-                    onClick = { navController.navigate("") },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 100.dp)
-                        .height(38.dp)
+                        .size(60.dp)
+                        .clip(CircleShape)
+                        .background(Vinho)
+                        .border(BorderStroke(2.dp, Nude), CircleShape),
+                    contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        text = "Salvar alterações",
-                        color = Vinho,
-                        fontSize = 17.sp,
-                        fontWeight = FontWeight.Bold
-                    )
-                }
-
-                Spacer(Modifier.height(30.dp))
-
-                Button(
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFF3E0D1)),
-                    shape = RoundedCornerShape(10.dp),
-                    border = BorderStroke(1.dp, Vinho),
-                    onClick = { navController.navigate("") },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 100.dp)
-                        .height(38.dp)
-                ) {
-                    Text(
-                        text = "Competir",
-                        color = Vinho,
-                        fontSize = 17.sp,
+                        text = usuarioAtual?.nome?.firstOrNull()?.toString() ?: "U",
+                        color = Nude,
+                        fontSize = 28.sp,
                         fontWeight = FontWeight.Bold
                     )
                 }
             }
-            Footer(navController)
+
+            Scaffold(
+                containerColor = Color.Transparent,
+                bottomBar = { Footer(navController) }
+            ) { innerPadding ->
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(innerPadding)
+                        .padding(top = 220.dp) // Espaço para header + ícone
+                        .verticalScroll(rememberScrollState()),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    SectionTitle("Preferências")
+                    ConfigSection {
+                        SelectableField(
+                            label = "Categoria",
+                            selectedValue = categoriaSelecionada,
+                            options = categorias,
+                            onValueChange = { categoriaSelecionada = it }
+                        )
+                        SelectableField(
+                            label = "Fonte",
+                            selectedValue = fonteSelecionada,
+                            options = fontes,
+                            onValueChange = { fonteSelecionada = it }
+                        )
+                        SelectableField(
+                            label = "Tempo",
+                            selectedValue = tempoSelecionado,
+                            options = tempos,
+                            onValueChange = { tempoSelecionado = it }
+                        )
+                        SelectableField(
+                            label = "Questões",
+                            selectedValue = questoesSelecionadas,
+                            options = quantidadesQuestoes,
+                            onValueChange = { questoesSelecionadas = it }
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    Button(
+                        onClick = {
+                            Toast.makeText(context, "Preferências salvas!", Toast.LENGTH_SHORT).show()
+                        },
+                        shape = RoundedCornerShape(12.dp),
+                        colors = ButtonDefaults.buttonColors(containerColor = Bege),
+                        border = BorderStroke(1.dp, Vinho),
+                        modifier = Modifier
+                            .width(220.dp)
+                            .height(48.dp)
+                    ) {
+                        Text("Salvar alterações", color = Vinho, fontWeight = FontWeight.Bold)
+                    }
+
+                    Spacer(modifier = Modifier.height(24.dp))
+
+                    Text(
+                        text = "Você ainda não está competindo com ninguém.\nConvide alguém do mesmo nível para apostar questões.",
+                        color = Vinho.copy(alpha = 0.8f),
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.padding(horizontal = 24.dp)
+                    )
+
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    // Seção de Convite
+                    InfoRow(
+                        label = "Usuário para competir",
+                        value = usuarioParaCompetir,
+                        onValueChange = { usuarioParaCompetir = it }
+                    )
+
+                    Spacer(modifier = Modifier.height(24.dp))
+
+                    Button(
+                        onClick = {
+                            if (usuarioParaCompetir.isBlank()) {
+                                Toast.makeText(context, "Digite o nome de um usuário para convidar.", Toast.LENGTH_SHORT).show()
+                                return@Button
+                            }
+                            if (usuarioAtual == null) {
+                                Toast.makeText(context, "Erro: Faça login novamente.", Toast.LENGTH_SHORT).show()
+                                return@Button
+                            }
+                            // Lógica para criar a competição (simplificada)
+                            val competicao = usuarioAtual?.idUsuario?.let {
+                                Competicao(
+                                    idCompeticao = 0, // O ID será gerado pelo backend
+                                    data = "2025-06-22", // Usar data atual
+                                    idUsuario1 = it,
+                                    idUsuario2 = 2, // ID do usuário convidado (precisaria buscar pelo nome)
+                                    idNivel = usuarioAtual?.idNivel ?: 1
+                                )
+                            }
+                            if (competicao != null) {
+                                competicaoViewModel.criarCompeticao(competicao) {
+                                    navController.navigate("telaCompeticaoMomento")
+                                }
+                            }
+                        },
+                        shape = CircleShape,
+                        colors = ButtonDefaults.buttonColors(containerColor = Rosinha),
+                        modifier = Modifier
+                            .width(220.dp)
+                            .height(50.dp)
+                    ) {
+                        Text(
+                            text = "Convidar",
+                            color = Nude,
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(24.dp)) // Espaço extra no final
+                }
+            }
         }
     }
 }

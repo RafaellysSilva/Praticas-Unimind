@@ -234,7 +234,7 @@ private fun ProfileImageWithEdit() {
 }
 
 @Composable
-private fun SectionTitle(title: String) {
+fun SectionTitle(title: String) {
     Text(
         text = title,
         fontSize = 18.sp,
@@ -248,7 +248,7 @@ private fun SectionTitle(title: String) {
 }
 
 @Composable
-private fun ConfigSection(content: @Composable ColumnScope.() -> Unit) {
+fun ConfigSection(content: @Composable ColumnScope.() -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -259,7 +259,7 @@ private fun ConfigSection(content: @Composable ColumnScope.() -> Unit) {
 }
 
 @Composable
-private fun InfoRow(
+fun InfoRow(
     label: String,
     value: String,
     onValueChange: (String) -> Unit,

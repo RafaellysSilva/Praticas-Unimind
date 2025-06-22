@@ -63,7 +63,7 @@ interface ApiService {
     @GET("/listas/{id}")
     suspend fun buscarListaPersonalizada(@Path("id") id: Int): ListaPersonalizada?
 
-    @POST("/listas/add")
+    @POST("/listas")
     suspend fun criarListaPersonalizada(@Body lista: ListaPersonalizada): ListaPersonalizada
 
     @PUT("/listas/{id}")

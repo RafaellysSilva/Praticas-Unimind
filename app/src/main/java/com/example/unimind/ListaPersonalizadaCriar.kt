@@ -51,6 +51,7 @@ fun ListaPersonalizadaCriar(
     listaViewModel: ListaPersonalizadaViewModel
 ) {
     val context = LocalContext.current
+    val mensagem by listaViewModel.mensagem
 
     var nomeLista by remember { mutableStateOf("") }
     var fonte by remember { mutableStateOf<String?>(null) }
@@ -62,6 +63,13 @@ fun ListaPersonalizadaCriar(
 
     LaunchedEffect(Unit) {
         questaoViewModel.listarQuestoes()
+    }
+
+    LaunchedEffect(mensagem) {
+        if (mensagem.isNotEmpty()) {
+            Toast.makeText(context, mensagem, Toast.LENGTH_SHORT).show()
+            listaViewModel.limparMensagem()
+        }
     }
 
     val todasQuestoes by questaoViewModel.questoes

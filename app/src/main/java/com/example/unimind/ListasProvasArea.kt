@@ -92,9 +92,8 @@ fun ListasProvasArea(navController: NavController, viewModel: ListaPersonalizada
         listasUsuario
     } else {
         listasUsuario.filter {
-            // Adapte os campos de filtro conforme necessário
             it.fonte?.contains(textoPesquisa, ignoreCase = true) == true ||
-                    it.ano.toString().contains(textoPesquisa)
+                    it.titulo.contains(textoPesquisa)
         }
     }
 
@@ -180,12 +179,11 @@ fun ListasProvasArea(navController: NavController, viewModel: ListaPersonalizada
                                     verticalArrangement = Arrangement.Center
                                 ) {
                                     Text(
-                                        text = "Lista #${lista.idLista}",
+                                        text = lista.titulo,
                                         color = Color.White,
                                         fontSize = 17.sp,
                                         textAlign = TextAlign.Center
                                     )
-                                    // Adicione mais informações da lista se desejar
                                 }
                             }
                         }

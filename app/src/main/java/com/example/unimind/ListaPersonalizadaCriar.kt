@@ -31,6 +31,17 @@ import com.example.unimind.viewmodel.ListaPersonalizadaViewModel
 import com.example.unimind.viewmodel.QuestaoViewModel
 import com.example.unimind.viewmodel.UsuarioViewModel
 
+fun mapCategoriaIdToNome(id: Int): String {
+    return when (id) {
+        1 -> "História"
+        2 -> "Sociologia"
+        3 -> "Geografia"
+        4 -> "Filosofia"
+        5 -> "Matemática"
+        else -> "Desconhecida"
+    }
+}
+
 
 @Composable
 fun ListaPersonalizadaCriar(
@@ -43,7 +54,7 @@ fun ListaPersonalizadaCriar(
 
     var nomeLista by remember { mutableStateOf("") }
     var fonte by remember { mutableStateOf<String?>(null) }
-    var categoria by remember { mutableStateOf<Int?>(null) }
+    var categoriaNome by remember { mutableStateOf<String?>(null) }
     var anoMinimo by remember { mutableStateOf<Int?>(null) }
     var anoMaximo by remember { mutableStateOf<Int?>(null) }
     var numeroQuestoes by remember { mutableStateOf("") }
@@ -58,18 +69,27 @@ fun ListaPersonalizadaCriar(
     val fontesDisponiveis = remember(todasQuestoes) {
         todasQuestoes.mapNotNull { it.fonte }.distinct().sorted()
     }
-    val categoriasDisponiveis = remember(todasQuestoes) {
-        todasQuestoes.map { it.idCategoria }.distinct().sorted()
+
+    // Mapa de ID para Nome e lista de Nomes para o Dropdown
+    val categoriasMap = remember(todasQuestoes) {
+        todasQuestoes.map { it.idCategoria }.distinct().associateWith { mapCategoriaIdToNome(it) }
     }
+    val categoriasDisponiveis = remember(categoriasMap) {
+        categoriasMap.values.sorted()
+    }
+
     val anosDisponiveis = remember(todasQuestoes) {
         todasQuestoes.map { it.ano }.distinct().sorted()
     }
     val temposDisponiveis = listOf(15, 30, 45, 60)
 
-    val questoesFiltradas = remember(fonte, categoria, anoMinimo, anoMaximo, todasQuestoes) {
+    val questoesFiltradas = remember(fonte, categoriaNome, anoMinimo, anoMaximo, todasQuestoes) {
+        // Encontra o ID correspondente ao nome da categoria selecionada para filtrar
+        val categoriaId = categoriasMap.entries.find { it.value == categoriaNome }?.key
+
         todasQuestoes.filter { q ->
             (fonte == null || q.fonte == fonte) &&
-                    (categoria == null || q.idCategoria == categoria) &&
+                    (categoriaId == null || q.idCategoria == categoriaId) &&
                     (anoMinimo == null || q.ano >= anoMinimo!!) &&
                     (anoMaximo == null || q.ano <= anoMaximo!!)
         }
@@ -108,10 +128,11 @@ fun ListaPersonalizadaCriar(
                 )
                 Spacer(modifier = Modifier.height(16.dp))
 
+                // O Dropdown agora usa os nomes das categorias
                 DropdownCategorias(
-                    label = "Categoria",
-                    selectedCategoria = categoria,
-                    onCategoriaSelected = { categoria = it },
+                    label = "Matéria",
+                    selectedCategoria = categoriaNome,
+                    onCategoriaSelected = { categoriaNome = it },
                     categorias = categoriasDisponiveis
                 )
                 Spacer(modifier = Modifier.height(16.dp))
@@ -164,6 +185,9 @@ fun ListaPersonalizadaCriar(
                         val idUsuario = usuarioViewModel.usuarioDetalhe.value?.idUsuario
                         val numQuestoesInt = numeroQuestoes.toIntOrNull()
 
+                        // Encontra o ID da categoria a partir do nome selecionado
+                        val categoriaId = categoriasMap.entries.find { it.value == categoriaNome }?.key
+
                         if (idUsuario == null) {
                             Toast.makeText(context, "Erro: Usuário não encontrado", Toast.LENGTH_SHORT).show()
                             return@Button
@@ -172,8 +196,8 @@ fun ListaPersonalizadaCriar(
                             Toast.makeText(context, "Por favor, insira um nome para a lista", Toast.LENGTH_SHORT).show()
                             return@Button
                         }
-                        if (categoria == null) {
-                            Toast.makeText(context, "Por favor, selecione uma categoria", Toast.LENGTH_SHORT).show()
+                        if (categoriaId == null) {
+                            Toast.makeText(context, "Por favor, selecione uma matéria", Toast.LENGTH_SHORT).show()
                             return@Button
                         }
                         if (numQuestoesInt == null || numQuestoesInt == 0) {
@@ -189,7 +213,7 @@ fun ListaPersonalizadaCriar(
                             idLista = 0,
                             idUsuario = idUsuario,
                             titulo = nomeLista,
-                            idCategoria = categoria!!,
+                            idCategoria = categoriaId, // Usa o ID encontrado
                             fonte = fonte,
                             ano = null, // Lógica de ano min/max pode ser tratada no backend
                             tempo = tempo
@@ -214,7 +238,6 @@ fun ListaPersonalizadaCriar(
         }
     }
 }
-
 
 @Composable
 fun CustomTextFieldWithValidation(
@@ -372,9 +395,9 @@ fun DropdownFontes(
 @Composable
 fun DropdownCategorias(
     label: String,
-    selectedCategoria: Int?,
-    onCategoriaSelected: (Int) -> Unit,
-    categorias: List<Int>,
+    selectedCategoria: String?,
+    onCategoriaSelected: (String?) -> Unit,
+    categorias: List<String>,
     modifier: Modifier = Modifier
 ) {
     var expanded by remember { mutableStateOf(false) }
@@ -385,7 +408,7 @@ fun DropdownCategorias(
         modifier = modifier.fillMaxWidth().padding(horizontal = 45.dp)
     ) {
         OutlinedTextField(
-            value = selectedCategoria?.toString() ?: "",
+            value = selectedCategoria ?: "",
             onValueChange = {},
             readOnly = true,
             label = { Text(label, color = Vinho) },

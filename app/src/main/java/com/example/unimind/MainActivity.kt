@@ -128,7 +128,7 @@ fun AppNavigation(navController: NavHostController, usuarioViewModel: UsuarioVie
         composable("telaCompeticaoCriar") { CompeticaoCriar(navController, usuarioViewModel, competicaoViewModel) }
         composable("telaCompeticaoMomento") { CompeticaoMomento(navController) }
         composable("telaCompeticaoRelatorio") { CompeticaoRelatorio(navController) }
-        composable("telaEstatisticas") { Estatisticas(navController) }
+        composable("telaEstatisticas") { Estatisticas(navController, usuarioViewModel) }
         composable("telaCalendario") { Calendario(navController) }
     }
 }

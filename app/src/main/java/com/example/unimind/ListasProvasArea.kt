@@ -107,116 +107,126 @@ fun ListasProvasArea(navController: NavController) {
     }
 
     UnimindTheme {
-        Box(modifier = Modifier.fillMaxSize().background(Nude)) {
+        Box(modifier = Modifier.fillMaxSize()) {
+            // Header personalizado fica no fundo
             ListasProvasHeader()
 
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(top = 180.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-
-                Row(
+            // Scaffold gerencia o layout principal, incluindo o footer
+            Scaffold(
+                containerColor = Color.Transparent, // Fundo transparente para ver o header
+                bottomBar = { Footer(navController) } // Footer no local correto
+            ) { innerPadding ->
+                Column(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 45.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(16.dp)
+                        .fillMaxSize()
+                        .padding(innerPadding) // Aplica o padding para não sobrepor o footer
+                        .padding(top = 180.dp), // Padding para o header personalizado
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    OutlinedTextField(
-                        value = textoPesquisa,
-                        onValueChange = { textoPesquisa = it },
-                        modifier = Modifier.weight(1f),
-                        placeholder = { Text("Pesquisar...", color = Color.White) },
-                        shape = RoundedCornerShape(50),
-                        colors = TextFieldDefaults.outlinedTextFieldColors(
-                            containerColor = Vinho,
-                            unfocusedBorderColor = Color.Transparent,
-                            focusedBorderColor = Rosinha,
-                            focusedTextColor = Color.White,
-                            cursorColor = Color.White
+
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 45.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(16.dp)
+                    ) {
+                        OutlinedTextField(
+                            value = textoPesquisa,
+                            onValueChange = { textoPesquisa = it },
+                            modifier = Modifier.weight(1f),
+                            placeholder = { Text("Pesquisar...", color = Color.White) },
+                            shape = RoundedCornerShape(50),
+                            colors = TextFieldDefaults.colors(
+                                unfocusedContainerColor = Vinho,
+                                focusedContainerColor = Vinho,
+                                unfocusedIndicatorColor = Color.Transparent,
+                                focusedIndicatorColor = Rosinha,
+                                unfocusedTextColor = Color.White,
+                                focusedTextColor = Color.White,
+                                cursorColor = Color.White,
+                                unfocusedPlaceholderColor = Color.White,
+                                focusedPlaceholderColor = Color.White,
+                            )
                         )
-                    )
+
+                        Button(
+                            onClick = { navController.navigate("telaListaPersonalizadaCriar") },
+                            modifier = Modifier.size(56.dp),
+                            shape = CircleShape,
+                            colors = ButtonDefaults.buttonColors(containerColor = Vinho),
+                            contentPadding = PaddingValues(0.dp)
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Add,
+                                contentDescription = "Adicionar Lista",
+                                tint = Color.White,
+                                modifier = Modifier.size(30.dp)
+                            )
+                        }
+                    }
+
+                    Spacer(Modifier.height(20.dp))
 
                     Button(
-                        onClick = { navController.navigate("telaListaPersonalizadaCriar") },
-                        modifier = Modifier.size(56.dp),
-                        shape = CircleShape,
-                        colors = ButtonDefaults.buttonColors(containerColor = Vinho),
-                        contentPadding = PaddingValues(0.dp)
+                        colors = ButtonDefaults.buttonColors(containerColor = Bege),
+                        shape = RoundedCornerShape(17.dp),
+                        border = BorderStroke(2.dp, Color.Transparent),
+                        onClick = { /* TODO: Navegar para a tela de listas realizadas */ },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 45.dp)
+                            .height(50.dp)
                     ) {
-                        Icon(
-                            imageVector = Icons.Default.Add,
-                            contentDescription = "Adicionar Lista",
-                            tint = Color.White,
-                            modifier = Modifier.size(30.dp)
+                        Text(
+                            text = "Provas e listas já realizadas",
+                            color = Vinho,
+                            fontSize = 17.sp
                         )
                     }
-                }
 
-                Spacer(Modifier.height(20.dp))
+                    Spacer(Modifier.height(20.dp))
 
-                Button(
-                    colors = ButtonDefaults.buttonColors(containerColor = Bege),
-                    shape = RoundedCornerShape(17.dp),
-                    border = BorderStroke(2.dp, Color.Transparent),
-                    onClick = { /* TODO: Navegar para a tela de listas realizadas */ },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 45.dp)
-                        .height(50.dp)
-                ) {
-                    Text(
-                        text = "Provas e listas já realizadas",
-                        color = Vinho,
-                        fontSize = 17.sp
-                    )
-                }
-
-                Spacer(Modifier.height(20.dp))
-
-                LazyVerticalGrid(
-                    columns = GridCells.Fixed(2),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 45.dp),
-                    horizontalArrangement = Arrangement.spacedBy(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(16.dp),
-                    contentPadding = PaddingValues(bottom = 80.dp)
-                ) {
-                    items(provasFiltradas) { prova ->
-                        Button(
-                            onClick = { navController.navigate("telaListasProvasResolucao") },
-                            modifier = Modifier
-                                .height(90.dp)
-                                .fillMaxWidth(),
-                            shape = RoundedCornerShape(10.dp),
-                            colors = ButtonDefaults.buttonColors(containerColor = Rosinha)
-                        ) {
-                            Column(
-                                horizontalAlignment = Alignment.CenterHorizontally,
-                                verticalArrangement = Arrangement.Center
+                    LazyVerticalGrid(
+                        columns = GridCells.Fixed(2),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 45.dp),
+                        horizontalArrangement = Arrangement.spacedBy(16.dp),
+                        verticalArrangement = Arrangement.spacedBy(16.dp)
+                        // Não é mais necessário padding de conteúdo no bottom,
+                        // pois o Scaffold já cuida disso.
+                    ) {
+                        items(provasFiltradas) { prova ->
+                            Button(
+                                onClick = { navController.navigate("telaListasProvasResolucao") },
+                                modifier = Modifier
+                                    .height(90.dp)
+                                    .fillMaxWidth(),
+                                shape = RoundedCornerShape(10.dp),
+                                colors = ButtonDefaults.buttonColors(containerColor = Rosinha)
                             ) {
-                                Text(
-                                    text = prova.titulo,
-                                    color = Color.White,
-                                    fontSize = 17.sp,
-                                    textAlign = TextAlign.Center
-                                )
-                                Text(
-                                    text = prova.categoria,
-                                    color = Color.White,
-                                    fontSize = 14.sp,
-                                    textAlign = TextAlign.Center
-                                )
+                                Column(
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    verticalArrangement = Arrangement.Center
+                                ) {
+                                    Text(
+                                        text = prova.titulo,
+                                        color = Color.White,
+                                        fontSize = 17.sp,
+                                        textAlign = TextAlign.Center
+                                    )
+                                    Text(
+                                        text = prova.categoria,
+                                        color = Color.White,
+                                        fontSize = 14.sp,
+                                        textAlign = TextAlign.Center
+                                    )
+                                }
                             }
                         }
                     }
                 }
-            }
-            Box(modifier = Modifier.align(Alignment.BottomCenter)) {
-                //Footer(navController)
             }
         }
     }

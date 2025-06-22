@@ -18,6 +18,10 @@ class ListaPersonalizadaViewModel : ViewModel() {
     private val _mensagem = mutableStateOf("")
     val mensagem: State<String> = _mensagem
 
+    fun limparMensagem() {
+        _mensagem.value = ""
+    }
+
     fun listarListas() {
         viewModelScope.launch {
             try {
@@ -28,11 +32,20 @@ class ListaPersonalizadaViewModel : ViewModel() {
         }
     }
 
+    fun buscarLista(id: Int) {
+        viewModelScope.launch {
+            try {
+                _listaDetalhe.value = RetrofitClient.apiService.buscarListaPersonalizada(id)
+            } catch (e: Exception) {
+                _mensagem.value = "Erro ao buscar lista: ${e.message}"
+            }
+        }
+    }
+
     fun criarLista(lista: ListaPersonalizada, onSucesso: () -> Unit) {
         viewModelScope.launch {
             try {
-                val novaLista = RetrofitClient.apiService.criarListaPersonalizada(lista)
-                _listas.value += novaLista
+                RetrofitClient.apiService.criarListaPersonalizada(lista)
                 _mensagem.value = "Lista criada com sucesso."
                 onSucesso()
             } catch (e: Exception) {
@@ -40,5 +53,28 @@ class ListaPersonalizadaViewModel : ViewModel() {
             }
         }
     }
-    // Adicione aqui os métodos para buscar, atualizar e deletar listas, se necessário.
+
+    fun atualizarLista(id: Int, lista: ListaPersonalizada, onSucesso: () -> Unit) {
+        viewModelScope.launch {
+            try {
+                RetrofitClient.apiService.atualizarListaPersonalizada(id, lista)
+                _mensagem.value = "Lista atualizada com sucesso."
+                onSucesso()
+            } catch (e: Exception) {
+                _mensagem.value = "Erro ao atualizar lista: ${e.message}"
+            }
+        }
+    }
+
+    fun deletarLista(id: Int, onSucesso: () -> Unit) {
+        viewModelScope.launch {
+            try {
+                RetrofitClient.apiService.deletarListaPersonalizada(id)
+                _mensagem.value = "Lista deletada com sucesso."
+                onSucesso()
+            } catch (e: Exception) {
+                _mensagem.value = "Erro ao deletar lista: ${e.message}"
+            }
+        }
+    }
 }

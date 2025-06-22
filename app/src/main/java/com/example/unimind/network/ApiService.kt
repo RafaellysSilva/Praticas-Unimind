@@ -1,7 +1,6 @@
 import com.example.unimind.data.Competicao
 import com.example.unimind.data.Flashcard
 import com.example.unimind.data.ListaPersonalizada
-import com.example.unimind.data.Prova
 import com.example.unimind.data.Questao
 import com.example.unimind.data.UsuarioCadastro
 import retrofit2.Response
@@ -31,28 +30,22 @@ interface ApiService {
     @DELETE("/usuarios/del/{id}")
     suspend fun deletarUsuario(@Path("id") id: Int): Response<Unit>
 
-    // Endpoints de Prova
-    @GET("/provas")
-    suspend fun listarProvas(): List<Prova>
+// Endpoints de Questão
 
-    @GET("/provas/{id}")
-    suspend fun buscarProva(@Path("id") id: Int): Prova?
-
-    @POST("/provas/add")
-    suspend fun criarProva(@Body prova: Prova): Prova
-
-    @PUT("/provas/{id}")
-    suspend fun atualizarProva(@Path("id") id: Int, @Body prova: Prova): Response<Unit>
-
-    @DELETE("/provas/del/{id}")
-    suspend fun deletarProva(@Path("id") id: Int): Response<Unit>
-
-    // Endpoints de Questão
     @GET("/questoes")
     suspend fun listarQuestoes(): List<Questao>
 
     @GET("/questoes/{id}")
     suspend fun buscarQuestao(@Path("id") id: Int): Questao?
+
+    @GET("/questoes/ano/{ano}")
+    suspend fun listarQuestoesPorAno(@Path("ano") ano: Int): List<Questao>
+
+    @GET("/questoes/categoria/{idCategoria}")
+    suspend fun listarQuestoesPorCategoria(@Path("idCategoria") idCategoria: Int): List<Questao>
+
+    @GET("/questoes/fonte/{fonte}")
+    suspend fun listarQuestoesPorFonte(@Path("fonte") fonte: String): List<Questao>
 
     @POST("/questoes/add")
     suspend fun criarQuestao(@Body questao: Questao): Questao

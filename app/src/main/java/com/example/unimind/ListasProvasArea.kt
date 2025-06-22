@@ -78,7 +78,6 @@ fun ListasProvasHeader() {
 }
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ListasProvasArea(navController: NavController) {
 

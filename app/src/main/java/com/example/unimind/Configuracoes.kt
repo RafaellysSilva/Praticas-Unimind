@@ -1,363 +1,357 @@
 package com.example.unimind
 
-import com.example.unimind.viewmodel.LoginResult
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
+import Usuario
+import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ArrowBack
-import androidx.compose.material.icons.rounded.ArrowForward
-import androidx.compose.material.icons.rounded.Menu
-import androidx.compose.material.icons.rounded.Search
-import androidx.compose.material3.BottomAppBar
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExposedDropdownMenuBox
-import androidx.compose.material3.ExposedDropdownMenuDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Alignment.Companion.BottomCenter
-import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Color.Companion.Black
-import androidx.compose.ui.graphics.Color.Companion.Blue
-import androidx.compose.ui.graphics.Color.Companion.White
-import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.unimind.ui.theme.Bege
 import com.example.unimind.ui.theme.Nude
 import com.example.unimind.ui.theme.UnimindTheme
 import com.example.unimind.ui.theme.Vinho
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import com.example.unimind.ui.theme.Azul
-import com.example.unimind.ui.theme.Rosinha
-import java.util.Calendar
-import android.util.Log
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.OutlinedTextFieldDefaults
-import androidx.compose.material3.TextButton
-import androidx.compose.material3.TextFieldDefaults
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.ui.platform.LocalContext
 import com.example.unimind.viewmodel.UsuarioViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Configuracoes(navController: NavController, viewModel: UsuarioViewModel) {
     val usuario by viewModel.usuarioDetalhe
+    val context = LocalContext.current
 
-    var user by remember(usuario) { mutableStateOf(usuario?.nome ?: "") }
+    var nome by remember(usuario) { mutableStateOf(usuario?.nome ?: "") }
     var email by remember(usuario) { mutableStateOf(usuario?.email ?: "") }
-    var senha by remember(usuario) { mutableStateOf("") }
-    var nivel by remember(usuario) { mutableStateOf(usuario?.idNivel?.toString() ?: "") }
+    var senha by remember { mutableStateOf("") }
+    var nivel by remember(usuario) { mutableStateOf(usuario?.idNivel?.toString() ?: "Não definido") }
 
-    LaunchedEffect(viewModel.usuarioDetalhe.value) {
-        viewModel.usuarioDetalhe.value?.let { usuario ->
-            user = usuario.nome
-            email = usuario.email
-            senha = usuario.senha
-            nivel = usuario.idNivel.toString()
-        }
-    }
-
-    val inter = FontFamily(
-        Font(R.font.inter)
-    )
+    var dificuldade by remember { mutableStateOf("Média") }
+    var facilidade by remember { mutableStateOf("Normal") }
+    var tempoListas by remember { mutableStateOf("30 minutos") }
 
     UnimindTheme {
-        //É o cabeçário da página
-        Surface(
-            modifier = Modifier.fillMaxSize(),
-            color = Nude
-        ) {
-            Column(
-                Modifier
-                    .fillMaxSize()
-                    .verticalScroll(rememberScrollState()),
-                verticalArrangement = Arrangement.Top,
-                //horizontalAlignment = Alignment.CenterHorizontally
-            ) {
+        Scaffold(
+            containerColor = Nude,
+            topBar = {
+                ConfigTopAppBar(usuario?.nome ?: "Usuário")
+            },
+            bottomBar = {
+                Footer(navController = navController)
+            }
+        ) { innerPadding ->
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.TopCenter) {
+                // Imagem de Perfil Estática
                 Box(
-                    //mexer no alinhamento do texto e da imagem
-                    Modifier
-                        .height(95.dp)
-                        .background(Vinho)
-                        .fillMaxWidth(),
-                    contentAlignment = Center
-
+                    modifier = Modifier
+                        .padding(top = innerPadding.calculateTopPadding() + 16.dp), // Ajuste o valor para a posição desejada
+                    contentAlignment = Alignment.Center
                 ) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically, // Alinha os itens no centro verticalmente
-                        //horizontalArrangement = Arrangement.Center, // Centraliza na horizontal
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(0.dp, 15.dp, 0.dp, 0.dp)
-                    ) {
-                        Image(
-                            painterResource(id = R.drawable.bichinho),
-                            contentDescription = null,
-                            modifier = Modifier
-                                .padding(start = 5.dp, end = 170.dp)
-                                .width(50.dp)
-                                .height(50.dp)
-                        )
-                        Text(
-                            text = "Configurações",
-                            fontFamily = inter,
-                            color = White,
-                            fontSize = 20.sp,
-                            /*modifier = Modifier
-                                .padding(start = 10.dp)*/
-                        )
-                        Image(
-                            painterResource(id = R.drawable.engranagem),
-                            contentDescription = null,
-                            modifier = Modifier
-                                .height(30.dp)
-                                .width(30.dp)
-                                .padding(start = 10.dp)
-                        )
-                    }
-                    Box(
-                        Modifier
-                            .padding(top = 40.dp)
-                            .fillMaxWidth()
-                    ) {
-                        Image(
-                            painterResource(id = R.drawable.ic_launcher_foreground),
-                            contentDescription = null,
-                            modifier = Modifier
-                                .clip(shape = CircleShape)
-                                .align(BottomCenter)
-                                .background(Blue)
-                        )
-                    }
+                    ProfileImageWithEdit()
                 }
-                //corpo da tela
-                Spacer(Modifier.height(70.dp))
-                Box{
-                    Column{
-                        Text(text = "Perfil",
-                            fontSize = 23.sp,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .background(Color(0xFFf3d1c2))
-                                .padding(top = 5.dp, bottom = 5.dp, start = 10.dp)
+
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(innerPadding)
+                        .padding(top = 180.dp) // Espaço para a imagem e um pouco mais
+                        .verticalScroll(rememberScrollState()),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = usuario?.nome ?: "Usuário",
+                        fontSize = 24.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Vinho,
+                        modifier = Modifier.padding(top = 70.dp) // Espaçamento abaixo da imagem
+                    )
+                    Spacer(modifier = Modifier.height(24.dp))
+
+                    SectionTitle("Perfil")
+                    ConfigSection {
+                        InfoRow(label = "Usuário", value = nome, onValueChange = { nome = it })
+                        InfoRow(label = "Nome", value = nome, onValueChange = { nome = it })
+                        InfoRow(label = "E-mail", value = email, onValueChange = { email = it })
+                        InfoRow(label = "Senha", value = senha, onValueChange = { senha = it }, isPassword = true)
+                        InfoRow(label = "Nível", value = nivel, onValueChange = {}, isEditable = false)
+                    }
+
+                    SectionTitle("Preferências")
+                    ConfigSection {
+                        PreferenceRow(
+                            label = "Dificuldade",
+                            selectedValue = dificuldade,
+                            options = listOf("Fácil", "Média", "Difícil"),
+                            onSelectionChanged = { dificuldade = it }
                         )
-                        Spacer(Modifier.height(15.dp))
-
-                        Row{
-                            Text("Usuário:", fontSize = 20.sp, fontWeight = FontWeight.Bold,
-                                modifier = Modifier
-                                    .padding(start = 10.dp)
-                            )
-                            OutlinedTextField(
-                                value = user,
-                                onValueChange = {user = it},
-                                //modifier = Modifier
-                                //.width(280.dp)
-                                //.height(10.dp)
-                                //.padding(start = 20.dp, top = 10.dp),
-                                colors = TextFieldDefaults.outlinedTextFieldColors(
-                                    focusedTextColor = Color.Black, // Cor do texto quando em foco
-                                    unfocusedTextColor = Color.Black,  // Cor do texto quando não está em foco
-                                    focusedBorderColor = Color.Black,
-                                    unfocusedBorderColor = Color.Black,
-                                    cursorColor = Color.Black
-                                )
-                            )
-                        }
-
-                        Spacer(Modifier.height(15.dp))
-
-                        Row{
-                            Text("E-mail:", fontSize = 20.sp, fontWeight = FontWeight.Bold,
-                                modifier = Modifier
-                                    .padding(start = 10.dp, end = 12.dp)
-                            )
-                            OutlinedTextField(
-                                value = email,
-                                onValueChange = {email = it},
-                                //modifier = Modifier
-                                //  .width(280.dp)
-                                //.height(10.dp)
-                                //.padding(start = 20.dp, top = 10.dp),
-                                colors = TextFieldDefaults.outlinedTextFieldColors(
-                                    focusedTextColor = Color.Black, // Cor do texto quando em foco
-                                    unfocusedTextColor = Color.Black,  // Cor do texto quando não está em foco
-                                    focusedBorderColor = Color.Black,
-                                    unfocusedBorderColor = Color.Black,
-                                    cursorColor = Color.Black
-                                )
-                            )
-                        }
-
-                        Spacer(Modifier.height(15.dp))
-
-                        Row{
-                            Text("Senha:", fontSize = 20.sp, fontWeight = FontWeight.Bold,
-                                modifier = Modifier
-                                    .padding(start = 10.dp, end = 14.dp)
-                            )
-                            OutlinedTextField(
-                                value = senha,
-                                onValueChange = {senha = it},
-                                //modifier = Modifier
-                                //  .width(280.dp)
-                                //.height(10.dp)
-                                //.padding(start = 20.dp, top = 10.dp),
-                                colors = TextFieldDefaults.outlinedTextFieldColors(
-                                    focusedTextColor = Color.Black, // Cor do texto quando em foco
-                                    unfocusedTextColor = Color.Black,  // Cor do texto quando não está em foco
-                                    focusedBorderColor = Color.Black,
-                                    unfocusedBorderColor = Color.Black,
-                                    cursorColor = Color.Black
-                                )
-                            )
-                        }
-
-                        Spacer(Modifier.height(15.dp))
-
-                        Row{
-                            Text("Nível:", fontSize = 20.sp, fontWeight = FontWeight.Bold,
-                                modifier = Modifier
-                                    .padding(start = 10.dp, end = 24.dp)
-                            )
-                            OutlinedTextField(
-                                value = nivel,
-                                onValueChange = { novoValor -> nivel = novoValor },
-                                colors = OutlinedTextFieldDefaults.colors(
-                                    focusedTextColor = Color.Black,
-                                    unfocusedTextColor = Color.Black,
-                                    focusedBorderColor = Color.Black,
-                                    unfocusedBorderColor = Color.Black,
-                                    cursorColor = Color.Black
-                                )
-                            )
-                        }
-
-                        Spacer(Modifier.height(20.dp))
-                        Text(text = "Outros",
-                            fontSize = 23.sp,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .background(Color(0xFFf3d1c2))
-                                .padding(start = 10.dp, top = 5.dp, bottom = 5.dp)
+                        PreferenceRow(
+                            label = "Facilidade",
+                            selectedValue = facilidade,
+                            options = listOf("Baixa", "Normal", "Alta"),
+                            onSelectionChanged = { facilidade = it }
                         )
+                        PreferenceRow(
+                            label = "Tempo em resolução de listas",
+                            selectedValue = tempoListas,
+                            options = listOf("15 minutos", "30 minutos", "45 minutos", "60 minutos"),
+                            onSelectionChanged = { tempoListas = it }
+                        )
+                    }
 
-                        Spacer(Modifier.height(20.dp))
-
-                        Row{
-                            Text("Excluir conta:", fontSize = 20.sp, fontWeight = FontWeight.Bold,
-                                modifier = Modifier
-                                    .padding(start = 10.dp, end = 23.dp, top = 8.dp)
-                            )
-                            OutlinedButton (
-                                onClick = {
-                                    viewModel.usuarioDetalhe.value?.idUsuario?.let { id ->
-                                        viewModel.deletarUsuario(id)
-                                        // Adicione a navegação para a tela de bloqueio após excluir
-                                        navController.navigate("telaBloqueio") {
-                                            popUpTo(0) // Limpa toda a pilha de navegação
-                                        }
-                                    }
-                                },
-
-                                //border = BorderStroke(2.dp, Vinho),
-                                modifier = Modifier
-                                    .width(200.dp)
-                                    .height(40.dp)
-                            ) {
-                                Image(
-                                    painterResource(id = R.drawable.lixeira),
-                                    contentDescription = null
-                                )
-                            }
-                        }
-
-                        Spacer(Modifier.height(10.dp))
-
-                        Row{
-                            Text("Nosso contato:", fontSize = 20.sp, fontWeight = FontWeight.Bold,
-                                modifier = Modifier
-                                    .padding(start = 10.dp, end = 23.dp, top = 8.dp)
-                            )
-                            Text(text = "unimind@gmail.com", fontSize = 20.sp, modifier = Modifier
-                                .padding(top = 7.dp))
-                        }
-
-                        Spacer(Modifier.height(15.dp))
-
-                        Row(
-                            Modifier.padding(start = 120.dp)
-                        ){
-                            OutlinedButton(
-                                onClick = {
-                                    viewModel.usuarioDetalhe.value?.let { currentUser ->
-                                        viewModel.atualizarUsuario(
-                                            user,
-                                            email,
-                                            senha, // Considere como gerenciar a atualização de senha
-                                            nivel.toInt() ?: currentUser.idNivel
-                                        )
-                                    }
+                    SectionTitle("Outros")
+                    ConfigSection {
+                        OtherOptionRow(text = "Excluir conta") {
+                            viewModel.usuarioDetalhe.value?.idUsuario?.let { id ->
+                                viewModel.deletarUsuario(id)
+                                Toast.makeText(context, "Conta excluída", Toast.LENGTH_SHORT).show()
+                                navController.navigate("telaBloqueio") {
+                                    popUpTo(navController.graph.startDestinationId) { inclusive = true }
                                 }
-                            ) {
-                                Text(text = "Salvar alterações", color = Black)
                             }
+                        }
+                        OtherOptionRow(text = "Nosso contato") {
+                            Toast.makeText(context, "unimind@gmail.com", Toast.LENGTH_SHORT).show()
                         }
                     }
+
+                    Spacer(modifier = Modifier.height(24.dp))
+
+                    Button(
+                        onClick = {
+                            viewModel.usuarioDetalhe.value?.let { currentUser ->
+                                viewModel.atualizarUsuario(
+                                    nome = nome,
+                                    email = email,
+                                    senha = if (senha.isNotBlank()) senha else currentUser.senha,
+                                    idNivel = nivel.toIntOrNull() ?: currentUser.idNivel
+                                )
+                                Toast.makeText(context, "Alterações salvas!", Toast.LENGTH_SHORT).show()
+                            }
+                        },
+                        shape = RoundedCornerShape(12.dp),
+                        colors = ButtonDefaults.buttonColors(containerColor = Bege),
+                        border = BorderStroke(1.dp, Vinho),
+                        modifier = Modifier
+                            .width(220.dp)
+                            .height(48.dp)
+                    ) {
+                        Text("Salvar alterações", color = Vinho, fontWeight = FontWeight.Bold)
+                    }
+
+                    Spacer(modifier = Modifier.height(24.dp))
                 }
             }
         }
     }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun ConfigTopAppBar(userName: String) {
+    TopAppBar(
+        title = {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                IconButton(onClick = { /* Ação de voltar se necessário */ }) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.bichinho),
+                        contentDescription = "Mascote",
+                        modifier = Modifier.size(40.dp),
+                        tint = Color.Unspecified
+                    )
+                }
+                Text("Configurações", color = Nude, fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                IconButton(onClick = {}) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.engrenagem),
+                        contentDescription = "Ícone de configurações",
+                        tint = Nude,
+                        modifier = Modifier.size(30.dp)
+                    )
+                }
+            }
+        },
+        colors = TopAppBarDefaults.topAppBarColors(containerColor = Vinho)
+    )
+}
+
+@Composable
+private fun ProfileImageWithEdit() {
+    Box(contentAlignment = Alignment.Center, modifier = Modifier.size(120.dp)) {
+        Image(
+            painter = painterResource(id = R.drawable.user),
+            contentDescription = "Foto de perfil",
+            modifier = Modifier
+                .size(120.dp)
+                .clip(CircleShape)
+                .background(Color.LightGray)
+                .border(BorderStroke(4.dp, Nude), CircleShape)
+        )
+        Box(
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
+                .padding(4.dp)
+                .size(32.dp)
+                .clip(CircleShape)
+                .background(Vinho)
+                .border(BorderStroke(2.dp, Nude), CircleShape)
+                .clickable { /* Ação de editar foto */ },
+            contentAlignment = Alignment.Center
+        ) {
+            Icon(
+                imageVector = Icons.Default.Edit,
+                contentDescription = "Editar foto",
+                tint = Nude,
+                modifier = Modifier.size(18.dp)
+            )
+        }
+    }
+}
+
+@Composable
+private fun SectionTitle(title: String) {
+    Text(
+        text = title,
+        fontSize = 18.sp,
+        fontWeight = FontWeight.Bold,
+        color = Vinho,
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(Bege)
+            .padding(vertical = 8.dp, horizontal = 16.dp)
+    )
+}
+
+@Composable
+private fun ConfigSection(content: @Composable ColumnScope.() -> Unit) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 16.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
+        content = content
+    )
+}
+
+@Composable
+private fun InfoRow(
+    label: String,
+    value: String,
+    onValueChange: (String) -> Unit,
+    isEditable: Boolean = true,
+    isPassword: Boolean = false
+) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Text(text = label, fontWeight = FontWeight.Bold, color = Vinho)
+        OutlinedTextField(
+            value = value,
+            onValueChange = onValueChange,
+            enabled = isEditable,
+            singleLine = true,
+            visualTransformation = PasswordVisualTransformation(),
+            trailingIcon = { if (!isEditable) Icon(Icons.Default.Lock, contentDescription = "Bloqueado") },
+            colors = TextFieldDefaults.colors(
+                unfocusedContainerColor = Color.LightGray.copy(alpha = 0.5f),
+                focusedContainerColor = Color.White,
+                disabledContainerColor = Color.LightGray.copy(alpha = 0.5f),
+                unfocusedIndicatorColor = Color.Transparent,
+                focusedIndicatorColor = Vinho
+            ),
+            shape = RoundedCornerShape(8.dp),
+            modifier = Modifier.width(200.dp)
+        )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun PreferenceRow(
+    label: String,
+    selectedValue: String,
+    options: List<String>,
+    onSelectionChanged: (String) -> Unit
+) {
+    var expanded by remember { mutableStateOf(false) }
+
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Text(text = label, fontWeight = FontWeight.Bold, color = Vinho)
+        ExposedDropdownMenuBox(
+            expanded = expanded,
+            onExpandedChange = { expanded = !expanded }
+        ) {
+            OutlinedTextField(
+                value = selectedValue,
+                onValueChange = {},
+                readOnly = true,
+                trailingIcon = { Icon(Icons.Default.ArrowDropDown, contentDescription = null) },
+                colors = TextFieldDefaults.colors(
+                    unfocusedContainerColor = Color.LightGray.copy(alpha = 0.5f),
+                    focusedContainerColor = Color.White,
+                    unfocusedIndicatorColor = Color.Transparent,
+                    focusedIndicatorColor = Vinho
+                ),
+                shape = RoundedCornerShape(8.dp),
+                modifier = Modifier
+                    .menuAnchor()
+                    .width(200.dp)
+            )
+            ExposedDropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
+                options.forEach { option ->
+                    DropdownMenuItem(
+                        text = { Text(option) },
+                        onClick = {
+                            onSelectionChanged(option)
+                            expanded = false
+                        }
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun OtherOptionRow(text: String, onClick: () -> Unit) {
+    Text(
+        text = text,
+        fontWeight = FontWeight.Bold,
+        color = Vinho,
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = onClick)
+            .padding(vertical = 8.dp)
+    )
 }

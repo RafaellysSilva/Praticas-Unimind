@@ -41,6 +41,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.rememberNavController
 import com.example.unimind.ui.theme.Bege
 import com.example.unimind.ui.theme.Nude
@@ -48,6 +49,7 @@ import com.example.unimind.ui.theme.UnimindTheme
 import com.example.unimind.ui.theme.Vinho
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import com.example.unimind.data.Flashcard
 import com.example.unimind.ui.theme.Rosinha
 import com.example.unimind.viewmodel.FlashcardViewModel
@@ -83,14 +85,40 @@ fun AppNavigation(navController: NavHostController, usuarioViewModel: UsuarioVie
         composable("telaInicial") { Inicial(navController, usuarioViewModel) }
         composable("telaConfiguracoes") { Configuracoes(navController, usuarioViewModel) }
         composable("telaFlashcardsArea") { FlashcardsArea(navController, flashcardViewModel) }
-        composable("telaFlashcardsPergunta?flashcardId={flashcardId}") { backStackEntry ->
-            val flashcardId = backStackEntry.arguments?.getString("flashcardId")?.toIntOrNull()
-            FlashcardsPergunta(navController, flashcardId, flashcardViewModel)
+        composable("telaFlashcards/{flashcardId}",
+            arguments = listOf(navArgument("flashcardId") {
+                type = NavType.IntType
+                defaultValue = -1
+            })
+        ) { backStackEntry ->
+            val flashcardId = backStackEntry.arguments?.getInt("flashcardId")
+            FlashcardsPergunta(
+                navController,
+                flashcardId = if (flashcardId == -1) null else flashcardId,
+                viewModel = flashcardViewModel
+            )
         }
-        composable("telaFlashcardsResposta?pergunta={pergunta}&flashcardId={flashcardId}") { backStackEntry ->
+        composable(
+            route = "telaFlashcardsResposta/{flashcardId}?pergunta={pergunta}",
+            arguments = listOf(
+                navArgument("flashcardId") {
+                    type = NavType.IntType
+                    defaultValue = -1
+                },
+                navArgument("pergunta") {
+                    type = NavType.StringType
+                }
+            )
+        ) { backStackEntry ->
+            val flashcardId = backStackEntry.arguments?.getInt("flashcardId")
             val pergunta = backStackEntry.arguments?.getString("pergunta") ?: ""
-            val flashcardId = backStackEntry.arguments?.getString("flashcardId")?.toIntOrNull()
-            FlashcardsResposta(navController, pergunta, flashcardId, flashcardViewModel, usuarioViewModel)
+            FlashcardsResposta(
+                navController,
+                pergunta,
+                if (flashcardId == -1) null else flashcardId,
+                flashcardViewModel,
+                usuarioViewModel
+            )
         }
         composable("telaListasProvasArea") { ListasProvasArea(navController) }
         composable("telaListasProvasResolucao") { ListasProvasResolucao(navController) }

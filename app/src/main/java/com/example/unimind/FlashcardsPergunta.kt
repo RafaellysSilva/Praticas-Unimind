@@ -103,9 +103,8 @@ fun FlashcardsPergunta(
                     onClick = {
                         if (pergunta.isNotBlank()) {
                             val perguntaCodificada = URLEncoder.encode(pergunta, StandardCharsets.UTF_8.toString())
-                            val rota = "telaFlashcardsResposta?pergunta=$perguntaCodificada" +
-                                    (flashcardId?.let { "&flashcardId=$it" } ?: "")
-                            navController.navigate(rota)
+                            val idParaNavegar = flashcardId ?: -1
+                            navController.navigate("telaFlashcardsResposta/$idParaNavegar?pergunta=$perguntaCodificada")
                         } else {
                             Toast.makeText(context, "Por favor, insira uma pergunta.", Toast.LENGTH_SHORT).show()
                         }

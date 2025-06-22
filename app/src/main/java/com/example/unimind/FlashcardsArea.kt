@@ -31,7 +31,6 @@ import com.example.unimind.ui.theme.UnimindTheme
 import com.example.unimind.ui.theme.Vinho
 import com.example.unimind.viewmodel.FlashcardViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FlashcardsArea(navController: NavController, viewModel: FlashcardViewModel) {
     // Carrega a lista de flashcards quando a tela é iniciada
@@ -100,7 +99,7 @@ fun FlashcardsArea(navController: NavController, viewModel: FlashcardViewModel) 
                         )
 
                         Button(
-                            onClick = { navController.navigate("telaFlashcardsPergunta") },
+                            onClick = { navController.navigate("telaFlashcards/-1") },
                             modifier = Modifier.size(56.dp),
                             shape = CircleShape,
                             colors = ButtonDefaults.buttonColors(containerColor = Vinho),
@@ -130,7 +129,7 @@ fun FlashcardsArea(navController: NavController, viewModel: FlashcardViewModel) 
                         items(flashcardsFiltrados) { flashcard ->
                             FlashcardItem(flashcard = flashcard) {
                                 // Navega para a pergunta passando o ID do flashcard
-                                navController.navigate("telaFlashcardsPergunta/${flashcard.idFlashcard}")
+                                navController.navigate("telaFlashcards/${flashcard.idFlashcard}")
                             }
                         }
                     }

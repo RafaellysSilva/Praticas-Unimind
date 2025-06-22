@@ -129,13 +129,11 @@ app.MapGet("/questoes/fonte/{fonte}", async (string fonte, ApplicationDbContext 
 });
 
 // POST: /questoes (Criar uma nova questao com suas alternativas)
-app.MapPost("/questoes/add", async (Questao questao, ApplicationDbContext db) =>
+app.MapPost("/questoes/add", async (List<Questao> questoes, ApplicationDbContext db) =>
 {
-    // O Entity Framework irá automaticamente adicionar as alternativas
-    // que estão na coleção da questão
-    db.Questoes.Add(questao);
+    db.Questoes.AddRange(questoes);
     await db.SaveChangesAsync();
-    return Results.Created($"/questoes/{questao.IdQuestao}", questao);
+    return Results.Ok(questoes);
 });
 
 // PUT: /questoes/{id} (Atualizar uma questao existente e suas alternativas)

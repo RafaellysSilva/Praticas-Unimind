@@ -138,7 +138,17 @@ fun AppNavigation(navController: NavHostController, usuarioViewModel: UsuarioVie
             )
         }
         composable("telaListasProvasArea") { ListasProvasArea(navController, listaPersonalizadaViewModel, usuarioViewModel) }
-        composable("telaListasProvasResolucao") { ListasProvasResolucao(navController) }
+        composable(
+            route = "telaListasProvasResolucao/{listaId}",
+            arguments = listOf(navArgument("listaId") { type = NavType.IntType })
+        ) { backStackEntry ->
+            val listaId = backStackEntry.arguments?.getInt("listaId")
+            if (listaId != null) {
+                ListasProvasResolucao(navController = navController, listaId = listaId, listaPersonalizadaViewModel, questaoViewModel)
+            } else {
+                navController.popBackStack()
+            }
+        }
         composable("telaListaPersonalizadaCriar") { ListaPersonalizadaCriar(navController, usuarioViewModel, questaoViewModel, listaPersonalizadaViewModel) }
         composable("telaCompeticaoCriar") { CompeticaoCriar(navController, usuarioViewModel, competicaoViewModel) }
         composable("telaCompeticaoMomento") { CompeticaoMomento(navController) }

@@ -167,7 +167,7 @@ fun ListasProvasArea(navController: NavController, viewModel: ListaPersonalizada
                     ) {
                         items(listasFiltradas) { lista ->
                             Button(
-                                onClick = { navController.navigate("telaListasProvasResolucao") },
+                                onClick = { navController.navigate("telaListasProvasResolucao/${lista.idLista}") },
                                 modifier = Modifier
                                     .height(90.dp)
                                     .fillMaxWidth(),

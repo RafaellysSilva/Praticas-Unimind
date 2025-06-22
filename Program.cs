@@ -96,75 +96,79 @@ app.MapDelete("/usuarios/del/{id}", async (int id, ApplicationDbContext db) =>
     return Results.NoContent();
 });
 
-// QUESTOES
+// QUESTOES (Com alterações)
 
-// GET: /questoes (Listar todas as questoes)
+// GET: /questoes (Listar todas as questoes com suas alternativas)
 app.MapGet("/questoes", async (ApplicationDbContext db) =>
-    await db.Questoes.ToListAsync());
+    await db.Questoes.Include(q => q.Alternativas).ToListAsync());
 
-// GET: /questoes/{id} (Buscar uma questao por ID)
+// GET: /questoes/{id} (Buscar uma questao por ID com suas alternativas)
 app.MapGet("/questoes/{id}", async (int id, ApplicationDbContext db) =>
-    await db.Questoes.FindAsync(id) is Questao questao ? Results.Ok(questao) : Results.NotFound());
+    await db.Questoes.Include(q => q.Alternativas).FirstOrDefaultAsync(q => q.IdQuestao == id)
+        is Questao questao ? Results.Ok(questao) : Results.NotFound());
 
-// GET: /questoes/ano/{ano} (Listar questoes por ano)
+// GET: /questoes/ano/{ano} (Listar questoes por ano com suas alternativas)
 app.MapGet("/questoes/ano/{ano}", async (int ano, ApplicationDbContext db) =>
 {
-    var questoes = await db.Questoes.Where(q => q.Ano == ano).ToListAsync();
+    var questoes = await db.Questoes.Include(q => q.Alternativas).Where(q => q.Ano == ano).ToListAsync();
     return questoes.Any() ? Results.Ok(questoes) : Results.NotFound();
 });
 
-// GET: /questoes/categoria/{idCategoria} (Listar questoes por categoria)
+// GET: /questoes/categoria/{idCategoria} (Listar questoes por categoria com suas alternativas)
 app.MapGet("/questoes/categoria/{idCategoria}", async (int idCategoria, ApplicationDbContext db) =>
 {
-    var questoes = await db.Questoes.Where(q => q.IdCategoria == idCategoria).ToListAsync();
+    var questoes = await db.Questoes.Include(q => q.Alternativas).Where(q => q.IdCategoria == idCategoria).ToListAsync();
     return questoes.Any() ? Results.Ok(questoes) : Results.NotFound();
 });
 
-// GET: /questoes/fonte/{fonte} (Listar questoes por fonte)
+// GET: /questoes/fonte/{fonte} (Listar questoes por fonte com suas alternativas)
 app.MapGet("/questoes/fonte/{fonte}", async (string fonte, ApplicationDbContext db) =>
 {
-    var questoes = await db.Questoes.Where(q => q.Fonte == fonte).ToListAsync();
+    var questoes = await db.Questoes.Include(q => q.Alternativas).Where(q => q.Fonte == fonte).ToListAsync();
     return questoes.Any() ? Results.Ok(questoes) : Results.NotFound();
 });
 
-// POST: /questoes (Criar uma nova questao)
+// POST: /questoes (Criar uma nova questao com suas alternativas)
 app.MapPost("/questoes/add", async (Questao questao, ApplicationDbContext db) =>
 {
+    // O Entity Framework irá automaticamente adicionar as alternativas
+    // que estão na coleção da questão
     db.Questoes.Add(questao);
     await db.SaveChangesAsync();
     return Results.Created($"/questoes/{questao.IdQuestao}", questao);
 });
 
-// PUT: /questoes/{id} (Atualizar uma questao existente)
+// PUT: /questoes/{id} (Atualizar uma questao existente e suas alternativas)
 app.MapPut("/questoes/{id}", async (int id, Questao questaoAtualizada, ApplicationDbContext db) =>
-
 {
-    var questao = await db.Questoes.FindAsync(id);
+    // Busca a questão existente incluindo as alternativas
+    var questao = await db.Questoes.Include(q => q.Alternativas).FirstOrDefaultAsync(q => q.IdQuestao == id);
     if (questao is null) return Results.NotFound();
 
-    if (questaoAtualizada.Ano != null)
-        questao.Ano = questaoAtualizada.Ano;
+    // Atualiza as propriedades da questão
+    questao.Ano = questaoAtualizada.Ano;
+    questao.IdCategoria = questaoAtualizada.IdCategoria;
+    questao.Fonte = questaoAtualizada.Fonte;
+    questao.Pergunta = questaoAtualizada.Pergunta;
 
-    if (questaoAtualizada.IdCategoria != null)
-        questao.IdCategoria = questaoAtualizada.IdCategoria;
+    // Remove as alternativas que não vieram na requisição
+    db.Alternativas.RemoveRange(questao.Alternativas);
 
-    if (questaoAtualizada.Fonte != null)
-        questao.Fonte = questaoAtualizada.Fonte;
-
-    if (questaoAtualizada.Pergunta != null)
-        questao.Pergunta = questaoAtualizada.Pergunta;
-
-    if (questaoAtualizada.Resposta != null)
-        questao.Resposta = questaoAtualizada.Resposta;
+    // Adiciona as novas alternativas da requisição
+    questao.Alternativas = questaoAtualizada.Alternativas;
 
     await db.SaveChangesAsync();
     return Results.NoContent();
 });
-// DELETE: /questoes/{id} (Excluir uma questao)
+
+// DELETE: /questoes/{id} (Excluir uma questao e suas alternativas em cascata)
 app.MapDelete("/questoes/del/{id}", async (int id, ApplicationDbContext db) =>
 {
     var questao = await db.Questoes.FindAsync(id);
     if (questao is null) return Results.NotFound();
+
+    // O banco de dados deve ser configurado para deletar em cascata,
+    // ou você pode carregar e remover as alternativas manualmente.
     db.Questoes.Remove(questao);
     await db.SaveChangesAsync();
     return Results.NoContent();

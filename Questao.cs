@@ -1,4 +1,4 @@
-// rafaellyssilva/praticas-unimind/Praticas-Unimind-API/Questao.cs
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -22,6 +22,15 @@ public class Questao
     [Column("questao")]
     public string Pergunta { get; set; }
 
-    [Column("resposta")]
-    public string Resposta { get; set; }
+    // O campo "Resposta" foi removido. A resposta correta será indicada
+    // pelo campo "Correta" na classe Alternativa.
+
+    // Adiciona a relação com as alternativas
+    public virtual ICollection<Alternativa> Alternativas { get; set; }
+
+    // Inicializa a coleção para evitar erros de referência nula
+    public Questao()
+    {
+        Alternativas = new HashSet<Alternativa>();
+    }
 }

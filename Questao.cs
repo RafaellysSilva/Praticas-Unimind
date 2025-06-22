@@ -1,3 +1,4 @@
+// rafaellyssilva/praticas-unimind/Praticas-Unimind-API/Questao.cs
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -6,14 +7,17 @@ public class Questao
 {
     [Key]
     [Column("idQuestao")]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)] 
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int IdQuestao { get; set; }
 
-    [Column("idProva")]
-    public int IdProva { get; set; }
+    [Column("ano")]
+    public int Ano { get; set; }
 
     [Column("idCategoria")]
     public int IdCategoria { get; set; }
+
+    [Column("fonte")]
+    public string Fonte { get; set; }
 
     [Column("questao")]
     public string Pergunta { get; set; }

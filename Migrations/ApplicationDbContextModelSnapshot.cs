@@ -92,13 +92,13 @@ namespace UnimindAPI.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("ano");
 
+                    b.Property<string>("Fonte")
+                        .HasColumnType("text")
+                        .HasColumnName("fonte");
+
                     b.Property<int>("IdCategoria")
                         .HasColumnType("integer")
                         .HasColumnName("idCategoria");
-
-                    b.Property<int?>("IdFonte")
-                        .HasColumnType("integer")
-                        .HasColumnName("idFonte");
 
                     b.Property<int>("IdUsuario")
                         .HasColumnType("integer")
@@ -107,36 +107,6 @@ namespace UnimindAPI.Migrations
                     b.HasKey("IdLista");
 
                     b.ToTable("ListaPersonalizada", "unimind");
-                });
-
-            modelBuilder.Entity("Prova", b =>
-                {
-                    b.Property<int>("IdProva")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasColumnName("idProva");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("IdProva"));
-
-                    b.Property<int>("Ano")
-                        .HasColumnType("integer")
-                        .HasColumnName("ano");
-
-                    b.Property<string>("Fase")
-                        .HasColumnType("text")
-                        .HasColumnName("fase");
-
-                    b.Property<int>("IdFonte")
-                        .HasColumnType("integer")
-                        .HasColumnName("idFonte");
-
-                    b.Property<int>("QntdQuestoes")
-                        .HasColumnType("integer")
-                        .HasColumnName("qntdQuestoes");
-
-                    b.HasKey("IdProva");
-
-                    b.ToTable("Prova", "unimind");
                 });
 
             modelBuilder.Entity("Questao", b =>
@@ -148,13 +118,18 @@ namespace UnimindAPI.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("IdQuestao"));
 
+                    b.Property<int>("Ano")
+                        .HasColumnType("integer")
+                        .HasColumnName("ano");
+
+                    b.Property<string>("Fonte")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("fonte");
+
                     b.Property<int>("IdCategoria")
                         .HasColumnType("integer")
                         .HasColumnName("idCategoria");
-
-                    b.Property<int>("IdProva")
-                        .HasColumnType("integer")
-                        .HasColumnName("idProva");
 
                     b.Property<string>("Pergunta")
                         .IsRequired()

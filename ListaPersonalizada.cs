@@ -1,3 +1,4 @@
+// rafaellyssilva/praticas-unimind/Praticas-Unimind-API/ListaPersonalizada.cs
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -6,7 +7,7 @@ public class ListaPersonalizada
 {
     [Key]
     [Column("idLista")]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)] 
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int IdLista { get; set; }
 
     [Column("idUsuario")]
@@ -15,8 +16,8 @@ public class ListaPersonalizada
     [Column("idCategoria")]
     public int IdCategoria { get; set; }
 
-    [Column("idFonte")]
-    public int? IdFonte { get; set; }
+    [Column("fonte")]
+    public string? Fonte { get; set; }
 
     [Column("ano")]
     public int? Ano { get; set; }

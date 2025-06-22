@@ -96,68 +96,38 @@ app.MapDelete("/usuarios/del/{id}", async (int id, ApplicationDbContext db) =>
     return Results.NoContent();
 });
 
-// PROVAS
-
-// GET: /usuarios (Listar todos os usuarios)
-app.MapGet("/provas", async (ApplicationDbContext db) =>
-    await db.Provas.ToListAsync());
-
-// GET: /usuarios/{id} (Buscar um usuario por ID)
-app.MapGet("/provas/{id}", async (int id, ApplicationDbContext db) =>
-    await db.Provas.FindAsync(id) is Prova prova ? Results.Ok(prova) : Results.NotFound());
-
-// POST: /usuarios (Criar um novo usuario)
-app.MapPost("/provas/add", async (Prova prova, ApplicationDbContext db) =>
-{
-    db.Provas.Add(prova);
-    await db.SaveChangesAsync();
-    return Results.Created($"/provas/{prova.IdProva}", prova);
-});
-
-// PUT: /usuarios/{id} (Atualizar um usuario existente)
-app.MapPut("/provas/{id}", async (int id, Prova provaAtualizado, ApplicationDbContext db) =>
-{
-    var prova = await db.Provas.FindAsync(id);
-    if (prova is null) return Results.NotFound();
-
-    if (provaAtualizado.IdFonte != null)
-        prova.IdFonte = provaAtualizado.IdFonte;
-
-    if (provaAtualizado.Ano != null)
-        prova.Ano = provaAtualizado.Ano;
-
-    if (provaAtualizado.QntdQuestoes != null)
-        prova.QntdQuestoes = provaAtualizado.QntdQuestoes;
-
-    if (provaAtualizado.Fase != null)
-        prova.Fase = provaAtualizado.Fase;
-
-    await db.SaveChangesAsync();
-    return Results.NoContent();
-});
-
-// DELETE: /usuarios/{id} (Excluir um usuario)
-app.MapDelete("/provas/del/{id}", async (int id, ApplicationDbContext db) =>
-{
-    var prova = await db.Provas.FindAsync(id);
-    if (prova is null) return Results.NotFound();
-    db.Provas.Remove(prova);
-    await db.SaveChangesAsync();
-    return Results.NoContent();
-});
-
 // QUESTOES
 
-// GET: /usuarios (Listar todos os usuarios)
+// GET: /questoes (Listar todas as questoes)
 app.MapGet("/questoes", async (ApplicationDbContext db) =>
     await db.Questoes.ToListAsync());
 
-// GET: /usuarios/{id} (Buscar um usuario por ID)
+// GET: /questoes/{id} (Buscar uma questao por ID)
 app.MapGet("/questoes/{id}", async (int id, ApplicationDbContext db) =>
     await db.Questoes.FindAsync(id) is Questao questao ? Results.Ok(questao) : Results.NotFound());
 
+// GET: /questoes/ano/{ano} (Listar questoes por ano)
+app.MapGet("/questoes/ano/{ano}", async (int ano, ApplicationDbContext db) =>
+{
+    var questoes = await db.Questoes.Where(q => q.Ano == ano).ToListAsync();
+    return questoes.Any() ? Results.Ok(questoes) : Results.NotFound();
+});
 
-// POST: /usuarios (Criar um novo usuario)
+// GET: /questoes/categoria/{idCategoria} (Listar questoes por categoria)
+app.MapGet("/questoes/categoria/{idCategoria}", async (int idCategoria, ApplicationDbContext db) =>
+{
+    var questoes = await db.Questoes.Where(q => q.IdCategoria == idCategoria).ToListAsync();
+    return questoes.Any() ? Results.Ok(questoes) : Results.NotFound();
+});
+
+// GET: /questoes/fonte/{fonte} (Listar questoes por fonte)
+app.MapGet("/questoes/fonte/{fonte}", async (string fonte, ApplicationDbContext db) =>
+{
+    var questoes = await db.Questoes.Where(q => q.Fonte == fonte).ToListAsync();
+    return questoes.Any() ? Results.Ok(questoes) : Results.NotFound();
+});
+
+// POST: /questoes (Criar uma nova questao)
 app.MapPost("/questoes/add", async (Questao questao, ApplicationDbContext db) =>
 {
     db.Questoes.Add(questao);
@@ -165,31 +135,32 @@ app.MapPost("/questoes/add", async (Questao questao, ApplicationDbContext db) =>
     return Results.Created($"/questoes/{questao.IdQuestao}", questao);
 });
 
+// PUT: /questoes/{id} (Atualizar uma questao existente)
+app.MapPut("/questoes/{id}", async (int id, Questao questaoAtualizada, ApplicationDbContext db) =>
 
-// PUT: /usuarios/{id} (Atualizar um usuario existente)
-app.MapPut("/questoes/{id}", async (int id, Questao questaoAtualizado, ApplicationDbContext db) =>
 {
     var questao = await db.Questoes.FindAsync(id);
     if (questao is null) return Results.NotFound();
 
-    if (questaoAtualizado.IdProva != null)
-        questao.IdProva = questaoAtualizado.IdProva;
+    if (questaoAtualizada.Ano != null)
+        questao.Ano = questaoAtualizada.Ano;
 
-    if (questaoAtualizado.IdCategoria != null)
-        questao.IdCategoria = questaoAtualizado.IdCategoria;
+    if (questaoAtualizada.IdCategoria != null)
+        questao.IdCategoria = questaoAtualizada.IdCategoria;
 
-    if (questaoAtualizado.Pergunta != null)
-        questao.Pergunta = questaoAtualizado.Pergunta;
+    if (questaoAtualizada.Fonte != null)
+        questao.Fonte = questaoAtualizada.Fonte;
 
-    if (questaoAtualizado.Resposta != null)
-        questao.Resposta = questaoAtualizado.Resposta;
+    if (questaoAtualizada.Pergunta != null)
+        questao.Pergunta = questaoAtualizada.Pergunta;
+
+    if (questaoAtualizada.Resposta != null)
+        questao.Resposta = questaoAtualizada.Resposta;
 
     await db.SaveChangesAsync();
     return Results.NoContent();
 });
-
-
-// DELETE: /usuarios/{id} (Excluir um usuario)
+// DELETE: /questoes/{id} (Excluir uma questao)
 app.MapDelete("/questoes/del/{id}", async (int id, ApplicationDbContext db) =>
 {
     var questao = await db.Questoes.FindAsync(id);
@@ -198,7 +169,6 @@ app.MapDelete("/questoes/del/{id}", async (int id, ApplicationDbContext db) =>
     await db.SaveChangesAsync();
     return Results.NoContent();
 });
-
 
 // LISTAS PERSONALIZADAS
 
@@ -219,8 +189,7 @@ app.MapPost("/listas/add", async (ListaPersonalizada listaPersonalizada, Applica
     return Results.Created($"/listas/{listaPersonalizada.IdLista}", listaPersonalizada);
 });
 
-
-// PUT: /usuarios/{id} (Atualizar um usuario existente)
+// PUT: /listas/{id} (Atualizar uma lista personalizada existente)
 app.MapPut("/listas/{id}", async (int id, ListaPersonalizada listaAtualizada, ApplicationDbContext db) =>
 {
     var lista = await db.ListaPersonalizadas.FindAsync(id);
@@ -232,8 +201,8 @@ app.MapPut("/listas/{id}", async (int id, ListaPersonalizada listaAtualizada, Ap
     if (listaAtualizada.IdCategoria != null)
         lista.IdCategoria = listaAtualizada.IdCategoria;
 
-    if (listaAtualizada.IdFonte != null)
-        lista.IdFonte = listaAtualizada.IdFonte;
+    if (listaAtualizada.Fonte != null)
+        lista.Fonte = listaAtualizada.Fonte;
 
     if (listaAtualizada.Ano != null)
         lista.Ano = listaAtualizada.Ano;
@@ -241,7 +210,6 @@ app.MapPut("/listas/{id}", async (int id, ListaPersonalizada listaAtualizada, Ap
     await db.SaveChangesAsync();
     return Results.NoContent();
 });
-
 
 // DELETE: /usuarios/{id} (Excluir um usuario)
 app.MapDelete("/listas/del/{id}", async (int id, ApplicationDbContext db) =>

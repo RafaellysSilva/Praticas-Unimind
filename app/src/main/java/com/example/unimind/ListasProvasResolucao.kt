@@ -8,6 +8,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -17,8 +18,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -284,13 +287,14 @@ private fun TelaResultados(
     onRefazer: () -> Unit,
     onTerminar: () -> Unit
 ) {
+    // Usamos um Column com weight para empurrar os botões para o final da tela
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(24.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+            .padding(16.dp), // Padding geral menor
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        // Card da Pontuação (sem alterações)
         Card(
             shape = RoundedCornerShape(20.dp),
             colors = CardDefaults.cardColors(containerColor = Nude),
@@ -298,7 +302,7 @@ private fun TelaResultados(
         ) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.padding(32.dp)
+                modifier = Modifier.padding(vertical = 24.dp, horizontal = 16.dp)
             ) {
                 Text(
                     text = "Quiz Finalizado!",
@@ -310,7 +314,7 @@ private fun TelaResultados(
                 Text(
                     text = "Sua pontuação:",
                     fontSize = 18.sp,
-                    color = Color.Black
+                    color = Color.Black.copy(alpha = 0.8f)
                 )
                 Text(
                     text = "$pontuacao / $totalQuestoes",
@@ -320,80 +324,139 @@ private fun TelaResultados(
                 )
             }
         }
+
         Spacer(modifier = Modifier.height(24.dp))
 
-        // Lista de feedback por questão
-        Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
-            questoes.forEachIndexed { index, questao ->
-                ResultadoQuestao(
-                    questao = questao,
-                    respostaUsuario = respostasUsuario.getOrNull(index),
-                    acertou = acertos.getOrNull(index) ?: false
+        // --- CONTAINER PARA OS RESULTADOS ---
+        // Este Card agrupa a lista de questões, como você pediu
+        Card(
+            shape = RoundedCornerShape(20.dp),
+            colors = CardDefaults.cardColors(containerColor = Nude),
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f) // Ocupa o espaço disponível, empurrando os botões para baixo
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
+                    .padding(horizontal = 16.dp, vertical = 20.dp)
+            ) {
+                Text(
+                    text = "Resumo das Questões",
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Vinho,
+                    modifier = Modifier.padding(bottom = 16.dp)
                 )
-                if (index < questoes.size - 1) {
-                    Divider(color = Color.LightGray, thickness = 1.dp)
+
+                questoes.forEachIndexed { index, questao ->
+                    ResultadoQuestao(
+                        index = index + 1, // Passa o número da questão
+                        questao = questao,
+                        respostaUsuario = respostasUsuario.getOrNull(index),
+                        acertou = acertos.getOrNull(index) ?: false
+                    )
+                    if (index < questoes.size - 1) {
+                        Divider(
+                            color = Color.Black.copy(alpha = 0.1f),
+                            thickness = 1.dp,
+                            modifier = Modifier.padding(vertical = 12.dp)
+                        )
+                    }
                 }
             }
         }
 
         Spacer(modifier = Modifier.height(24.dp))
-        Button(
-            onClick = onRefazer,
-            shape = RoundedCornerShape(50),
-            colors = ButtonDefaults.buttonColors(containerColor = Nude),
-            modifier = Modifier
-                .fillMaxWidth(0.8f)
-                .height(50.dp)
+
+        // Botões de Ação
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Text("Refazer Quiz", color = Vinho, fontSize = 18.sp, fontWeight = FontWeight.Bold)
-        }
-        Spacer(modifier = Modifier.height(8.dp))
-        TextButton(onClick = onTerminar) {
-            Text("Terminar", color = Nude, fontSize = 16.sp)
+            TextButton(onClick = onTerminar) {
+                Text("Terminar", color = Nude, fontSize = 16.sp)
+            }
+            Spacer(modifier = Modifier.width(16.dp))
+            Button(
+                onClick = onRefazer,
+                shape = RoundedCornerShape(50),
+                colors = ButtonDefaults.buttonColors(containerColor = Nude),
+                modifier = Modifier
+                    .height(50.dp)
+                    .weight(1f)
+            ) {
+                Text("Refazer Quiz", color = Vinho, fontSize = 18.sp, fontWeight = FontWeight.Bold)
+            }
         }
     }
 }
 
 @Composable
 private fun ResultadoQuestao(
+    index: Int,
     questao: Questao,
     respostaUsuario: Alternativa?,
     acertou: Boolean
 ) {
+    val corIcone = if (acertou) Color(0xFF1E8E3E) else Color(0xFFD93025) // Verde e Vermelho mais sóbrios
+    val icone = if (acertou) Icons.Filled.CheckCircle else Icons.Filled.Close
+
     Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 8.dp),
-        horizontalAlignment = Alignment.Start
+        modifier = Modifier.fillMaxWidth(),
+        horizontalAlignment = Alignment.Start,
+        verticalArrangement = Arrangement.spacedBy(8.dp) // Espaçamento entre os textos
     ) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
+        // Cabeçalho da questão (Número, Ícone e Pergunta)
+        Row(verticalAlignment = Alignment.Top) {
+            Text(
+                text = "$index.",
+                fontWeight = FontWeight.Bold,
+                color = Vinho,
+                fontSize = 16.sp,
+                modifier = Modifier.padding(top = 2.dp)
+            )
+            Spacer(modifier = Modifier.width(8.dp))
             Icon(
-                imageVector = if (acertou) Icons.Filled.Check else Icons.Filled.Close,
+                imageVector = icone,
                 contentDescription = if (acertou) "Acertou" else "Errou",
-                tint = if (acertou) Color.Green else Color.Red,
-                modifier = Modifier.size(24.dp)
+                tint = corIcone,
+                modifier = Modifier.size(20.dp).padding(top = 4.dp)
             )
             Spacer(modifier = Modifier.width(8.dp))
             Text(
                 text = questao.pergunta,
                 fontWeight = FontWeight.SemiBold,
-                color = Color.Black,
-                fontSize = 16.sp
+                color = Color.Black.copy(alpha = 0.9f),
+                fontSize = 16.sp,
+                lineHeight = 22.sp
             )
         }
-        Spacer(modifier = Modifier.height(4.dp))
-        Text(
-            text = "Sua resposta: ${respostaUsuario?.texto ?: "Não respondido"}",
-            color = Color.Gray,
-            fontSize = 14.sp
-        )
-        val respostaCorreta = questao.alternativas.find { it.correta }?.texto ?: "Não definida"
-        Text(
-            text = "Resposta correta: $respostaCorreta",
-            color = Vinho,
-            fontWeight = FontWeight.Medium,
-            fontSize = 14.sp
-        )
+
+        // Detalhes das respostas (Sua resposta e a correta)
+        Column(modifier = Modifier.padding(start = 48.dp)) { // Alinhado com o texto da pergunta
+            // Mostra a resposta do usuário
+            Text(
+                text = "Sua resposta: ${respostaUsuario?.texto ?: "Não respondido"}",
+                color = if (acertou) Color.Gray else corIcone, // Destaca em vermelho se errou
+                fontSize = 14.sp,
+                fontStyle = if (acertou) FontStyle.Normal else FontStyle.Italic,
+                textDecoration = if (acertou) TextDecoration.None else TextDecoration.LineThrough
+            )
+
+            // Se errou, mostra qual era a correta
+            if (!acertou) {
+                val respostaCorreta = questao.alternativas.find { it.correta }?.texto ?: "Não definida"
+                Text(
+                    text = "Resposta correta: $respostaCorreta",
+                    color = Color.Gray,
+                    fontWeight = FontWeight.Medium,
+                    fontSize = 14.sp
+                )
+            }
+        }
     }
 }
 

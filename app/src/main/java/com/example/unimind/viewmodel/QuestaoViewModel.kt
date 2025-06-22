@@ -4,6 +4,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.unimind.data.Alternativa
 import com.example.unimind.data.Questao
 import com.example.unimind.network.RetrofitClient
 import kotlinx.coroutines.launch
@@ -18,10 +19,54 @@ class QuestaoViewModel : ViewModel() {
     private val _mensagem = mutableStateOf("")
     val mensagem: State<String> = _mensagem
 
+    // --- ESTADO DO QUIZ ---
+    private val _alternativaSelecionada = mutableStateOf<Alternativa?>(null)
+    val alternativaSelecionada: State<Alternativa?> = _alternativaSelecionada
+
+    private val _indiceQuestaoAtual = mutableStateOf(0)
+    val indiceQuestaoAtual: State<Int> = _indiceQuestaoAtual
+
+    private val _pontuacao = mutableStateOf(0)
+    val pontuacao: State<Int> = _pontuacao
+
+    private val _quizFinalizado = mutableStateOf(false)
+    val quizFinalizado: State<Boolean> = _quizFinalizado
+
     // Limpa a mensagem de erro ou sucesso
     fun limparMensagem() {
         _mensagem.value = ""
     }
+
+    // --- LÓGICA DO QUIZ ---
+
+    fun selecionarAlternativa(alternativa: Alternativa) {
+        _alternativaSelecionada.value = alternativa
+    }
+
+    fun verificarResposta() {
+        if (_alternativaSelecionada.value?.correta == true) {
+            _pontuacao.value++
+        }
+        // Lógica adicional pode ser adicionada aqui, como mostrar feedback de resposta
+    }
+
+    fun proximaQuestao() {
+        if (_indiceQuestaoAtual.value < _questoes.value.size - 1) {
+            _indiceQuestaoAtual.value++
+            _alternativaSelecionada.value = null // Limpa a seleção para a próxima questão
+        } else {
+            _quizFinalizado.value = true
+        }
+    }
+
+    fun reiniciarQuiz() {
+        _indiceQuestaoAtual.value = 0
+        _pontuacao.value = 0
+        _alternativaSelecionada.value = null
+        _quizFinalizado.value = false
+        listarQuestoes() // Ou qualquer outra lógica para reiniciar as questões
+    }
+
 
     // --- MÉTODOS DE BUSCA (GET) ---
 

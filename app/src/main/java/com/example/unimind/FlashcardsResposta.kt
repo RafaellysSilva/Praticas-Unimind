@@ -29,6 +29,8 @@ import com.example.unimind.ui.theme.UnimindTheme
 import com.example.unimind.ui.theme.Vinho
 import com.example.unimind.viewmodel.FlashcardViewModel
 import com.example.unimind.viewmodel.UsuarioViewModel
+import java.net.URLDecoder
+import java.nio.charset.StandardCharsets
 
 @Composable
 fun FlashcardsResposta(
@@ -138,10 +140,12 @@ fun FlashcardsResposta(
                             return@Button
                         }
 
+                        val perguntaDecodificada = URLDecoder.decode(pergunta, StandardCharsets.UTF_8.toString())
+
                         val flashcard = Flashcard(
                             idFlashcard = flashcardId ?: 0,
                             idUsuario = usuarioId,
-                            perguntaUsuario = pergunta,
+                            perguntaUsuario = perguntaDecodificada,
                             respostaUsuario = resposta
                         )
 

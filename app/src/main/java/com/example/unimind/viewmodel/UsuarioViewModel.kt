@@ -85,8 +85,6 @@ class UsuarioViewModel : ViewModel() {
             return
         }
 
-        // Cria um novo objeto Usuario com todos os campos, pegando os que não foram alterados
-        // do _usuarioDetalhe.value
         val usuarioAtualizado = _usuarioDetalhe.value?.copy(
             nome = nome,
             email = email,

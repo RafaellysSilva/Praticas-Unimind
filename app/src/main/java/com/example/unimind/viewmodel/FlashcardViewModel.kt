@@ -40,5 +40,33 @@ class FlashcardViewModel : ViewModel() {
             }
         }
     }
-    // Adicione aqui os métodos para buscar, atualizar e deletar flashcards.
+
+    fun buscarFlashcardPorId(id: Int) {
+        viewModelScope.launch {
+            try {
+                _flashcardDetalhe.value = RetrofitClient.apiService.buscarFlashcard(id)
+            } catch (e: Exception) {
+                _mensagem.value = "Erro ao buscar flashcard: ${e.message}"
+            }
+        }
+    }
+
+    fun limparDetalhe() {
+        _flashcardDetalhe.value = null
+    }
+
+    fun atualizarFlashcard(flashcard: Flashcard, onSucesso: () -> Unit) {
+        viewModelScope.launch {
+            try {
+                // A API espera o ID no path e o objeto no corpo da requisição
+                RetrofitClient.apiService.atualizarFlashcard(flashcard.idFlashcard, flashcard)
+                _mensagem.value = "Flashcard atualizado com sucesso."
+                // Atualiza a lista local para refletir a mudança imediatamente
+                listarFlashcards()
+                onSucesso()
+            } catch (e: Exception) {
+                _mensagem.value = "Erro ao atualizar flashcard: ${e.message}"
+            }
+        }
+    }
 }

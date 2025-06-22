@@ -83,8 +83,15 @@ fun AppNavigation(navController: NavHostController, usuarioViewModel: UsuarioVie
         composable("telaInicial") { Inicial(navController, usuarioViewModel) }
         composable("telaConfiguracoes") { Configuracoes(navController, usuarioViewModel) }
         composable("telaFlashcardsArea") { FlashcardsArea(navController, flashcardViewModel) }
-        composable("telaFlashcardsPergunta") { FlashcardsPergunta(navController) }
-        composable("telaFlashcardsResposta") { FlashcardsResposta(navController) }
+        composable("telaFlashcardsPergunta?flashcardId={flashcardId}") { backStackEntry ->
+            val flashcardId = backStackEntry.arguments?.getString("flashcardId")?.toIntOrNull()
+            FlashcardsPergunta(navController, flashcardId)
+        }
+        composable("telaFlashcardsResposta?pergunta={pergunta}&flashcardId={flashcardId}") { backStackEntry ->
+            val pergunta = backStackEntry.arguments?.getString("pergunta") ?: ""
+            val flashcardId = backStackEntry.arguments?.getString("flashcardId")?.toIntOrNull()
+            FlashcardsResposta(navController, pergunta, flashcardId)
+        }
         composable("telaListasProvasArea") { ListasProvasArea(navController) }
         composable("telaListasProvasResolucao") { ListasProvasResolucao(navController) }
         composable("telaListaPersonalizadaCriar") { ListaPersonalizadaCriar(navController) }

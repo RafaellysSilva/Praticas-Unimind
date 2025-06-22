@@ -104,6 +104,15 @@ namespace UnimindAPI.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("idUsuario");
 
+                    b.Property<int?>("Tempo")
+                        .HasColumnType("integer")
+                        .HasColumnName("tempo");
+
+                    b.Property<string>("Titulo")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("titulo");
+
                     b.HasKey("IdLista");
 
                     b.ToTable("ListaPersonalizada", "unimind");

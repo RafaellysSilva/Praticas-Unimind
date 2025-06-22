@@ -172,17 +172,18 @@ app.MapDelete("/questoes/del/{id}", async (int id, ApplicationDbContext db) =>
 
 // LISTAS PERSONALIZADAS
 
-// GET: /usuarios (Listar todos os usuarios)
+// GET: /listas (Listar todas as listas)
 app.MapGet("/listas", async (ApplicationDbContext db) =>
     await db.ListaPersonalizadas.ToListAsync());
 
-// GET: /usuarios/{id} (Buscar um usuario por ID)
+// GET: /listas/{id} (Buscar uma lista por ID)
 app.MapGet("/listas/{id}", async (int id, ApplicationDbContext db) =>
-    await db.ListaPersonalizadas.FindAsync(id) is ListaPersonalizada listaPersonalizada ? Results.Ok(listaPersonalizada) : Results.NotFound());
+    await db.ListaPersonalizadas.FindAsync(id) is ListaPersonalizada listaPersonalizada
+        ? Results.Ok(listaPersonalizada)
+        : Results.NotFound());
 
-
-// POST: /usuarios (Criar um novo usuario)
-app.MapPost("/listas/add", async (ListaPersonalizada listaPersonalizada, ApplicationDbContext db) =>
+// POST: /listas (Criar uma nova lista)
+app.MapPost("/listas", async (ListaPersonalizada listaPersonalizada, ApplicationDbContext db) =>
 {
     db.ListaPersonalizadas.Add(listaPersonalizada);
     await db.SaveChangesAsync();
@@ -195,32 +196,39 @@ app.MapPut("/listas/{id}", async (int id, ListaPersonalizada listaAtualizada, Ap
     var lista = await db.ListaPersonalizadas.FindAsync(id);
     if (lista is null) return Results.NotFound();
 
-    if (listaAtualizada.IdUsuario != null)
-        lista.IdUsuario = listaAtualizada.IdUsuario;
+    // Atualiza o Titulo se um novo valor for fornecido
+    if (!string.IsNullOrEmpty(listaAtualizada.Titulo))
+        lista.Titulo = listaAtualizada.Titulo;
 
-    if (listaAtualizada.IdCategoria != null)
-        lista.IdCategoria = listaAtualizada.IdCategoria;
+    // Atualiza o Tempo se um novo valor for fornecido
+    if (listaAtualizada.Tempo.HasValue)
+        lista.Tempo = listaAtualizada.Tempo;
+
+    // Mantém a lógica para os outros campos
+    lista.IdUsuario = listaAtualizada.IdUsuario;
+    lista.IdCategoria = listaAtualizada.IdCategoria;
 
     if (listaAtualizada.Fonte != null)
         lista.Fonte = listaAtualizada.Fonte;
 
-    if (listaAtualizada.Ano != null)
+    if (listaAtualizada.Ano.HasValue)
         lista.Ano = listaAtualizada.Ano;
 
     await db.SaveChangesAsync();
     return Results.NoContent();
 });
 
-// DELETE: /usuarios/{id} (Excluir um usuario)
-app.MapDelete("/listas/del/{id}", async (int id, ApplicationDbContext db) =>
+// DELETE: /listas/{id} (Excluir uma lista)
+app.MapDelete("/listas/{id}", async (int id, ApplicationDbContext db) =>
 {
     var lista = await db.ListaPersonalizadas.FindAsync(id);
     if (lista is null) return Results.NotFound();
+    
     db.ListaPersonalizadas.Remove(lista);
     await db.SaveChangesAsync();
+    
     return Results.NoContent();
 });
-
 
 // FLASHCARDS
 

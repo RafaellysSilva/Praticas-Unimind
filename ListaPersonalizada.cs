@@ -1,4 +1,3 @@
-// rafaellyssilva/praticas-unimind/Praticas-Unimind-API/ListaPersonalizada.cs
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -13,6 +12,10 @@ public class ListaPersonalizada
     [Column("idUsuario")]
     public int IdUsuario { get; set; }
 
+    [Required]
+    [Column("titulo")]
+    public string Titulo { get; set; }
+
     [Column("idCategoria")]
     public int IdCategoria { get; set; }
 
@@ -21,4 +24,7 @@ public class ListaPersonalizada
 
     [Column("ano")]
     public int? Ano { get; set; }
+
+    [Column("tempo")]
+    public int? Tempo { get; set; }
 }

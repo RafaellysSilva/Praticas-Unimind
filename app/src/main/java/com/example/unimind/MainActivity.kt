@@ -48,7 +48,9 @@ import com.example.unimind.ui.theme.UnimindTheme
 import com.example.unimind.ui.theme.Vinho
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.unimind.data.Flashcard
 import com.example.unimind.ui.theme.Rosinha
+import com.example.unimind.viewmodel.FlashcardViewModel
 import com.example.unimind.viewmodel.UsuarioViewModel
 
 //import com.example.usuarioapp.viewmodel.LoginResult
@@ -63,23 +65,24 @@ class MainActivity : ComponentActivity() {
         setContent {
             val navController = rememberNavController()
             val usuarioViewModel: UsuarioViewModel = viewModel()
+            val flashcardViewModel: FlashcardViewModel = viewModel()
 
             UnimindTheme {
-                AppNavigation(navController, usuarioViewModel)
+                AppNavigation(navController, usuarioViewModel, flashcardViewModel)
             }
         }
     }
 }
 
 @Composable
-fun AppNavigation(navController: NavHostController, usuarioViewModel: UsuarioViewModel) {
+fun AppNavigation(navController: NavHostController, usuarioViewModel: UsuarioViewModel, flashcardViewModel: FlashcardViewModel) {
     NavHost(navController = navController, startDestination = "telaBloqueio") {
         composable("telaBloqueio") { Bloqueio(navController) }
         composable("telaCadastro") { Cadastro(navController, usuarioViewModel) }
         composable("telaEntrar") { Entrar(navController, usuarioViewModel) }
         composable("telaInicial") { Inicial(navController, usuarioViewModel) }
         composable("telaConfiguracoes") { Configuracoes(navController, usuarioViewModel) }
-        composable("telaFlashcardsArea") { FlashcardsArea(navController) }
+        composable("telaFlashcardsArea") { FlashcardsArea(navController, flashcardViewModel) }
         composable("telaFlashcardsPergunta") { FlashcardsPergunta(navController) }
         composable("telaFlashcardsResposta") { FlashcardsResposta(navController) }
         composable("telaListasProvasArea") { ListasProvasArea(navController) }

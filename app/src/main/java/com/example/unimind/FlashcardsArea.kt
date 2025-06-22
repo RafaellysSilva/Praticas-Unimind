@@ -1,185 +1,177 @@
 package com.example.unimind
 
-import com.example.unimind.viewmodel.LoginResult
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ArrowBack
-import androidx.compose.material.icons.rounded.ArrowForward
-import androidx.compose.material.icons.rounded.Menu
-import androidx.compose.material.icons.rounded.Search
-import androidx.compose.material3.BottomAppBar
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExposedDropdownMenuBox
-import androidx.compose.material3.ExposedDropdownMenuDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Alignment.Companion.BottomCenter
-import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Color.Companion.Black
-import androidx.compose.ui.graphics.Color.Companion.Blue
-import androidx.compose.ui.graphics.Color.Companion.White
-import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.example.unimind.ui.theme.Bege
+import com.example.unimind.data.Flashcard
 import com.example.unimind.ui.theme.Nude
+import com.example.unimind.ui.theme.Rosinha
 import com.example.unimind.ui.theme.UnimindTheme
 import com.example.unimind.ui.theme.Vinho
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import com.example.unimind.ui.theme.Azul
-import com.example.unimind.ui.theme.Rosinha
+import com.example.unimind.viewmodel.FlashcardViewModel
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FlashcardsArea(navController: NavController) {
+fun FlashcardsArea(navController: NavController, viewModel: FlashcardViewModel = viewModel()) {
+    // Carrega a lista de flashcards quando a tela é iniciada
+    LaunchedEffect(Unit) {
+        viewModel.listarFlashcards()
+    }
+
+    val flashcards by viewModel.flashcards
+    var textoPesquisa by remember { mutableStateOf("") }
+
+    // Filtra os flashcards com base no texto de pesquisa
+    val flashcardsFiltrados = remember(textoPesquisa, flashcards) {
+        if (textoPesquisa.isBlank()) {
+            flashcards
+        } else {
+            flashcards.filter {
+                it.perguntaUsuario.contains(textoPesquisa, ignoreCase = true)
+            }
+        }
+    }
+
     UnimindTheme {
-        Surface(
-            modifier = Modifier.fillMaxSize(),
-            color = Nude
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Nude)
         ) {
             Header("Flashcards")
 
-            Column(
-                Modifier
-                    .fillMaxSize()
-                    .verticalScroll(rememberScrollState()),
-                verticalArrangement = Arrangement.Center
-            ) {
-                Row(
-                    Modifier
-                        .padding(start = 50.dp)
+            Scaffold(
+                containerColor = Color.Transparent,
+                bottomBar = { Footer(navController) }
+            ) { innerPadding ->
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(innerPadding)
+                        .padding(top = 180.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Box(
-                        Modifier
-                            .height(40.dp)
-                            .width(200.dp)
-                            .clip(RoundedCornerShape(60.dp))
-                            .background(Vinho)
-                            .fillMaxWidth(),
+                    // Barra de Pesquisa e Botão Adicionar
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 24.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(16.dp)
                     ) {
-                        Text(
-                            text = "Pesquisar...",
-                            color = Nude,
-                            fontSize = 15.sp,
+                        OutlinedTextField(
+                            value = textoPesquisa,
+                            onValueChange = { textoPesquisa = it },
+                            modifier = Modifier.weight(1f),
+                            placeholder = { Text("Pesquisar...", color = Nude) },
+                            shape = RoundedCornerShape(50),
+                            colors = TextFieldDefaults.colors(
+                                unfocusedContainerColor = Vinho,
+                                focusedContainerColor = Vinho,
+                                unfocusedIndicatorColor = Color.Transparent,
+                                focusedIndicatorColor = Rosinha,
+                                unfocusedTextColor = Nude,
+                                focusedTextColor = Nude,
+                                cursorColor = Nude,
+                                unfocusedPlaceholderColor = Nude,
+                                focusedPlaceholderColor = Nude,
+                            )
                         )
+
+                        Button(
+                            onClick = { navController.navigate("telaFlashcardsPergunta") },
+                            modifier = Modifier.size(56.dp),
+                            shape = CircleShape,
+                            colors = ButtonDefaults.buttonColors(containerColor = Vinho),
+                            contentPadding = PaddingValues(0.dp)
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Add,
+                                contentDescription = "Adicionar Flashcard",
+                                tint = Nude,
+                                modifier = Modifier.size(30.dp)
+                            )
+                        }
                     }
 
-                    Button(
-                        colors = ButtonDefaults.buttonColors(containerColor = Vinho),
-                        onClick = { navController.navigate("telaFlashcardsPergunta") },
+                    Spacer(Modifier.height(24.dp))
+
+                    // Grade de Flashcards
+                    LazyVerticalGrid(
+                        columns = GridCells.Fixed(2),
                         modifier = Modifier
-                            .padding(start = 20.dp)
-                            .height(40.dp)
-                            .width(50.dp)
-                            .clip(RoundedCornerShape(60.dp))
-                            .fillMaxWidth(),
+                            .fillMaxWidth()
+                            .padding(horizontal = 24.dp),
+                        horizontalArrangement = Arrangement.spacedBy(16.dp),
+                        verticalArrangement = Arrangement.spacedBy(16.dp),
+                        contentPadding = PaddingValues(bottom = 16.dp)
                     ) {
-                        Text(
-                            text = "+",
-                            color = White,
-                            fontSize = 20.sp,
-                        )
-                    }
-                }
-
-                Spacer(
-                    Modifier
-                        .padding(20.dp)
-                )
-
-                Row (
-                    Modifier
-                        .padding(start = 50.dp)
-                ) {
-                    Button(
-                        colors = ButtonDefaults.buttonColors(containerColor = Rosinha),
-                        onClick = { navController.navigate("telaFlashcardsPergunta") },
-                        modifier = Modifier
-                            .height(80.dp)
-                            .width(140.dp)
-                            .clip(RoundedCornerShape(10.dp))
-                            .fillMaxWidth(),
-                    ) {
-                        Text(
-                            text = "Titulo\nCategoria",
-                            color = White,
-                            fontSize = 17.sp,
-                        )
-                    }
-
-                    Spacer(
-                        Modifier
-                            .padding(10.dp)
-                    )
-
-                    Button(
-                        colors = ButtonDefaults.buttonColors(containerColor = Rosinha),
-                        onClick = { navController.navigate("telaFlashcardsPergunta") },
-                        modifier = Modifier
-                            .height(80.dp)
-                            .width(140.dp)
-                            .clip(RoundedCornerShape(10.dp))
-                            .fillMaxWidth(),
-                    ) {
-                        Text(
-                            text = "Titulo\nCategoria",
-                            color = White,
-                            fontSize = 17.sp,
-                        )
+                        items(flashcardsFiltrados) { flashcard ->
+                            FlashcardItem(flashcard = flashcard) {
+                                // Navega para a pergunta passando o ID do flashcard
+                                navController.navigate("telaFlashcardsPergunta/${flashcard.idFlashcard}")
+                            }
+                        }
                     }
                 }
             }
-            Footer(navController)
+        }
+    }
+}
+
+@Composable
+private fun FlashcardItem(flashcard: Flashcard, onClick: () -> Unit) {
+    Card(
+        modifier = Modifier
+            .height(100.dp)
+            .fillMaxWidth()
+            .clickable(onClick = onClick),
+        shape = RoundedCornerShape(12.dp),
+        colors = CardDefaults.cardColors(containerColor = Rosinha)
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(8.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Text(
+                text = flashcard.perguntaUsuario,
+                color = Color.White,
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center,
+                maxLines = 2 // Limita o título a 2 linhas
+            )
+            Text(
+                // O modelo Flashcard não tem "categoria", usando um placeholder
+                text = "Categoria",
+                color = Color.White.copy(alpha = 0.8f),
+                fontSize = 13.sp,
+                textAlign = TextAlign.Center
+            )
         }
     }
 }

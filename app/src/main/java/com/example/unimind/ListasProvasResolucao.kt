@@ -1,264 +1,222 @@
 package com.example.unimind
 
-import com.example.unimind.viewmodel.LoginResult
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ArrowBack
-import androidx.compose.material.icons.rounded.ArrowForward
-import androidx.compose.material.icons.rounded.Menu
-import androidx.compose.material.icons.rounded.Search
-import androidx.compose.material3.BottomAppBar
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExposedDropdownMenuBox
-import androidx.compose.material3.ExposedDropdownMenuDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Alignment.Companion.BottomCenter
-import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Color.Companion.Black
-import androidx.compose.ui.graphics.Color.Companion.Blue
-import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.example.unimind.ui.theme.Bege
 import com.example.unimind.ui.theme.Nude
 import com.example.unimind.ui.theme.UnimindTheme
 import com.example.unimind.ui.theme.Vinho
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import com.example.unimind.ui.theme.Azul
-import com.example.unimind.ui.theme.Rosinha
 
 @Composable
 fun ListasProvasResolucao(navController: NavController) {
     UnimindTheme {
-        Surface(
-            modifier = Modifier.fillMaxSize(),
-            color = Nude
+        Column(
+            modifier = Modifier.fillMaxSize().background(Vinho)
         ) {
-            Column(
-                modifier = Modifier.fillMaxSize()
+            // Cabeçalho Fixo
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(Nude)
+                    .padding(vertical = 24.dp),
+                contentAlignment = Alignment.Center
             ) {
-                // Parte superior fixa (Cabeçalho e Cronômetro)
-                Column(
-                    modifier = Modifier
-                        .background(Nude)
-                        .fillMaxWidth(),
-                    horizontalAlignment = Alignment.CenterHorizontally
+                Text(
+                    text = "Prova A - Conteúdo",
+                    color = Vinho,
+                    fontSize = 22.sp,
+                    fontWeight = FontWeight.Bold
+                )
+            }
+
+            // Conteúdo principal rolável
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxWidth()
+                    .verticalScroll(rememberScrollState())
+                    .padding(horizontal = 24.dp, vertical = 32.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(24.dp)
+            ) {
+                // Card da Questão
+                Card(
+                    shape = RoundedCornerShape(20.dp),
+                    colors = CardDefaults.cardColors(containerColor = Nude),
+                    modifier = Modifier.fillMaxWidth()
                 ) {
-                    Box(
-                        Modifier
-                            .height(60.dp)
-                            .fillMaxWidth(),
-                        contentAlignment = Center
-                    ) {
+                    Column(modifier = Modifier.padding(20.dp)) {
                         Text(
-                            text = "Prova A - Conteúdo",
-                            color = Vinho,
-                            fontSize = 18.sp,
-                            textAlign = TextAlign.Center,
-                            modifier = Modifier.fillMaxWidth()
+                            text = "Questão 1",
+                            fontWeight = FontWeight.Bold,
+                            color = Color.Black,
+                            fontSize = 18.sp
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text(
+                            text = "Non nulla doloremque in odit unde a maxime recusandae in maxime perferendis. Sed similique voluptatum ea voluptatum internos ut eligendi impedit. Quo exercitationem illum aut sint internos et veritatis itaque et saepe eaque. Non dolores sunt et esse odio et iusto galisum ut quae quia eum atque rerum id rerum amet?",
+                            color = Color.Black,
+                            fontSize = 16.sp,
+                            lineHeight = 22.sp
                         )
                     }
                 }
 
-                // Conteúdo principal scrollável (incluindo os botões)
-                Column(
-                    modifier = Modifier
-                        .weight(1f)
-                        .fillMaxWidth()
-                        .clip(RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp))
-                        .background(Vinho)
-                        .padding(horizontal = 16.dp)
-                        .padding(top = 16.dp)
-                        .verticalScroll(rememberScrollState())
+                // Card das Alternativas
+                Card(
+                    shape = RoundedCornerShape(20.dp),
+                    colors = CardDefaults.cardColors(containerColor = Nude),
+                    modifier = Modifier.fillMaxWidth()
                 ) {
-                    Spacer(modifier = Modifier.height(50.dp))
-
-                    // Caixa da questão
-                    Box(
-                        Modifier
-                            .fillMaxWidth()
-                            .background(Nude, shape = RoundedCornerShape(16.dp))
-                            .padding(14.dp)
+                    Column(
+                        modifier = Modifier.padding(20.dp),
+                        verticalArrangement = Arrangement.spacedBy(16.dp)
                     ) {
-                        Text("Qual é a capital da França?")
-                    }
-
-
-                    Spacer(modifier = Modifier.height(16.dp))
-
-
-                    // Caixa das alternativas
-                    Box(
-                        Modifier
-                            .fillMaxWidth()
-                            .background(Nude, shape = RoundedCornerShape(20.dp))
-                            .padding(15.dp)
-                    ) {
-                        Column(
-                            verticalArrangement = Arrangement.spacedBy(12.dp)
-                        ) {
-                            listOf("Paris", "Brasília", "Moçambique", "Judiaí", "Genova").forEach { alternativa ->
-                                Button(
-                                    onClick = { /* Ação ao clicar */ },
-                                    colors = ButtonDefaults.buttonColors(containerColor = White),
-                                    shape = RoundedCornerShape(20.dp),
-                                    border = BorderStroke(1.dp, Color(0xFFB9B9B9)),
-                                    contentPadding = PaddingValues(0.dp),
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .height(35.dp)
+                        Text(
+                            text = "Alternativas",
+                            fontWeight = FontWeight.Bold,
+                            color = Color.Black,
+                            fontSize = 18.sp
+                        )
+                        Spacer(modifier = Modifier.height(4.dp))
+                        listOf("A", "B", "C", "D", "E").forEach { alternativa ->
+                            Button(
+                                onClick = { /* TODO: Lógica de seleção */ },
+                                colors = ButtonDefaults.buttonColors(containerColor = Color.White),
+                                shape = RoundedCornerShape(12.dp),
+                                border = BorderStroke(1.dp, Color(0xFFD9D9D9)),
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(48.dp)
+                            ) {
+                                Box(
+                                    modifier = Modifier.fillMaxSize(),
+                                    contentAlignment = Alignment.CenterStart
                                 ) {
-                                    Box(
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .padding(start = 16.dp),
-                                        contentAlignment = Alignment.CenterStart
-                                    ) {
-                                        Text(
-                                            text = alternativa,
-                                            color = Black,
-                                            fontSize = 14.sp
-                                        )
-                                    }
+                                    Text(
+                                        text = alternativa,
+                                        color = Color.Black,
+                                        modifier = Modifier.padding(start = 16.dp)
+                                    )
                                 }
                             }
                         }
                     }
-
-
-                    Spacer(modifier = Modifier.height(32.dp))
-
-
-                    // Botões de navegação (ESPAÇAMENTO E TAMANHO DAS SETAS AJUSTADOS)
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 32.dp),
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        // Botão esquerdo (questão anterior)
-                        Button(
-                            onClick = { /* Anterior */ },
-                            colors = ButtonDefaults.buttonColors(Nude),
-                            modifier = Modifier.height(50.dp),
-                            contentPadding = PaddingValues(all = 8.dp)
-                        ) {
-                            Box(modifier = Modifier.size(24.dp), contentAlignment = Center) {
-                                Image(
-                                    painterResource(id = R.drawable.baseline_arrow_forward_ios_vinho),
-                                    contentDescription = null,
-                                    modifier = Modifier.graphicsLayer { scaleX = -1f }
-                                )
-                            }
-                            Spacer(modifier = Modifier.width(8.dp))
-                            Text(
-                                text = "Questão anterior",
-                                color = Vinho
-                            )
-                        }
-
-
-                        Spacer(modifier = Modifier.width(16.dp)) // Espaço entre os botões
-
-
-                        // Botão direito (próxima questão)
-                        Button(
-                            onClick = { /* Próxima */ },
-                            colors = ButtonDefaults.buttonColors(Nude),
-                            modifier = Modifier.height(50.dp),
-                            contentPadding = PaddingValues(all = 8.dp)
-                        ) {
-                            Text(
-                                text = "Próxima questão",
-                                color = Vinho
-                            )
-                            Spacer(modifier = Modifier.width(8.dp))
-                            Box(modifier = Modifier.size(24.dp), contentAlignment = Center) {
-                                Image(
-                                    painterResource(id = R.drawable.baseline_arrow_forward_ios_vinho),
-                                    contentDescription = null
-                                )
-                            }
-                        }
-                    }
-
-
-                    Spacer(modifier = Modifier.height(8.dp))
-
-
-                    // Botão Terminar
-                    Button(
-                        onClick = { /* Terminar prova */ },
-                        colors = ButtonDefaults.buttonColors(Nude),
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 120.dp)
-                            .align(Alignment.CenterHorizontally)
-                    ) {
-                        Text(
-                            text = "Terminar",
-                            color = Vinho,
-                            modifier = Modifier.padding(start = 8.dp)
-                        )
-                    }
-
-
-                    Spacer(modifier = Modifier.height(16.dp))
                 }
+
+                // Botões de Navegação
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    NavButton(
+                        text = "Questão anterior",
+                        iconRes = R.drawable.baseline_arrow_forward_ios_vinho,
+                        iconOnLeft = true,
+                        onClick = { /* TODO: Navegar para questão anterior */ }
+                    )
+                    NavButton(
+                        text = "Próxima questão",
+                        iconRes = R.drawable.baseline_arrow_forward_ios_vinho,
+                        iconOnLeft = false,
+                        onClick = { /* TODO: Navegar para próxima questão */ }
+                    )
+                }
+
+                // Botão Terminar
+                Button(
+                    onClick = { /* TODO: Terminar a prova */ },
+                    shape = RoundedCornerShape(50),
+                    colors = ButtonDefaults.buttonColors(containerColor = Nude),
+                    modifier = Modifier
+                        .fillMaxWidth(0.7f)
+                        .height(50.dp)
+                ) {
+                    Text(
+                        text = "Terminar",
+                        color = Vinho,
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+            }
+
+            // Rodapé Fixo (Cronômetro)
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(100.dp)
+                    .clip(RoundedCornerShape(topStart = 50.dp, topEnd = 50.dp))
+                    .background(Nude),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = "45:00",
+                    color = Vinho,
+                    fontSize = 48.sp,
+                    fontWeight = FontWeight.Bold
+                )
             }
         }
     }
+}
+
+@Composable
+private fun NavButton(text: String, iconRes: Int, iconOnLeft: Boolean, onClick: () -> Unit) {
+    Button(
+        onClick = onClick,
+        shape = RoundedCornerShape(50),
+        colors = ButtonDefaults.buttonColors(containerColor = Nude),
+        contentPadding = PaddingValues(horizontal = 20.dp, vertical = 12.dp)
+    ) {
+        if (iconOnLeft) {
+            Icon(
+                painter = painterResource(id = iconRes),
+                contentDescription = null,
+                tint = Vinho,
+                modifier = Modifier.size(18.dp).graphicsLayer(scaleX = -1f) // Inverte o ícone
+            )
+            Spacer(Modifier.width(8.dp))
+        }
+
+        Text(text = text, color = Vinho, fontWeight = FontWeight.SemiBold)
+
+        if (!iconOnLeft) {
+            Spacer(Modifier.width(8.dp))
+            Icon(
+                painter = painterResource(id = iconRes),
+                contentDescription = null,
+                tint = Vinho,
+                modifier = Modifier.size(18.dp)
+            )
+        }
+    }
+}
+
+@Preview(showBackground = true, showSystemUi = true)
+@Composable
+fun ListasProvasResolucaoPreview() {
+    ListasProvasResolucao(navController = rememberNavController())
 }

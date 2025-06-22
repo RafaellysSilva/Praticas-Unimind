@@ -1,332 +1,295 @@
 package com.example.unimind
 
-import com.example.unimind.viewmodel.LoginResult
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ArrowBack
-import androidx.compose.material.icons.rounded.ArrowForward
-import androidx.compose.material.icons.rounded.Menu
-import androidx.compose.material.icons.rounded.Search
-import androidx.compose.material3.BottomAppBar
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExposedDropdownMenuBox
-import androidx.compose.material3.ExposedDropdownMenuDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Alignment.Companion.BottomCenter
-import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Color.Companion.Black
-import androidx.compose.ui.graphics.Color.Companion.Blue
-import androidx.compose.ui.graphics.Color.Companion.White
-import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.unimind.ui.theme.Bege
 import com.example.unimind.ui.theme.Nude
 import com.example.unimind.ui.theme.UnimindTheme
 import com.example.unimind.ui.theme.Vinho
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import com.example.unimind.ui.theme.Azul
-import com.example.unimind.ui.theme.Rosinha
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ListaPersonalizadaCriar(navController: NavController) {
-    UnimindTheme {
-        Surface(
-            modifier = Modifier.fillMaxSize(),
-            color = Nude
-        ) {
-            // Coluna principal para conter o cabeçalho, o conteúdo e o rodapé
-            Column(
-                modifier = Modifier.fillMaxSize() // Faz a Coluna preencher a tela inteira para posicionar corretamente o cabeçalho e o rodapé
-            ) {
-                // INÍCIO DA IMPLEMENTAÇÃO DO CABEÇALHO
 
-                // Este Box atuará como o plano de fundo do cabeçalho
+    var nome by remember { mutableStateOf("") }
+    var categoriaSelecionada by remember { mutableStateOf("") }
+    var fonteSelecionada by remember { mutableStateOf("") }
+    var anoSelecionado by remember { mutableStateOf("") }
+    var tempoSelecionado by remember { mutableStateOf("") }
+    var questoesSelecionadas by remember { mutableStateOf("") }
+
+    val isFonteEnabled = categoriaSelecionada.isNotEmpty()
+    val isAnoEnabled = fonteSelecionada.isNotEmpty()
+
+    // Dados de exemplo para os dropdowns (substituir pela lógica da API)
+    val categorias = listOf("Matemática", "Português", "História", "Geografia")
+    val fontes = listOf("Enem", "Fuvest", "Unicamp")
+    val anos = listOf("2024", "2023", "2022", "2021")
+    val tempos = listOf("30 minutos", "60 minutos", "90 minutos")
+    val quantidadesQuestoes = listOf("10 questões", "15 questões", "20 questões")
+
+
+    UnimindTheme {
+        Box(modifier = Modifier.fillMaxSize()) {
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.SpaceBetween
+            ) {
+                // Header
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(50.dp) // Define uma altura fixa para o cabeçalho
-                        .background(Vinho), // Usa uma cor semelhante à imagem (vermelho escuro/vinho)
-                    contentAlignment = Alignment.CenterStart // Alinha o conteúdo ao início (esquerda)
+                        .height(80.dp)
+                        .background(Vinho),
+                    contentAlignment = Alignment.Center
                 ) {
                     Text(
                         text = "Criar Lista Personalizada",
-                        color = Color.White, // Define a cor do texto para branco para contraste
-                        fontSize = 20.sp, // Ajusta o tamanho da fonte conforme necessário
-                        fontWeight = FontWeight.Bold, // Deixa o texto em negrito
-                        modifier = Modifier.padding(start = 20.dp) // Adiciona um preenchimento da borda esquerda
+                        color = Color.White,
+                        fontSize = 24.sp,
+                        fontWeight = FontWeight.Bold
                     )
                 }
-                Column(
+
+                // Footer
+                Box(
                     modifier = Modifier
-                        .fillMaxWidth() // A Column das preferências ocupa a largura total
-                        .padding(top = 250.dp)
+                        .fillMaxWidth()
+                        .height(80.dp)
+                        .clip(RoundedCornerShape(topStart = 60.dp, topEnd = 60.dp))
+                        .background(Vinho),
+                    contentAlignment = Alignment.BottomEnd
                 ) {
-                    Box(
-                        Modifier.fillMaxWidth()
-                    )
-
-                    Spacer(Modifier.height(10.dp))
-
-                    Row {
-                        Text(
-                            "Matéria:",
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Bold,
-                            modifier = Modifier
-                                .padding(start = 35.dp, end = 23.dp, top = 3.dp)
-                        )
-                        var expanded by remember { mutableStateOf(false) }
-                        var selecionada by remember { mutableStateOf("") }
-                        val opcoes = listOf("Opção 1", "Opção 2", "Opção 3")
-                        ExposedDropdownMenuBox(
-                            expanded = expanded,
-                            onExpandedChange = { expanded = !expanded }
-                        ) {
-                            OutlinedTextField(
-                                value = selecionada,
-                                onValueChange = {},
-                                readOnly = true,
-                                trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
-                                modifier = Modifier
-                                    .menuAnchor()
-                                    .height(30.dp)
-                                    .width(210.dp)
-                            )
-
-                            ExposedDropdownMenu(
-                                expanded = expanded,
-                                onDismissRequest = { expanded = false }
-                            ) {
-                                opcoes.forEach { opcao ->
-                                    DropdownMenuItem(
-                                        text = { Text(opcao) },
-                                        onClick = {
-                                            selecionada = opcao
-                                            expanded = false
-                                        }
-                                    )
-                                }
-                            }
-                        }
-                    }
-
-                    Spacer(Modifier.height(10.dp))
-
-                    Row {
-                        Text(
-                            "Fonte:",
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Bold,
-                            modifier = Modifier
-                                .padding(start = 35.dp, end = 55.dp, top = 3.dp)
-                        )
-
-                        var expanded by remember { mutableStateOf(false) }
-                        var selecionada by remember { mutableStateOf("") }
-                        val opcoes = listOf("Opção 1", "Opção 2", "Opção 3")
-                        ExposedDropdownMenuBox(
-                            expanded = expanded,
-                            onExpandedChange = { expanded = !expanded }
-                        ) {
-                            OutlinedTextField(
-                                value = selecionada,
-                                onValueChange = {},
-                                readOnly = true,
-                                trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
-                                modifier = Modifier
-                                    .menuAnchor()
-                                    .height(30.dp)
-                                    .width(210.dp)
-                            )
-
-                            ExposedDropdownMenu(
-                                expanded = expanded,
-                                onDismissRequest = { expanded = false }
-                            ) {
-                                opcoes.forEach { opcao ->
-                                    DropdownMenuItem(
-                                        text = { Text(opcao) },
-                                        onClick = {
-                                            selecionada = opcao
-                                            expanded = false
-                                        }
-                                    )
-                                }
-                            }
-                        }
-                    }
-
-                    Spacer(Modifier.height(10.dp))
-
-                    Row {
-                        Text(
-                            "Ano:",
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Bold,
-                            modifier = Modifier
-                                .padding(start = 40.dp, end = 55.dp, top = 3.dp)
-                        )
-
-                        var expanded by remember { mutableStateOf(false) }
-                        var selecionada by remember { mutableStateOf("") }
-                        val opcoes = listOf("Opção 1", "Opção 2", "Opção 3")
-                        ExposedDropdownMenuBox(
-                            expanded = expanded,
-                            onExpandedChange = { expanded = !expanded }
-                        ) {
-                            OutlinedTextField(
-                                value = selecionada,
-                                onValueChange = {},
-                                readOnly = true,
-                                trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
-                                modifier = Modifier
-                                    .menuAnchor()
-                                    .height(30.dp)
-                                    .width(210.dp)
-                            )
-
-                            ExposedDropdownMenu(
-                                expanded = expanded,
-                                onDismissRequest = { expanded = false }
-                            ) {
-                                opcoes.forEach { opcao ->
-                                    DropdownMenuItem(
-                                        text = { Text(opcao) },
-                                        onClick = {
-                                            selecionada = opcao
-                                            expanded = false
-                                        }
-                                    )
-                                }
-                            }
-                        }
-                    }
-
-                    Spacer(Modifier.height(10.dp))
-
-                    Row {
-                        Text(
-                            "Questões:",
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Bold,
-                            modifier = Modifier
-                                .padding(start = 35.dp, end = 25.dp, top = 3.dp)
-                        )
-
-                        var expanded by remember { mutableStateOf(false) }
-                        var selecionada by remember { mutableStateOf("") }
-                        val opcoes = listOf("Opção 1", "Opção 2", "Opção 3")
-                        ExposedDropdownMenuBox(
-                            expanded = expanded,
-                            onExpandedChange = { expanded = !expanded }
-                        ) {
-                            OutlinedTextField(
-                                value = selecionada,
-                                onValueChange = {},
-                                readOnly = true,
-                                trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
-                                modifier = Modifier
-                                    .menuAnchor()
-                                    .height(30.dp)
-                                    .width(210.dp)
-                            )
-
-                            ExposedDropdownMenu(
-                                expanded = expanded,
-                                onDismissRequest = { expanded = false }
-                            ) {
-                                opcoes.forEach { opcao ->
-                                    DropdownMenuItem(
-                                        text = { Text(opcao) },
-                                        onClick = {
-                                            selecionada = opcao
-                                            expanded = false
-                                        }
-                                    )
-                                }
-                            }
-                        }
-                    }
-
-                    Spacer(Modifier.height(30.dp))
-
-                    Button(
-                        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFF3E0D1)),
-                        shape = RoundedCornerShape(10.dp),
-                        border = BorderStroke(1.dp, Vinho),
-                        onClick = { navController.navigate("telaListasProvasResolucao") },
+                    Image(
+                        painter = painterResource(id = R.drawable.bichinho),
+                        contentDescription = "Mascote",
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 100.dp)
-                            .height(38.dp)
-                    ) {
-                        Text(
-                            text = "Criar",
-                            color = Vinho,
-                            fontSize = 17.sp,
-                            fontWeight = FontWeight.Bold
-                        )
-                    }
-
-                    Spacer(Modifier.height(30.dp))
-
+                            .size(80.dp)
+                            .padding(end = 16.dp, bottom = 8.dp)
+                    )
                 }
-                Footer(navController)
+            }
+
+            // Formulário Central
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 32.dp),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Box(
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(30.dp))
+                        .background(Nude)
+                        .padding(24.dp)
+                ) {
+                    Column(
+                        verticalArrangement = Arrangement.spacedBy(16.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        EditableField("Nome", nome) { nome = it }
+
+                        SelectableField(
+                            label = "Categoria",
+                            selectedValue = categoriaSelecionada,
+                            options = categorias,
+                            onValueChange = { categoriaSelecionada = it }
+                        )
+
+                        SelectableField(
+                            label = "Fonte",
+                            selectedValue = fonteSelecionada,
+                            options = fontes,
+                            onValueChange = { fonteSelecionada = it },
+                            enabled = isFonteEnabled
+                        )
+
+                        SelectableField(
+                            label = "Ano",
+                            selectedValue = anoSelecionado,
+                            options = anos,
+                            onValueChange = { anoSelecionado = it },
+                            enabled = isAnoEnabled
+                        )
+
+                        SelectableField(
+                            label = "Tempo",
+                            selectedValue = tempoSelecionado,
+                            options = tempos,
+                            onValueChange = { tempoSelecionado = it }
+                        )
+
+                        SelectableField(
+                            label = "Questões",
+                            selectedValue = questoesSelecionadas,
+                            options = quantidadesQuestoes,
+                            onValueChange = { questoesSelecionadas = it }
+                        )
+
+                        Spacer(modifier = Modifier.height(16.dp))
+
+                        Button(
+                            onClick = { navController.navigate("telaListasProvasResolucao") },
+                            shape = RoundedCornerShape(10.dp),
+                            colors = ButtonDefaults.buttonColors(containerColor = Bege),
+                            border = BorderStroke(1.dp, Vinho),
+                            modifier = Modifier
+                                .width(200.dp)
+                                .height(48.dp)
+                        ) {
+                            Text(
+                                text = "Criar",
+                                color = Vinho,
+                                fontSize = 18.sp,
+                                fontWeight = FontWeight.Bold
+                            )
+                        }
+                    }
+                }
             }
         }
     }
+}
+
+@Composable
+fun EditableField(label: String, value: String, onValueChange: (String) -> Unit) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween,
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Text(
+            text = label,
+            fontSize = 18.sp,
+            fontWeight = FontWeight.Bold,
+            color = Vinho
+        )
+        OutlinedTextField(
+            value = value,
+            onValueChange = onValueChange,
+            modifier = Modifier
+                .width(180.dp)
+                .defaultMinSize(minHeight = 48.dp), // Usa altura mínima
+            shape = RoundedCornerShape(8.dp),
+            colors = TextFieldDefaults.colors(
+                unfocusedContainerColor = Color(0xFFD9D9D9),
+                focusedContainerColor = Color(0xFFD9D9D9),
+                unfocusedIndicatorColor = Color.Gray,
+                focusedIndicatorColor = Vinho,
+                unfocusedTextColor = Color.Black,
+                focusedTextColor = Color.Black,
+                cursorColor = Vinho
+            ),
+            singleLine = true,
+            textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Start)
+        )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun SelectableField(
+    label: String,
+    selectedValue: String,
+    options: List<String>,
+    onValueChange: (String) -> Unit,
+    enabled: Boolean = true
+) {
+    var expanded by remember { mutableStateOf(false) }
+
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween,
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Text(
+            text = label,
+            fontSize = 18.sp,
+            fontWeight = FontWeight.Bold,
+            color = if (enabled) Vinho else Color.Gray
+        )
+        ExposedDropdownMenuBox(
+            expanded = expanded && enabled,
+            onExpandedChange = { if (enabled) expanded = !expanded }
+        ) {
+            OutlinedTextField(
+                value = selectedValue,
+                onValueChange = {},
+                readOnly = true,
+                enabled = enabled,
+                modifier = Modifier
+                    .menuAnchor()
+                    .width(180.dp)
+                    .defaultMinSize(minHeight = 48.dp), // Usa altura mínima
+                shape = RoundedCornerShape(8.dp),
+                colors = TextFieldDefaults.colors(
+                    // Enabled state
+                    unfocusedContainerColor = Color(0xFFD9D9D9),
+                    focusedContainerColor = Color(0xFFD9D9D9),
+                    unfocusedIndicatorColor = Color.Gray,
+                    focusedIndicatorColor = Vinho,
+                    unfocusedTextColor = Color.Black,
+                    focusedTextColor = Color.Black,
+                    disabledContainerColor = Color(0xFFBDBDBD),
+                    disabledIndicatorColor = Color.Gray,
+                    disabledTextColor = Color.DarkGray,
+                    disabledTrailingIconColor = Color.Gray,
+                    unfocusedTrailingIconColor = Color.Black
+                ),
+                trailingIcon = {
+                    Icon(
+                        imageVector = Icons.Default.ArrowDropDown,
+                        contentDescription = "Dropdown"
+                    )
+                },
+                singleLine = true
+            )
+
+            ExposedDropdownMenu(
+                expanded = expanded && enabled,
+                onDismissRequest = { expanded = false }
+            ) {
+                options.forEach { option ->
+                    DropdownMenuItem(
+                        text = { Text(option) },
+                        onClick = {
+                            onValueChange(option)
+                            expanded = false
+                        }
+                    )
+                }
+            }
+        }
+    }
+}
+
+
+@Preview(showBackground = true, showSystemUi = true)
+@Composable
+fun ListaPersonalizadaCriarPreview() {
+    ListaPersonalizadaCriar(navController = rememberNavController())
 }

@@ -54,8 +54,6 @@ import com.example.unimind.viewmodel.UsuarioViewModel
 // Tipo de resultado do login
 
 class MainActivity : ComponentActivity() {
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()

@@ -25,22 +25,20 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.unimind.data.ListaPersonalizada
 import com.example.unimind.ui.theme.Bege
 import com.example.unimind.ui.theme.Nude
 import com.example.unimind.ui.theme.Rosinha
 import com.example.unimind.ui.theme.UnimindTheme
 import com.example.unimind.ui.theme.Vinho
-
-data class ProvaItem(
-    val id: Int,
-    val titulo: String,
-    val categoria: String
-)
+import com.example.unimind.viewmodel.ListaPersonalizadaViewModel
+import com.example.unimind.viewmodel.UsuarioViewModel
 
 @Composable
-fun ListasProvasHeader() {
+fun ListasPersonalizadasHeader() {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -68,7 +66,7 @@ fun ListasProvasHeader() {
             contentAlignment = Alignment.Center
         ) {
             Text(
-                text = "Listas & Provas",
+                text = "Listas Personalizadas",
                 color = Nude,
                 fontSize = 28.sp,
                 modifier = Modifier.padding(bottom = 40.dp)
@@ -79,47 +77,40 @@ fun ListasProvasHeader() {
 
 
 @Composable
-fun ListasProvasArea(navController: NavController) {
-
-    val todasAsProvas = remember {
-        listOf(
-            ProvaItem(1, "Cálculo I", "Exatas"),
-            ProvaItem(2, "História Antiga", "Humanas"),
-            ProvaItem(3, "Biologia Celular", "Biológicas"),
-            ProvaItem(4, "Álgebra Linear", "Exatas"),
-            ProvaItem(5, "Redação", "Linguagens"),
-            ProvaItem(6, "Química Orgânica", "Exatas"),
-            ProvaItem(7, "Física II", "Exatas"),
-            ProvaItem(8, "Literatura", "Linguagens"),
-        )
-    }
-
+fun ListasProvasArea(navController: NavController, viewModel: ListaPersonalizadaViewModel, usuarioViewModel: UsuarioViewModel) {
+    val usuario by usuarioViewModel.usuarioDetalhe
+    val listas by viewModel.listas
     var textoPesquisa by remember { mutableStateOf("") }
 
-    val provasFiltradas = if (textoPesquisa.isBlank()) {
-        todasAsProvas
+    LaunchedEffect(Unit) {
+        viewModel.listarListas()
+    }
+
+    val listasUsuario = listas.filter { it.idUsuario == usuario?.idUsuario }
+
+    val listasFiltradas = if (textoPesquisa.isBlank()) {
+        listasUsuario
     } else {
-        todasAsProvas.filter {
-            it.titulo.contains(textoPesquisa, ignoreCase = true) ||
-                    it.categoria.contains(textoPesquisa, ignoreCase = true)
+        listasUsuario.filter {
+            // Adapte os campos de filtro conforme necessário
+            it.fonte?.contains(textoPesquisa, ignoreCase = true) == true ||
+                    it.ano.toString().contains(textoPesquisa)
         }
     }
 
     UnimindTheme {
         Box(modifier = Modifier.fillMaxSize()) {
-            // Header personalizado fica no fundo
-            ListasProvasHeader()
+            ListasPersonalizadasHeader()
 
-            // Scaffold gerencia o layout principal, incluindo o footer
             Scaffold(
-                containerColor = Color.Transparent, // Fundo transparente para ver o header
-                bottomBar = { Footer(navController) } // Footer no local correto
+                containerColor = Color.Transparent,
+                bottomBar = { Footer(navController) }
             ) { innerPadding ->
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(innerPadding) // Aplica o padding para não sobrepor o footer
-                        .padding(top = 180.dp), // Padding para o header personalizado
+                        .padding(innerPadding)
+                        .padding(top = 180.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
 
@@ -167,25 +158,6 @@ fun ListasProvasArea(navController: NavController) {
 
                     Spacer(Modifier.height(20.dp))
 
-                    Button(
-                        colors = ButtonDefaults.buttonColors(containerColor = Bege),
-                        shape = RoundedCornerShape(17.dp),
-                        border = BorderStroke(2.dp, Color.Transparent),
-                        onClick = { /* TODO: Navegar para a tela de listas realizadas */ },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 45.dp)
-                            .height(50.dp)
-                    ) {
-                        Text(
-                            text = "Provas e listas já realizadas",
-                            color = Vinho,
-                            fontSize = 17.sp
-                        )
-                    }
-
-                    Spacer(Modifier.height(20.dp))
-
                     LazyVerticalGrid(
                         columns = GridCells.Fixed(2),
                         modifier = Modifier
@@ -193,10 +165,8 @@ fun ListasProvasArea(navController: NavController) {
                             .padding(horizontal = 45.dp),
                         horizontalArrangement = Arrangement.spacedBy(16.dp),
                         verticalArrangement = Arrangement.spacedBy(16.dp)
-                        // Não é mais necessário padding de conteúdo no bottom,
-                        // pois o Scaffold já cuida disso.
                     ) {
-                        items(provasFiltradas) { prova ->
+                        items(listasFiltradas) { lista ->
                             Button(
                                 onClick = { navController.navigate("telaListasProvasResolucao") },
                                 modifier = Modifier
@@ -210,17 +180,12 @@ fun ListasProvasArea(navController: NavController) {
                                     verticalArrangement = Arrangement.Center
                                 ) {
                                     Text(
-                                        text = prova.titulo,
+                                        text = "Lista #${lista.idLista}",
                                         color = Color.White,
                                         fontSize = 17.sp,
                                         textAlign = TextAlign.Center
                                     )
-                                    Text(
-                                        text = prova.categoria,
-                                        color = Color.White,
-                                        fontSize = 14.sp,
-                                        textAlign = TextAlign.Center
-                                    )
+                                    // Adicione mais informações da lista se desejar
                                 }
                             }
                         }
@@ -229,10 +194,4 @@ fun ListasProvasArea(navController: NavController) {
             }
         }
     }
-}
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun ListasProvasAreaPreview() {
-    ListasProvasArea(navController = rememberNavController())
 }

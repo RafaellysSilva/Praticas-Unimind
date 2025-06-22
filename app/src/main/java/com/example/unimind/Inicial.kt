@@ -48,7 +48,7 @@ private val topButtons = listOf(
 
 private val mainButtons = listOf(
     HomeButtonInfo("Flashcards", R.drawable.flashcards, "telaFlashcardsArea"),
-    HomeButtonInfo("Listas e Provas", R.drawable.listasprovas, "telaListasProvasArea"),
+    HomeButtonInfo("Listas Personalizadas", R.drawable.listasprovas, "telaListasProvasArea"),
     HomeButtonInfo("Competição", R.drawable.competicao, "telaCompeticaoCriar"),
     HomeButtonInfo("Estatísticas", R.drawable.estatisticas, "telaEstatisticas")
 )

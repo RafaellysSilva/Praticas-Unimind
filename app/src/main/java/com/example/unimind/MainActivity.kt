@@ -17,11 +17,22 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Modifier
@@ -54,6 +65,8 @@ import com.example.unimind.data.Flashcard
 import com.example.unimind.ui.theme.Rosinha
 import com.example.unimind.viewmodel.CompeticaoViewModel
 import com.example.unimind.viewmodel.FlashcardViewModel
+import com.example.unimind.viewmodel.ListaPersonalizadaViewModel
+import com.example.unimind.viewmodel.QuestaoViewModel
 import com.example.unimind.viewmodel.UsuarioViewModel
 
 //import com.example.usuarioapp.viewmodel.LoginResult
@@ -70,16 +83,18 @@ class MainActivity : ComponentActivity() {
             val usuarioViewModel: UsuarioViewModel = viewModel()
             val flashcardViewModel: FlashcardViewModel = viewModel()
             val competicaoViewModel: CompeticaoViewModel = viewModel()
+            val listaPersonalizadaViewModel: ListaPersonalizadaViewModel = viewModel()
+            val questaoViewModel: QuestaoViewModel = viewModel()
 
             UnimindTheme {
-                AppNavigation(navController, usuarioViewModel, flashcardViewModel, competicaoViewModel)
+                AppNavigation(navController, usuarioViewModel, flashcardViewModel, competicaoViewModel, listaPersonalizadaViewModel, questaoViewModel)
             }
         }
     }
 }
 
 @Composable
-fun AppNavigation(navController: NavHostController, usuarioViewModel: UsuarioViewModel, flashcardViewModel: FlashcardViewModel, competicaoViewModel: CompeticaoViewModel) {
+fun AppNavigation(navController: NavHostController, usuarioViewModel: UsuarioViewModel, flashcardViewModel: FlashcardViewModel, competicaoViewModel: CompeticaoViewModel, listaPersonalizadaViewModel: ListaPersonalizadaViewModel, questaoViewModel: QuestaoViewModel) {
     NavHost(navController = navController, startDestination = "telaBloqueio") {
         composable("telaBloqueio") { Bloqueio(navController) }
         composable("telaCadastro") { Cadastro(navController, usuarioViewModel) }
@@ -122,9 +137,9 @@ fun AppNavigation(navController: NavHostController, usuarioViewModel: UsuarioVie
                 usuarioViewModel
             )
         }
-        composable("telaListasProvasArea") { ListasProvasArea(navController) }
+        composable("telaListasProvasArea") { ListasProvasArea(navController, listaPersonalizadaViewModel, usuarioViewModel) }
         composable("telaListasProvasResolucao") { ListasProvasResolucao(navController) }
-        composable("telaListaPersonalizadaCriar") { ListaPersonalizadaCriar(navController) }
+        composable("telaListaPersonalizadaCriar") { ListaPersonalizadaCriar(navController, usuarioViewModel, questaoViewModel, listaPersonalizadaViewModel) }
         composable("telaCompeticaoCriar") { CompeticaoCriar(navController, usuarioViewModel, competicaoViewModel) }
         composable("telaCompeticaoMomento") { CompeticaoMomento(navController) }
         composable("telaCompeticaoRelatorio") { CompeticaoRelatorio(navController) }
@@ -137,4 +152,81 @@ fun AppNavigation(navController: NavHostController, usuarioViewModel: UsuarioVie
 @Composable
 fun AppPreview() {
     Bloqueio(rememberNavController())
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun SelectableField(
+    label: String,
+    selectedValue: String,
+    options: List<String>,
+    onValueChange: (String) -> Unit,
+    enabled: Boolean = true
+) {
+    var expanded by remember { mutableStateOf(false) }
+
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween,
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Text(
+            text = label,
+            fontSize = 18.sp,
+            fontWeight = FontWeight.Bold,
+            color = if (enabled) Vinho else Color.Gray
+        )
+        ExposedDropdownMenuBox(
+            expanded = expanded && enabled,
+            onExpandedChange = { if (enabled) expanded = !expanded }
+        ) {
+            OutlinedTextField(
+                value = selectedValue,
+                onValueChange = {},
+                readOnly = true,
+                enabled = enabled,
+                modifier = Modifier
+                    .menuAnchor()
+                    .width(180.dp)
+                    .defaultMinSize(minHeight = 48.dp), // Usa altura mínima
+                shape = RoundedCornerShape(8.dp),
+                colors = TextFieldDefaults.colors(
+                    // Enabled state
+                    unfocusedContainerColor = Color(0xFFD9D9D9),
+                    focusedContainerColor = Color(0xFFD9D9D9),
+                    unfocusedIndicatorColor = Color.Gray,
+                    focusedIndicatorColor = Vinho,
+                    unfocusedTextColor = Color.Black,
+                    focusedTextColor = Color.Black,
+                    disabledContainerColor = Color(0xFFBDBDBD),
+                    disabledIndicatorColor = Color.Gray,
+                    disabledTextColor = Color.DarkGray,
+                    disabledTrailingIconColor = Color.Gray,
+                    unfocusedTrailingIconColor = Color.Black
+                ),
+                trailingIcon = {
+                    Icon(
+                        imageVector = Icons.Default.ArrowDropDown,
+                        contentDescription = "Dropdown"
+                    )
+                },
+                singleLine = true
+            )
+
+            ExposedDropdownMenu(
+                expanded = expanded && enabled,
+                onDismissRequest = { expanded = false }
+            ) {
+                options.forEach { option ->
+                    DropdownMenuItem(
+                        text = { Text(option) },
+                        onClick = {
+                            onValueChange(option)
+                            expanded = false
+                        }
+                    )
+                }
+            }
+        }
+    }
 }

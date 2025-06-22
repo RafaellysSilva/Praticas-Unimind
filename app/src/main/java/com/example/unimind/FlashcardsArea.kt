@@ -30,23 +30,30 @@ import com.example.unimind.ui.theme.Rosinha
 import com.example.unimind.ui.theme.UnimindTheme
 import com.example.unimind.ui.theme.Vinho
 import com.example.unimind.viewmodel.FlashcardViewModel
+import com.example.unimind.viewmodel.UsuarioViewModel
 
 @Composable
-fun FlashcardsArea(navController: NavController, viewModel: FlashcardViewModel) {
+fun FlashcardsArea(navController: NavController, viewModel: FlashcardViewModel, usuarioViewModel: UsuarioViewModel) {
     // Carrega a lista de flashcards quando a tela é iniciada
     LaunchedEffect(Unit) {
         viewModel.listarFlashcards()
     }
 
+    val usuario by usuarioViewModel.usuarioDetalhe
     val flashcards by viewModel.flashcards
     var textoPesquisa by remember { mutableStateOf("") }
 
-    // Filtra os flashcards com base no texto de pesquisa
-    val flashcardsFiltrados = remember(textoPesquisa, flashcards) {
+    val flashcardsUsuario = remember(flashcards){
+        flashcards.filter {
+            it.idUsuario == usuario?.idUsuario
+        }
+    }
+
+    val flashcardsFiltrados = remember(textoPesquisa, flashcardsUsuario) {
         if (textoPesquisa.isBlank()) {
-            flashcards
+            flashcardsUsuario
         } else {
-            flashcards.filter {
+            flashcardsUsuario.filter {
                 it.perguntaUsuario.contains(textoPesquisa, ignoreCase = true)
             }
         }

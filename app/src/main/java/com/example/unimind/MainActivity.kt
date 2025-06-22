@@ -86,7 +86,7 @@ fun AppNavigation(navController: NavHostController, usuarioViewModel: UsuarioVie
         composable("telaEntrar") { Entrar(navController, usuarioViewModel) }
         composable("telaInicial") { Inicial(navController, usuarioViewModel) }
         composable("telaConfiguracoes") { Configuracoes(navController, usuarioViewModel) }
-        composable("telaFlashcardsArea") { FlashcardsArea(navController, flashcardViewModel) }
+        composable("telaFlashcardsArea") { FlashcardsArea(navController, flashcardViewModel, usuarioViewModel) }
         composable("telaFlashcards/{flashcardId}",
             arguments = listOf(navArgument("flashcardId") {
                 type = NavType.IntType

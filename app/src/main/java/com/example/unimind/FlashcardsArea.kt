@@ -33,7 +33,7 @@ import com.example.unimind.viewmodel.FlashcardViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FlashcardsArea(navController: NavController, viewModel: FlashcardViewModel = viewModel()) {
+fun FlashcardsArea(navController: NavController, viewModel: FlashcardViewModel) {
     // Carrega a lista de flashcards quando a tela é iniciada
     LaunchedEffect(Unit) {
         viewModel.listarFlashcards()

@@ -35,8 +35,8 @@ fun FlashcardsResposta(
     navController: NavController,
     pergunta: String,
     flashcardId: Int?,
-    viewModel: FlashcardViewModel = viewModel(),
-    usuarioViewModel: UsuarioViewModel = viewModel()
+    viewModel: FlashcardViewModel,
+    usuarioViewModel: UsuarioViewModel
 ) {
     var resposta by remember { mutableStateOf("") }
     val flashcardDetalhe by viewModel.flashcardDetalhe

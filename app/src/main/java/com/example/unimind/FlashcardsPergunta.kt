@@ -34,7 +34,7 @@ import java.nio.charset.StandardCharsets
 fun FlashcardsPergunta(
     navController: NavController,
     flashcardId: Int?,
-    viewModel: FlashcardViewModel = viewModel()
+    viewModel: FlashcardViewModel
 ) {
     var pergunta by remember { mutableStateOf("") }
     val flashcardDetalhe by viewModel.flashcardDetalhe

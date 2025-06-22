@@ -165,8 +165,7 @@ private fun FlashcardItem(flashcard: Flashcard, onClick: () -> Unit) {
                 maxLines = 2 // Limita o título a 2 linhas
             )
             Text(
-                // O modelo Flashcard não tem "categoria", usando um placeholder
-                text = "Categoria",
+                text = "Card!",
                 color = Color.White.copy(alpha = 0.8f),
                 fontSize = 13.sp,
                 textAlign = TextAlign.Center

@@ -1,0 +1,198 @@
+[
+    {
+        "merged": "com.example.unimind.app-debug-61:/drawable_flashcards.png.flat",
+        "source": "com.example.unimind.app-main-63:/drawable/flashcards.png"
+    },
+    {
+        "merged": "com.example.unimind.app-debug-61:/mipmap-xhdpi_ic_launcher.webp.flat",
+        "source": "com.example.unimind.app-main-63:/mipmap-xhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.example.unimind.app-debug-61:/mipmap-hdpi_ic_launcher_foreground.webp.flat",
+        "source": "com.example.unimind.app-main-63:/mipmap-hdpi/ic_launcher_foreground.webp"
+    },
+    {
+        "merged": "com.example.unimind.app-debug-61:/drawable_fotouser1.png.flat",
+        "source": "com.example.unimind.app-main-63:/drawable/fotouser1.png"
+    },
+    {
+        "merged": "com.example.unimind.app-debug-61:/font_inter.ttf.flat",
+        "source": "com.example.unimind.app-main-63:/font/inter.ttf"
+    },
+    {
+        "merged": "com.example.unimind.app-debug-61:/mipmap-mdpi_ic_launcher_foreground.webp.flat",
+        "source": "com.example.unimind.app-main-63:/mipmap-mdpi/ic_launcher_foreground.webp"
+    },
+    {
+        "merged": "com.example.unimind.app-debug-61:/drawable_baseline_arrow_forward_ios_vinho.xml.flat",
+        "source": "com.example.unimind.app-main-63:/drawable/baseline_arrow_forward_ios_vinho.xml"
+    },
+    {
+        "merged": "com.example.unimind.app-debug-61:/xml_backup_rules.xml.flat",
+        "source": "com.example.unimind.app-main-63:/xml/backup_rules.xml"
+    },
+    {
+        "merged": "com.example.unimind.app-debug-61:/drawable_lixeira.png.flat",
+        "source": "com.example.unimind.app-main-63:/drawable/lixeira.png"
+    },
+    {
+        "merged": "com.example.unimind.app-debug-61:/drawable_estatisticas.png.flat",
+        "source": "com.example.unimind.app-main-63:/drawable/estatisticas.png"
+    },
+    {
+        "merged": "com.example.unimind.app-debug-61:/drawable_engrenagem.png.flat",
+        "source": "com.example.unimind.app-main-63:/drawable/engrenagem.png"
+    },
+    {
+        "merged": "com.example.unimind.app-debug-61:/drawable_baseline_arrow_back_ios_new_24.xml.flat",
+        "source": "com.example.unimind.app-main-63:/drawable/baseline_arrow_back_ios_new_24.xml"
+    },
+    {
+        "merged": "com.example.unimind.app-debug-61:/drawable_ic_launcher_foreground.xml.flat",
+        "source": "com.example.unimind.app-main-63:/drawable/ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "com.example.unimind.app-debug-61:/drawable_config.png.flat",
+        "source": "com.example.unimind.app-main-63:/drawable/config.png"
+    },
+    {
+        "merged": "com.example.unimind.app-debug-61:/drawable-nodpi__2832852_3.png.flat",
+        "source": "com.example.unimind.app-main-63:/drawable-nodpi/_2832852_3.png"
+    },
+    {
+        "merged": "com.example.unimind.app-debug-61:/mipmap-hdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.unimind.app-main-63:/mipmap-hdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.example.unimind.app-debug-61:/mipmap-xxhdpi_ic_launcher_foreground.webp.flat",
+        "source": "com.example.unimind.app-main-63:/mipmap-xxhdpi/ic_launcher_foreground.webp"
+    },
+    {
+        "merged": "com.example.unimind.app-debug-61:/drawable_listasprovas.png.flat",
+        "source": "com.example.unimind.app-main-63:/drawable/listasprovas.png"
+    },
+    {
+        "merged": "com.example.unimind.app-debug-61:/mipmap-xxhdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.unimind.app-main-63:/mipmap-xxhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.example.unimind.app-debug-61:/drawable_competdois.png.flat",
+        "source": "com.example.unimind.app-main-63:/drawable/competdois.png"
+    },
+    {
+        "merged": "com.example.unimind.app-debug-61:/font_cute_letters.ttf.flat",
+        "source": "com.example.unimind.app-main-63:/font/cute_letters.ttf"
+    },
+    {
+        "merged": "com.example.unimind.app-debug-61:/mipmap-xhdpi_ic_launcher_foreground.webp.flat",
+        "source": "com.example.unimind.app-main-63:/mipmap-xhdpi/ic_launcher_foreground.webp"
+    },
+    {
+        "merged": "com.example.unimind.app-debug-61:/drawable_baseline_navigate_next_24.xml.flat",
+        "source": "com.example.unimind.app-main-63:/drawable/baseline_navigate_next_24.xml"
+    },
+    {
+        "merged": "com.example.unimind.app-debug-61:/drawable_plus_circle.png.flat",
+        "source": "com.example.unimind.app-main-63:/drawable/plus_circle.png"
+    },
+    {
+        "merged": "com.example.unimind.app-debug-61:/drawable_calendario.png.flat",
+        "source": "com.example.unimind.app-main-63:/drawable/calendario.png"
+    },
+    {
+        "merged": "com.example.unimind.app-debug-61:/mipmap-xxxhdpi_ic_launcher.webp.flat",
+        "source": "com.example.unimind.app-main-63:/mipmap-xxxhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.example.unimind.app-debug-61:/drawable-nodpi__2832715_2.png.flat",
+        "source": "com.example.unimind.app-main-63:/drawable-nodpi/_2832715_2.png"
+    },
+    {
+        "merged": "com.example.unimind.app-debug-61:/xml_network_security_config.xml.flat",
+        "source": "com.example.unimind.app-main-63:/xml/network_security_config.xml"
+    },
+    {
+        "merged": "com.example.unimind.app-debug-61:/drawable_competicao.png.flat",
+        "source": "com.example.unimind.app-main-63:/drawable/competicao.png"
+    },
+    {
+        "merged": "com.example.unimind.app-debug-61:/drawable_correndo.png.flat",
+        "source": "com.example.unimind.app-main-63:/drawable/correndo.png"
+    },
+    {
+        "merged": "com.example.unimind.app-debug-61:/drawable_user.png.flat",
+        "source": "com.example.unimind.app-main-63:/drawable/user.png"
+    },
+    {
+        "merged": "com.example.unimind.app-debug-61:/mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "com.example.unimind.app-main-63:/mipmap-anydpi-v26/ic_launcher.xml"
+    },
+    {
+        "merged": "com.example.unimind.app-debug-61:/drawable_engranagem.png.flat",
+        "source": "com.example.unimind.app-main-63:/drawable/engranagem.png"
+    },
+    {
+        "merged": "com.example.unimind.app-debug-61:/mipmap-mdpi_ic_launcher.webp.flat",
+        "source": "com.example.unimind.app-main-63:/mipmap-mdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.example.unimind.app-debug-61:/drawable-nodpi_em_cima_versus__1___1_.png.flat",
+        "source": "com.example.unimind.app-main-63:/drawable-nodpi/em_cima_versus__1___1_.png"
+    },
+    {
+        "merged": "com.example.unimind.app-debug-61:/drawable_bichinho.png.flat",
+        "source": "com.example.unimind.app-main-63:/drawable/bichinho.png"
+    },
+    {
+        "merged": "com.example.unimind.app-debug-61:/xml_data_extraction_rules.xml.flat",
+        "source": "com.example.unimind.app-main-63:/xml/data_extraction_rules.xml"
+    },
+    {
+        "merged": "com.example.unimind.app-debug-61:/mipmap-mdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.unimind.app-main-63:/mipmap-mdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.example.unimind.app-debug-61:/mipmap-xxhdpi_ic_launcher.webp.flat",
+        "source": "com.example.unimind.app-main-63:/mipmap-xxhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.example.unimind.app-debug-61:/drawable_estadois.png.flat",
+        "source": "com.example.unimind.app-main-63:/drawable/estadois.png"
+    },
+    {
+        "merged": "com.example.unimind.app-debug-61:/mipmap-xxxhdpi_ic_launcher_foreground.webp.flat",
+        "source": "com.example.unimind.app-main-63:/mipmap-xxxhdpi/ic_launcher_foreground.webp"
+    },
+    {
+        "merged": "com.example.unimind.app-debug-61:/drawable_fotouser2.png.flat",
+        "source": "com.example.unimind.app-main-63:/drawable/fotouser2.png"
+    },
+    {
+        "merged": "com.example.unimind.app-debug-61:/drawable_cards.png.flat",
+        "source": "com.example.unimind.app-main-63:/drawable/cards.png"
+    },
+    {
+        "merged": "com.example.unimind.app-debug-61:/drawable_tempo.png.flat",
+        "source": "com.example.unimind.app-main-63:/drawable/tempo.png"
+    },
+    {
+        "merged": "com.example.unimind.app-debug-61:/mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "com.example.unimind.app-main-63:/mipmap-anydpi-v26/ic_launcher_round.xml"
+    },
+    {
+        "merged": "com.example.unimind.app-debug-61:/mipmap-xxxhdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.unimind.app-main-63:/mipmap-xxxhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.example.unimind.app-debug-61:/mipmap-hdpi_ic_launcher.webp.flat",
+        "source": "com.example.unimind.app-main-63:/mipmap-hdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.example.unimind.app-debug-61:/mipmap-xhdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.unimind.app-main-63:/mipmap-xhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.example.unimind.app-debug-61:/drawable_ic_launcher_background.xml.flat",
+        "source": "com.example.unimind.app-main-63:/drawable/ic_launcher_background.xml"
+    }
+]

@@ -1,6 +1,7 @@
 package com.example.unimind.viewmodel
 
 import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -15,6 +16,13 @@ class QuestaoViewModel : ViewModel() {
 
     private val _questaoDetalhe = mutableStateOf<Questao?>(null)
     val questaoDetalhe: State<Questao?> = _questaoDetalhe
+
+    private val _respostasUsuario = mutableStateListOf<Alternativa?>()
+    val respostasUsuario: List<Alternativa?> = _respostasUsuario
+
+    private val _acertos = mutableStateListOf<Boolean>()
+    val acertos: List<Boolean> = _acertos
+
 
     private val _mensagem = mutableStateOf("")
     val mensagem: State<String> = _mensagem
@@ -43,19 +51,37 @@ class QuestaoViewModel : ViewModel() {
         _alternativaSelecionada.value = alternativa
     }
 
-    fun verificarResposta() {
-        if (_alternativaSelecionada.value?.correta == true) {
+    fun verificarResposta(questao: Questao) {
+        _respostasUsuario.add(_alternativaSelecionada.value)
+        val acertou = _alternativaSelecionada.value?.correta == true
+        _acertos.add(acertou)
+        if (acertou) {
             _pontuacao.value++
         }
-        // Lógica adicional pode ser adicionada aqui, como mostrar feedback de resposta
+        _alternativaSelecionada.value = null // Limpa a seleção após verificar
     }
 
-    fun proximaQuestao() {
-        if (_indiceQuestaoAtual.value < _questoes.value.size - 1) {
+
+    fun proximaQuestao(totalQuestoesDoQuiz: Int) {
+        if (_indiceQuestaoAtual.value < totalQuestoesDoQuiz - 1) {
             _indiceQuestaoAtual.value++
             _alternativaSelecionada.value = null // Limpa a seleção para a próxima questão
         } else {
             _quizFinalizado.value = true
+        }
+    }
+
+    fun anteriorQuestao() {
+        if (_indiceQuestaoAtual.value > 0) {
+            _indiceQuestaoAtual.value--
+            _alternativaSelecionada.value = _respostasUsuario.getOrNull(_indiceQuestaoAtual.value) // Restaura a seleção anterior
+            if (_respostasUsuario.size > _indiceQuestaoAtual.value + 1) {
+                _respostasUsuario.removeAt(_respostasUsuario.size - 1)
+                _acertos.removeAt(_acertos.size - 1)
+                if (_acertos.lastOrNull() == true) {
+                    _pontuacao.value--
+                }
+            }
         }
     }
 
@@ -64,6 +90,8 @@ class QuestaoViewModel : ViewModel() {
         _pontuacao.value = 0
         _alternativaSelecionada.value = null
         _quizFinalizado.value = false
+        _respostasUsuario.clear()
+        _acertos.clear()
         listarQuestoes() // Ou qualquer outra lógica para reiniciar as questões
     }
 

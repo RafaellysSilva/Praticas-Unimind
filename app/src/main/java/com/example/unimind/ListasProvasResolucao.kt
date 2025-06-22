@@ -6,6 +6,9 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -43,39 +46,38 @@ fun ListasProvasResolucao(
     val pontuacao by questaoViewModel.pontuacao
     val quizFinalizado by questaoViewModel.quizFinalizado
 
-    var questoesDaLista by remember { mutableStateOf<List<Questao>>(emptyList()) }
+    val questoesDaLista by remember { derivedStateOf {
+        todasQuestoes.filter { q ->
+            listaDetalhe?.let { lista ->
+                (lista.idCategoria == q.idCategoria) &&
+                        (lista.fonte == null || q.fonte == lista.fonte) &&
+                        (lista.ano == null || q.ano == q.ano)
+            } ?: false
+        }
+    } }
+    val questaoAtual = questoesDaLista.getOrNull(questaoAtualIndex)
+
     var tempoRestante by remember { mutableStateOf(0L) }
 
     // Efeito para buscar os dados da lista e das questões quando o ID da lista muda
     LaunchedEffect(listaId) {
         listaViewModel.buscarLista(listaId)
         questaoViewModel.listarQuestoes()
-        // Reinicia o quiz no ViewModel para garantir que um novo quiz comece limpo
         questaoViewModel.reiniciarQuiz()
     }
 
-    // Filtra as questões relevantes para a lista atual
-    LaunchedEffect(listaDetalhe, todasQuestoes) {
+    LaunchedEffect(listaDetalhe) {
         listaDetalhe?.let { lista ->
             tempoRestante = (lista.tempo ?: 0).toLong() * 60000 // Minutos para ms
-
-            questoesDaLista = todasQuestoes.filter { q ->
-                (lista.idCategoria == q.idCategoria) &&
-                        (lista.fonte == null || q.fonte == lista.fonte) &&
-                        (lista.ano == null || q.ano == q.ano)
-            }
         }
     }
 
-    // Cronômetro
     LaunchedEffect(key1 = tempoRestante, key2 = quizFinalizado) {
         if (tempoRestante > 0 && !quizFinalizado) {
             delay(1000)
             tempoRestante -= 1000
         }
     }
-
-    val questaoAtual = questoesDaLista.getOrNull(questaoAtualIndex)
 
     UnimindTheme {
         Column(
@@ -89,15 +91,16 @@ fun ListasProvasResolucao(
                 TelaResultados(
                     pontuacao = pontuacao,
                     totalQuestoes = questoesDaLista.size,
+                    respostasUsuario = questaoViewModel.respostasUsuario,
+                    acertos = questaoViewModel.acertos,
+                    questoes = questoesDaLista,
                     onRefazer = {
                         questaoViewModel.reiniciarQuiz()
-                        // Reinicia o tempo também
                         listaDetalhe?.let { lista ->
                             tempoRestante = (lista.tempo ?: 0).toLong() * 60000
                         }
                     },
                     onTerminar = {
-                        // Limpa o estado antes de voltar
                         questaoViewModel.reiniciarQuiz()
                         navController.popBackStack()
                     }
@@ -105,6 +108,7 @@ fun ListasProvasResolucao(
             } else if (questaoAtual != null) {
                 ConteudoQuiz(
                     modifier = Modifier.weight(1f),
+                    questoesDaLista = questoesDaLista,
                     questaoAtual = questaoAtual,
                     questaoAtualIndex = questaoAtualIndex,
                     alternativaSelecionada = alternativaSelecionada,
@@ -112,19 +116,18 @@ fun ListasProvasResolucao(
                         questaoViewModel.selecionarAlternativa(alternativa)
                     },
                     onAnteriorClicked = {
-                        // A lógica do ViewModel não suporta voltar, mas podemos implementar aqui se necessário
-                        // Por enquanto, esta ação não fará nada para não dessincronizar com o ViewModel
+                        questaoViewModel.anteriorQuestao()
                     },
                     onProximaClicked = {
-                        questaoViewModel.verificarResposta()
-                        questaoViewModel.proximaQuestao()
+                        questaoAtual.let { questaoViewModel.verificarResposta(it) }
+                        questaoViewModel.proximaQuestao(questoesDaLista.size)
                     },
                     onTerminarClicked = {
                         questaoViewModel.reiniciarQuiz()
                         navController.popBackStack()
                     },
                     isAnteriorEnabled = questaoAtualIndex > 0, // Apenas controle de UI
-                    isProximaEnabled = questaoAtualIndex < questoesDaLista.size - 1
+                    isProximaEnabled = alternativaSelecionada != null
                 )
             } else {
                 // Tela de Carregamento
@@ -161,6 +164,7 @@ private fun Cabecalho(titulo: String) {
 private fun ConteudoQuiz(
     modifier: Modifier = Modifier,
     questaoAtual: Questao,
+    questoesDaLista: List<Questao>,
     questaoAtualIndex: Int,
     alternativaSelecionada: Alternativa?,
     onAlternativaSelected: (Alternativa) -> Unit,
@@ -241,8 +245,9 @@ private fun ConteudoQuiz(
                 enabled = isAnteriorEnabled,
                 onClick = onAnteriorClicked
             )
+            val proximaText = if (questaoAtualIndex == questoesDaLista.size - 1) "Finalizar" else "Próxima"
             NavButton(
-                text = "Próxima",
+                text = proximaText,
                 iconRes = R.drawable.baseline_arrow_forward_ios_vinho,
                 iconOnLeft = false,
                 enabled = isProximaEnabled,
@@ -273,6 +278,9 @@ private fun ConteudoQuiz(
 private fun TelaResultados(
     pontuacao: Int,
     totalQuestoes: Int,
+    respostasUsuario: List<Alternativa?>,
+    acertos: List<Boolean>,
+    questoes: List<Questao>,
     onRefazer: () -> Unit,
     onTerminar: () -> Unit
 ) {
@@ -281,7 +289,7 @@ private fun TelaResultados(
             .fillMaxSize()
             .padding(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         Card(
             shape = RoundedCornerShape(20.dp),
@@ -312,7 +320,23 @@ private fun TelaResultados(
                 )
             }
         }
-        Spacer(modifier = Modifier.height(32.dp))
+        Spacer(modifier = Modifier.height(24.dp))
+
+        // Lista de feedback por questão
+        Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
+            questoes.forEachIndexed { index, questao ->
+                ResultadoQuestao(
+                    questao = questao,
+                    respostaUsuario = respostasUsuario.getOrNull(index),
+                    acertou = acertos.getOrNull(index) ?: false
+                )
+                if (index < questoes.size - 1) {
+                    Divider(color = Color.LightGray, thickness = 1.dp)
+                }
+            }
+        }
+
+        Spacer(modifier = Modifier.height(24.dp))
         Button(
             onClick = onRefazer,
             shape = RoundedCornerShape(50),
@@ -323,10 +347,53 @@ private fun TelaResultados(
         ) {
             Text("Refazer Quiz", color = Vinho, fontSize = 18.sp, fontWeight = FontWeight.Bold)
         }
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(8.dp))
         TextButton(onClick = onTerminar) {
             Text("Terminar", color = Nude, fontSize = 16.sp)
         }
+    }
+}
+
+@Composable
+private fun ResultadoQuestao(
+    questao: Questao,
+    respostaUsuario: Alternativa?,
+    acertou: Boolean
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 8.dp),
+        horizontalAlignment = Alignment.Start
+    ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Icon(
+                imageVector = if (acertou) Icons.Filled.Check else Icons.Filled.Close,
+                contentDescription = if (acertou) "Acertou" else "Errou",
+                tint = if (acertou) Color.Green else Color.Red,
+                modifier = Modifier.size(24.dp)
+            )
+            Spacer(modifier = Modifier.width(8.dp))
+            Text(
+                text = questao.pergunta,
+                fontWeight = FontWeight.SemiBold,
+                color = Color.Black,
+                fontSize = 16.sp
+            )
+        }
+        Spacer(modifier = Modifier.height(4.dp))
+        Text(
+            text = "Sua resposta: ${respostaUsuario?.texto ?: "Não respondido"}",
+            color = Color.Gray,
+            fontSize = 14.sp
+        )
+        val respostaCorreta = questao.alternativas.find { it.correta }?.texto ?: "Não definida"
+        Text(
+            text = "Resposta correta: $respostaCorreta",
+            color = Vinho,
+            fontWeight = FontWeight.Medium,
+            fontSize = 14.sp
+        )
     }
 }
 

@@ -38,6 +38,7 @@ fun mapCategoriaIdToNome(id: Int): String {
         3 -> "Geografia"
         4 -> "Filosofia"
         5 -> "Matemática"
+        6 -> "Português"
         else -> "Desconhecida"
     }
 }

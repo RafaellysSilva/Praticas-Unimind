@@ -218,6 +218,7 @@ fun ListaPersonalizadaCriar(
                             ano = null, // Lógica de ano min/max pode ser tratada no backend
                             tempo = tempo
                         )
+
                         listaViewModel.criarLista(novaLista) {
                             navController.navigate("telaListasProvasArea")
                         }
@@ -433,7 +434,7 @@ fun DropdownCategorias(
         ) {
             categorias.forEach { categoria ->
                 DropdownMenuItem(
-                    text = { Text("Categoria $categoria", color = Vinho) }, // Adapte para mostrar o nome da categoria se tiver
+                    text = { Text(categoria, color = Vinho) }, // Adapte para mostrar o nome da categoria se tiver
                     onClick = {
                         onCategoriaSelected(categoria)
                         expanded = false

@@ -209,7 +209,9 @@ private fun CustomTextField(label: String, value: String, onValueChange: (String
                 focusedContainerColor = Color.White,
                 unfocusedBorderColor = Vinho.copy(alpha = 0.7f),
                 focusedBorderColor = Vinho,
-                cursorColor = Vinho
+                cursorColor = Vinho,
+                unfocusedTextColor = Vinho,
+                focusedTextColor = Vinho
             ),
             singleLine = true,
         )
@@ -237,7 +239,9 @@ private fun CustomPasswordField(label: String, value: String, onValueChange: (St
                 focusedContainerColor = Color.White,
                 unfocusedBorderColor = Vinho.copy(alpha = 0.7f),
                 focusedBorderColor = Vinho,
-                cursorColor = Vinho
+                cursorColor = Vinho,
+                unfocusedTextColor = Vinho,
+                focusedTextColor = Vinho
             ),
             singleLine = true,
             visualTransformation = PasswordVisualTransformation(),
